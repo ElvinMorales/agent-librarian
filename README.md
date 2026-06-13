@@ -14,6 +14,7 @@ tool specifications, schemas, and protocol-facing manifests.
 python -m pip install -e ".[dev]"
 agent-librarian --help
 agent-librarian catalog examples/sample-collection --out examples/generated-catalog
+agent-librarian catalog examples/sample-collection --out examples/generated-catalog --strict
 pytest
 ```
 
@@ -22,10 +23,25 @@ The `catalog` command creates:
 - `index.json`: machine-readable catalog entries and generation metadata.
 - `catalog.md`: a human-readable inventory with warnings.
 - `overlap-report.json`: duplicate and overlap candidates for human review.
+- `diagnostics.json`: per-file parse status, warning codes, and sanitized errors.
 
-The CLI reads only supported files under the input directory. It ignores
-`.git`, `.env`, `.venv`, `node_modules`, `__pycache__`, and the selected output
-directory. It writes only the three generated files under `--out`.
+The CLI parses only supported files under the input directory and records
+unsupported non-ignored files as skipped without reading their contents. It
+ignores `.git`, `.env`, `.venv`, `node_modules`, `__pycache__`, and the selected
+output directory. It writes only the four generated files under `--out`.
+
+Normal mode continues when an individual file cannot be parsed, omits failed
+files from the catalog entries, records the failure in `diagnostics.json`, and
+exits `0` unless the command itself fails. Add `--strict` for CI or release
+validation:
+
+```bash
+agent-librarian catalog COLLECTION --out GENERATED --strict
+```
+
+Strict mode still writes outputs when practical, then exits non-zero if any
+file has a `failed` parse status. Partial and skipped files do not make strict
+mode fail.
 
 ## What It Catalogs
 

@@ -7,8 +7,9 @@ from typing import Any
 
 import yaml
 
-from .models import CatalogEntry
+from .models import CatalogEntry, FileDiagnostic, ParseResult
 from .normalizer import as_list, as_text, slugify
+from .scanner import SUPPORTED_SUFFIXES
 
 
 SECTION_ALIASES = {
@@ -25,23 +26,94 @@ SECTION_ALIASES = {
 
 
 def parse_artifact(path: Path, root: Path) -> CatalogEntry:
+    entry, _, _ = _parse_artifact(path, root)
+    return entry
+
+
+def parse_artifact_with_diagnostic(path: Path, root: Path) -> ParseResult:
+    relative_path = path.relative_to(root).as_posix()
+    suffix = path.suffix.lower()
+    parser = _parser_name(suffix)
+    if suffix not in SUPPORTED_SUFFIXES:
+        return ParseResult(
+            entry=None,
+            diagnostic=FileDiagnostic(
+                source_path=relative_path,
+                status="skipped",
+                parser=None,
+                warnings=["unsupported_file_type"],
+            ),
+        )
+
+    artifact_type, bucket, _ = classify_artifact(path, relative_path, {})
+    try:
+        entry, text, parser_warnings = _parse_artifact(path, root)
+    except (OSError, UnicodeError, json.JSONDecodeError, yaml.YAMLError) as exc:
+        return ParseResult(
+            entry=None,
+            diagnostic=FileDiagnostic(
+                source_path=relative_path,
+                status="failed",
+                parser=parser,
+                artifact_type_guess=artifact_type,
+                taxonomy_bucket_guess=bucket,
+                error=_parse_error_summary(exc, parser),
+            ),
+        )
+    except Exception as exc:  # Keep one malformed artifact from aborting a normal run.
+        return ParseResult(
+            entry=None,
+            diagnostic=FileDiagnostic(
+                source_path=relative_path,
+                status="failed",
+                parser=parser,
+                artifact_type_guess=artifact_type,
+                taxonomy_bucket_guess=bucket,
+                error=f"Unexpected parser error: {type(exc).__name__}",
+            ),
+        )
+
+    return ParseResult(
+        entry=entry,
+        source_text=text,
+        diagnostic=FileDiagnostic(
+            source_path=relative_path,
+            status="partial" if parser_warnings else "parsed",
+            parser=parser,
+            artifact_type_guess=entry.artifact_type,
+            taxonomy_bucket_guess=entry.taxonomy_bucket,
+            warnings=parser_warnings,
+        ),
+    )
+
+
+def _parse_artifact(
+    path: Path, root: Path
+) -> tuple[CatalogEntry, str, list[str]]:
     relative_path = path.relative_to(root).as_posix()
     text = path.read_text(encoding="utf-8")
     suffix = path.suffix.lower()
+    parser_warnings: list[str] = []
 
     if suffix == ".md":
-        metadata, sections, heading = _parse_markdown(text)
+        metadata, sections, heading, parser_warnings = _parse_markdown(text)
         source_format = "markdown"
     elif suffix in {".yaml", ".yml"}:
         loaded = yaml.safe_load(text)
         metadata = loaded if isinstance(loaded, dict) else {}
+        if not isinstance(loaded, dict):
+            parser_warnings.append("non_mapping_document")
         sections, heading = {}, ""
         source_format = "yaml"
-    else:
+    elif suffix == ".json":
         loaded = json.loads(text)
         metadata = loaded if isinstance(loaded, dict) else {}
+        if not isinstance(loaded, dict):
+            parser_warnings.append("non_mapping_document")
         sections, heading = {}, ""
         source_format = "json"
+    else:
+        raise ValueError(f"Unsupported file type: {suffix or '<none>'}")
 
     artifact_type, bucket, framework_hint = classify_artifact(
         path, relative_path, metadata
@@ -85,7 +157,7 @@ def parse_artifact(path: Path, root: Path) -> CatalogEntry:
     )
     if _list_field(metadata, sections, "examples"):
         entry.extraction["examples_present"] = True
-    return entry
+    return entry, text, parser_warnings
 
 
 def classify_artifact(
@@ -123,15 +195,22 @@ def classify_artifact(
     return "unknown", "Knowledge and resources", _framework_from_metadata(metadata)
 
 
-def _parse_markdown(text: str) -> tuple[dict[str, Any], dict[str, str], str]:
+def _parse_markdown(
+    text: str,
+) -> tuple[dict[str, Any], dict[str, str], str, list[str]]:
     metadata: dict[str, Any] = {}
     body = text
+    warnings: list[str] = []
     if text.startswith("---\n") or text.startswith("---\r\n"):
         match = re.match(r"^---\s*\r?\n(.*?)\r?\n---\s*(?:\r?\n|$)", text, re.S)
         if match:
             loaded = yaml.safe_load(match.group(1))
             metadata = loaded if isinstance(loaded, dict) else {}
+            if not isinstance(loaded, dict):
+                warnings.append("non_mapping_frontmatter")
             body = text[match.end() :]
+        else:
+            warnings.append("unterminated_frontmatter")
 
     heading_match = re.search(r"^#\s+(.+?)\s*$", body, re.M)
     heading = heading_match.group(1).strip() if heading_match else ""
@@ -141,7 +220,33 @@ def _parse_markdown(text: str) -> tuple[dict[str, Any], dict[str, str], str]:
         key = match.group(1).strip().lower()
         end = matches[index + 1].start() if index + 1 < len(matches) else len(body)
         sections[key] = body[match.end() : end].strip()
-    return metadata, sections, heading
+    return metadata, sections, heading, warnings
+
+
+def _parser_name(suffix: str) -> str | None:
+    if suffix == ".md":
+        return "markdown"
+    if suffix in {".yaml", ".yml"}:
+        return "yaml"
+    if suffix == ".json":
+        return "json"
+    return None
+
+
+def _parse_error_summary(exc: Exception, parser: str | None) -> str:
+    if isinstance(exc, json.JSONDecodeError):
+        return f"Invalid JSON at line {exc.lineno}, column {exc.colno}: {exc.msg}"
+    if isinstance(exc, yaml.YAMLError):
+        mark = getattr(exc, "problem_mark", None)
+        if mark is not None:
+            return f"Invalid YAML at line {mark.line + 1}, column {mark.column + 1}"
+        return "Invalid YAML syntax"
+    if isinstance(exc, UnicodeDecodeError):
+        return f"Could not decode UTF-8 at byte offset {exc.start}"
+    if isinstance(exc, OSError):
+        detail = exc.strerror or type(exc).__name__
+        return f"Could not read file: {detail}"
+    return f"Invalid {parser or 'file'} syntax"
 
 
 def _field(

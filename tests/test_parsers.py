@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from agent_librarian.parsers import parse_artifact
+from agent_librarian.parsers import parse_artifact, parse_artifact_with_diagnostic
 
 
 def test_markdown_parser_extracts_frontmatter_and_headings(tmp_path: Path) -> None:
@@ -56,3 +56,18 @@ def test_json_parser_recognizes_mcp_style_manifest(tmp_path: Path) -> None:
 
     assert entry.artifact_type == "protocol_manifest"
     assert entry.framework_hint == "MCP"
+
+
+def test_unterminated_markdown_frontmatter_is_partial(tmp_path: Path) -> None:
+    prompt = tmp_path / "prompts" / "partial.md"
+    prompt.parent.mkdir()
+    prompt.write_text(
+        "---\nname: Synthetic Partial\n# Heading without closing frontmatter\n",
+        encoding="utf-8",
+    )
+
+    result = parse_artifact_with_diagnostic(prompt, tmp_path)
+
+    assert result.entry is not None
+    assert result.diagnostic.status == "partial"
+    assert result.diagnostic.warnings == ["unterminated_frontmatter"]

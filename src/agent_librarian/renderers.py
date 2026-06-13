@@ -1,10 +1,18 @@
 from __future__ import annotations
 
 import json
+import os
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from .models import CatalogEntry, OverlapCandidate
+from .models import (
+    CatalogEntry,
+    DiagnosticsReport,
+    DiagnosticsSummary,
+    FileDiagnostic,
+    OverlapCandidate,
+)
 
 
 def build_index(input_dir: Path, entries: list[CatalogEntry]) -> dict[str, Any]:
@@ -27,6 +35,20 @@ def build_overlap_report(
         "candidate_count": len(candidates),
         "candidates": [candidate.to_dict() for candidate in candidates],
     }
+
+
+def build_diagnostics(
+    input_dir: Path,
+    files: list[FileDiagnostic],
+    generated_at: str | None = None,
+) -> DiagnosticsReport:
+    return DiagnosticsReport(
+        schema_version="0.1.0",
+        source_root=input_dir.name,
+        generated_at=generated_at or _generated_at(),
+        summary=DiagnosticsSummary.from_files(files),
+        files=files,
+    )
 
 
 def render_markdown(index: dict[str, Any]) -> str:
@@ -88,16 +110,19 @@ def write_outputs(
     output_dir: Path,
     index: dict[str, Any],
     overlap_report: dict[str, Any],
+    diagnostics: DiagnosticsReport,
 ) -> list[Path]:
     output_dir.mkdir(parents=True, exist_ok=True)
     paths = [
         output_dir / "index.json",
         output_dir / "catalog.md",
         output_dir / "overlap-report.json",
+        output_dir / "diagnostics.json",
     ]
     paths[0].write_text(_json(index), encoding="utf-8")
     paths[1].write_text(render_markdown(index), encoding="utf-8")
     paths[2].write_text(_json(overlap_report), encoding="utf-8")
+    paths[3].write_text(_json(diagnostics.to_dict()), encoding="utf-8")
     return paths
 
 
@@ -107,3 +132,12 @@ def _items(values: list[str]) -> str:
 
 def _json(value: dict[str, Any]) -> str:
     return json.dumps(value, indent=2, sort_keys=False) + "\n"
+
+
+def _generated_at() -> str:
+    source_date_epoch = os.environ.get("SOURCE_DATE_EPOCH")
+    if source_date_epoch is not None:
+        timestamp = datetime.fromtimestamp(int(source_date_epoch), tz=timezone.utc)
+    else:
+        timestamp = datetime.now(timezone.utc)
+    return timestamp.replace(microsecond=0).isoformat().replace("+00:00", "Z")

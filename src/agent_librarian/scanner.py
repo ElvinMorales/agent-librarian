@@ -14,8 +14,8 @@ IGNORED_NAMES = {
 }
 
 
-def scan_files(input_dir: Path, output_dir: Path | None = None) -> list[Path]:
-    """Return supported files without following links or entering ignored paths."""
+def scan_file_inventory(input_dir: Path, output_dir: Path | None = None) -> list[Path]:
+    """Return non-ignored files without following links or reading file contents."""
     root = input_dir.resolve()
     if not root.is_dir():
         raise ValueError(f"Input directory does not exist or is not a directory: {root}")
@@ -39,9 +39,17 @@ def scan_files(input_dir: Path, output_dir: Path | None = None) -> list[Path]:
 
         for filename in sorted(filenames):
             path = current_path / filename
-            if path.is_symlink():
+            if filename in IGNORED_NAMES or path.is_symlink():
                 continue
-            if path.suffix.lower() in SUPPORTED_SUFFIXES:
-                files.append(path)
+            files.append(path)
 
     return sorted(files, key=lambda path: path.relative_to(root).as_posix())
+
+
+def scan_files(input_dir: Path, output_dir: Path | None = None) -> list[Path]:
+    """Return supported files without following links or entering ignored paths."""
+    return [
+        path
+        for path in scan_file_inventory(input_dir, output_dir)
+        if path.suffix.lower() in SUPPORTED_SUFFIXES
+    ]

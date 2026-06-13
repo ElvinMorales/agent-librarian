@@ -1,0 +1,4 @@
+{
+  "name": "Synthetic malformed manifest",
+  "private_contents_marker": [this is intentionally invalid JSON]
+}
