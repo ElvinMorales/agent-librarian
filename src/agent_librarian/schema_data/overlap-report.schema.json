@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/agent-librarian/overlap-report.schema.json",
+  "title": "Agent Librarian Overlap Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "source_root",
+    "synthetic_example",
+    "candidate_count",
+    "candidates"
+  ],
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "source_root": { "type": "string", "minLength": 1 },
+    "synthetic_example": { "type": "boolean" },
+    "candidate_count": { "type": "integer", "minimum": 0 },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "entry_ids",
+          "overlap_type",
+          "shared_terms",
+          "confidence",
+          "needs_human_review",
+          "recommendation"
+        ],
+        "properties": {
+          "entry_ids": {
+            "type": "array",
+            "items": { "type": "string" },
+            "minItems": 2,
+            "maxItems": 2,
+            "uniqueItems": true
+          },
+          "overlap_type": {
+            "enum": ["duplicate", "capability_overlap"]
+          },
+          "shared_terms": {
+            "type": "array",
+            "items": { "type": "string" },
+            "uniqueItems": true
+          },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "needs_human_review": { "const": true },
+          "recommendation": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

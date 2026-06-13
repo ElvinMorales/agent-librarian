@@ -10,7 +10,10 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
 authors = [{ name = "agent-librarian contributors" }]
-dependencies = ["PyYAML>=6.0.1"]
+dependencies = [
+  "jsonschema>=4.22",
+  "PyYAML>=6.0.1",
+]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Environment :: Console",
@@ -24,7 +27,6 @@ classifiers = [
 
 [project.optional-dependencies]
 dev = [
-  "jsonschema>=4.22",
   "pytest>=8.2",
 ]
 
@@ -33,6 +35,9 @@ agent-librarian = "agent_librarian.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+agent_librarian = ["schema_data/*.json"]
 
 [tool.pytest.ini_options]
 addopts = "-q"

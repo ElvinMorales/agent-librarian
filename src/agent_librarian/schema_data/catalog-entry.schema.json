@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/agent-librarian/catalog-entry.schema.json",
+  "title": "Agent Librarian Catalog Entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "name",
+    "artifact_type",
+    "taxonomy_bucket",
+    "framework_hint",
+    "source_path",
+    "description",
+    "purpose",
+    "activation_triggers",
+    "inputs",
+    "outputs",
+    "tool_scope",
+    "side_effects",
+    "dependencies",
+    "related_files",
+    "tags",
+    "owner",
+    "version",
+    "public_safety_flags",
+    "discoverability_warnings",
+    "extraction"
+  ],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 1 },
+    "artifact_type": { "type": "string", "minLength": 1 },
+    "taxonomy_bucket": {
+      "enum": [
+        "Identity",
+        "Operating style",
+        "Capability modules",
+        "Tools",
+        "Knowledge and resources",
+        "Prompts and interfaces",
+        "Memory",
+        "State",
+        "Planning and orchestration",
+        "Guardrails and governance",
+        "Outputs and schemas",
+        "Evaluation and observability",
+        "Runtime and deployment",
+        "Learning and iteration"
+      ]
+    },
+    "framework_hint": { "type": ["string", "null"] },
+    "source_path": { "type": "string", "minLength": 1 },
+    "description": { "type": "string" },
+    "purpose": { "type": "string" },
+    "activation_triggers": { "$ref": "#/$defs/stringList" },
+    "inputs": { "$ref": "#/$defs/stringList" },
+    "outputs": { "$ref": "#/$defs/stringList" },
+    "tool_scope": { "$ref": "#/$defs/stringList" },
+    "side_effects": { "$ref": "#/$defs/stringList" },
+    "dependencies": { "$ref": "#/$defs/stringList" },
+    "related_files": { "$ref": "#/$defs/stringList" },
+    "tags": { "$ref": "#/$defs/stringList" },
+    "owner": { "type": ["string", "null"] },
+    "version": { "type": ["string", "null"] },
+    "public_safety_flags": { "$ref": "#/$defs/stringList" },
+    "discoverability_warnings": { "$ref": "#/$defs/stringList" },
+    "extraction": {
+      "type": "object",
+      "required": ["source_format", "frontmatter", "heading_sections", "confidence"],
+      "properties": {
+        "source_format": { "enum": ["markdown", "yaml", "json"] },
+        "frontmatter": { "type": "boolean" },
+        "heading_sections": { "$ref": "#/$defs/stringList" },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "examples_present": { "type": "boolean" }
+      },
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "stringList": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    }
+  }
+}

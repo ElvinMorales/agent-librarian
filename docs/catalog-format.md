@@ -78,3 +78,21 @@ timestamp when reproducible generated output is required.
 - [`diagnostics.schema.json`](../schemas/diagnostics.schema.json)
 
 Schema version `0.1.0` describes the MVP output contract.
+
+## Validation
+
+Validate a generated catalog directory with:
+
+```bash
+agent-librarian validate examples/generated-catalog
+```
+
+The command validates `index.json` and its embedded entries,
+`overlap-report.json`, and `diagnostics.json` against the bundled schemas. It
+prints a pass or failure for each file, exits non-zero when a required file is
+missing, malformed, or schema-invalid, and does not modify generated files.
+Validation is local and does not require network access.
+
+Validation confirms generated JSON matches expected structure. It does not
+certify that the catalog is complete, safe, semantically correct, or free of
+private data.

@@ -15,6 +15,7 @@ python -m pip install -e ".[dev]"
 agent-librarian --help
 agent-librarian catalog examples/sample-collection --out examples/generated-catalog
 agent-librarian catalog examples/sample-collection --out examples/generated-catalog --strict
+agent-librarian validate examples/generated-catalog
 pytest
 ```
 
@@ -42,6 +43,21 @@ agent-librarian catalog COLLECTION --out GENERATED --strict
 Strict mode still writes outputs when practical, then exits non-zero if any
 file has a `failed` parse status. Partial and skipped files do not make strict
 mode fail.
+
+Validate generated JSON against the bundled catalog schemas:
+
+```bash
+agent-librarian validate examples/generated-catalog
+```
+
+The command checks `index.json`, its embedded catalog entries,
+`overlap-report.json`, and `diagnostics.json`. It reports each file as passing
+or failing and exits non-zero for missing, malformed, or schema-invalid JSON.
+Validation is read-only and requires no network access.
+
+Validation confirms generated JSON matches expected structure. It does not
+certify that the catalog is complete, safe, semantically correct, or free of
+private data.
 
 ## What It Catalogs
 

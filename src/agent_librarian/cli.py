@@ -14,6 +14,7 @@ from .renderers import (
     write_outputs,
 )
 from .scanner import scan_file_inventory
+from .validation import validate_catalog
 from .warnings import apply_warnings
 
 
@@ -51,6 +52,12 @@ def build_parser() -> argparse.ArgumentParser:
         "--strict",
         action="store_true",
         help="Exit non-zero if any selected file fails to parse.",
+    )
+    validate = subparsers.add_parser(
+        "validate", help="Validate generated catalog JSON against bundled schemas."
+    )
+    validate.add_argument(
+        "catalog_dir", type=Path, help="Directory containing generated catalog files."
     )
     return parser
 
@@ -116,6 +123,22 @@ def main(argv: list[str] | None = None) -> int:
         print(f"Cataloged artifacts into {paths[0].parent}")
         for path in paths:
             print(f"- {path.name}")
+        return 0
+    if args.command == "validate":
+        results = validate_catalog(args.catalog_dir)
+        for result in results:
+            stream = sys.stdout if result.valid else sys.stderr
+            status = "PASS" if result.valid else "FAIL"
+            print(f"{status} {result.file_name}: {result.message}", file=stream)
+        failures = [result for result in results if not result.valid]
+        if failures:
+            print(
+                f"Validation failed: {len(failures)} of "
+                f"{len(results)} file(s) failed.",
+                file=sys.stderr,
+            )
+            return 1
+        print(f"Validation passed: {len(results)} file(s) validated.")
         return 0
     return 1
 
