@@ -19,4 +19,6 @@ agent-librarian catalog examples/sample-collection --out examples/generated-cata
 ```
 
 The files under `generated-catalog` are generated from this synthetic
-collection and are committed for documentation and review.
+collection and are committed for documentation and review. The generated
+`diagnostics.json` demonstrates clean and partial parse outcomes without
+including source file contents.

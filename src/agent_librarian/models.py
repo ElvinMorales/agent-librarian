@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
-from typing import Any
+from typing import Any, Literal
 
 
 TAXONOMY_BUCKETS = (
@@ -64,3 +64,64 @@ class OverlapCandidate:
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
+
+
+ParseStatus = Literal["parsed", "partial", "skipped", "failed"]
+
+
+@dataclass
+class FileDiagnostic:
+    source_path: str
+    status: ParseStatus
+    parser: str | None
+    artifact_type_guess: str | None = None
+    taxonomy_bucket_guess: str | None = None
+    warnings: list[str] = field(default_factory=list)
+    error: str | None = None
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass
+class DiagnosticsSummary:
+    total_files_seen: int = 0
+    parsed: int = 0
+    partial: int = 0
+    skipped: int = 0
+    failed: int = 0
+
+    @classmethod
+    def from_files(cls, files: list[FileDiagnostic]) -> DiagnosticsSummary:
+        counts = {status: 0 for status in ("parsed", "partial", "skipped", "failed")}
+        for diagnostic in files:
+            counts[diagnostic.status] += 1
+        return cls(total_files_seen=len(files), **counts)
+
+    def to_dict(self) -> dict[str, int]:
+        return asdict(self)
+
+
+@dataclass
+class DiagnosticsReport:
+    schema_version: str
+    source_root: str
+    generated_at: str
+    summary: DiagnosticsSummary
+    files: list[FileDiagnostic]
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "schema_version": self.schema_version,
+            "source_root": self.source_root,
+            "generated_at": self.generated_at,
+            "summary": self.summary.to_dict(),
+            "files": [diagnostic.to_dict() for diagnostic in self.files],
+        }
+
+
+@dataclass
+class ParseResult:
+    entry: CatalogEntry | None
+    diagnostic: FileDiagnostic
+    source_text: str | None = field(default=None, repr=False)

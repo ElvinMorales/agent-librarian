@@ -1,14 +1,35 @@
 from __future__ import annotations
 
 import argparse
+import sys
 from pathlib import Path
 
 from . import __version__
 from .overlap import find_overlaps
-from .parsers import parse_artifact
-from .renderers import build_index, build_overlap_report, write_outputs
-from .scanner import scan_files
+from .parsers import parse_artifact_with_diagnostic
+from .renderers import (
+    build_diagnostics,
+    build_index,
+    build_overlap_report,
+    write_outputs,
+)
+from .scanner import scan_file_inventory
 from .warnings import apply_warnings
+
+
+PARTIAL_WARNING_CODES = {
+    "missing_description",
+    "weak_description",
+    "missing_activation_trigger",
+    "missing_inputs",
+    "missing_outputs",
+    "missing_output_contract",
+    "side_effects_unclear",
+    "missing_dependencies",
+    "missing_examples",
+    "missing_evals",
+    "unknown_artifact_type",
+}
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -26,23 +47,57 @@ def build_parser() -> argparse.ArgumentParser:
     catalog.add_argument(
         "--out", required=True, type=Path, help="Directory for generated outputs."
     )
+    catalog.add_argument(
+        "--strict",
+        action="store_true",
+        help="Exit non-zero if any selected file fails to parse.",
+    )
     return parser
 
 
-def run_catalog(input_dir: Path, output_dir: Path) -> list[Path]:
+class StrictParseError(Exception):
+    def __init__(self, failed_files: list[tuple[str, str | None]]) -> None:
+        self.failed_files = failed_files
+        super().__init__(f"{len(failed_files)} file(s) failed to parse")
+
+
+def run_catalog(
+    input_dir: Path, output_dir: Path, strict: bool = False
+) -> list[Path]:
     root = input_dir.resolve()
     out = output_dir.resolve()
     entries = []
-    for path in scan_files(root, out):
-        entry = parse_artifact(path, root)
-        source_text = path.read_text(encoding="utf-8")
-        apply_warnings(entry, source_text)
-        entries.append(entry)
+    file_diagnostics = []
+    for path in scan_file_inventory(root, out):
+        result = parse_artifact_with_diagnostic(path, root)
+        if result.entry is not None and result.source_text is not None:
+            apply_warnings(result.entry, result.source_text)
+            result.diagnostic.warnings = list(
+                dict.fromkeys(
+                    result.diagnostic.warnings
+                    + result.entry.discoverability_warnings
+                )
+            )
+            if result.diagnostic.status == "partial" or (
+                PARTIAL_WARNING_CODES & set(result.diagnostic.warnings)
+            ):
+                result.diagnostic.status = "partial"
+            entries.append(result.entry)
+        file_diagnostics.append(result.diagnostic)
 
     candidates = find_overlaps(entries)
     index = build_index(root, entries)
     overlap_report = build_overlap_report(root, candidates)
-    return write_outputs(out, index, overlap_report)
+    diagnostics = build_diagnostics(root, file_diagnostics)
+    paths = write_outputs(out, index, overlap_report, diagnostics)
+    failed_files = [
+        (diagnostic.source_path, diagnostic.error)
+        for diagnostic in file_diagnostics
+        if diagnostic.status == "failed"
+    ]
+    if strict and failed_files:
+        raise StrictParseError(failed_files)
+    return paths
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -50,7 +105,12 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     if args.command == "catalog":
         try:
-            paths = run_catalog(args.input_dir, args.out)
+            paths = run_catalog(args.input_dir, args.out, strict=args.strict)
+        except StrictParseError as exc:
+            print(f"Strict mode: {exc}", file=sys.stderr)
+            for source_path, error in exc.failed_files:
+                print(f"- {source_path}: {error or 'parse failed'}", file=sys.stderr)
+            return 2
         except (OSError, ValueError, UnicodeError) as exc:
             parser.error(str(exc))
         print(f"Cataloged artifacts into {paths[0].parent}")

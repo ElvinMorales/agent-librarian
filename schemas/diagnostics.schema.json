@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/agent-librarian/diagnostics.schema.json",
+  "title": "Agent Librarian Parse Diagnostics",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "source_root",
+    "generated_at",
+    "summary",
+    "files"
+  ],
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "source_root": { "type": "string", "minLength": 1 },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total_files_seen",
+        "parsed",
+        "partial",
+        "skipped",
+        "failed"
+      ],
+      "properties": {
+        "total_files_seen": { "type": "integer", "minimum": 0 },
+        "parsed": { "type": "integer", "minimum": 0 },
+        "partial": { "type": "integer", "minimum": 0 },
+        "skipped": { "type": "integer", "minimum": 0 },
+        "failed": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source_path",
+          "status",
+          "parser",
+          "artifact_type_guess",
+          "taxonomy_bucket_guess",
+          "warnings",
+          "error"
+        ],
+        "properties": {
+          "source_path": { "type": "string", "minLength": 1 },
+          "status": {
+            "enum": ["parsed", "partial", "skipped", "failed"]
+          },
+          "parser": {
+            "type": ["string", "null"],
+            "enum": ["markdown", "yaml", "json", null]
+          },
+          "artifact_type_guess": { "type": ["string", "null"] },
+          "taxonomy_bucket_guess": { "type": ["string", "null"] },
+          "warnings": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "uniqueItems": true
+          },
+          "error": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}

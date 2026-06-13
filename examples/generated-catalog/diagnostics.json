@@ -1,0 +1,73 @@
+{
+  "schema_version": "0.1.0",
+  "source_root": "sample-collection",
+  "generated_at": "2026-06-13T23:25:51Z",
+  "summary": {
+    "total_files_seen": 6,
+    "parsed": 5,
+    "partial": 1,
+    "skipped": 0,
+    "failed": 0
+  },
+  "files": [
+    {
+      "source_path": "agents/research-assistant/AGENTS.md",
+      "status": "parsed",
+      "parser": "markdown",
+      "artifact_type_guess": "agent_definition",
+      "taxonomy_bucket_guess": "Identity",
+      "warnings": [],
+      "error": null
+    },
+    {
+      "source_path": "mcp/sample-server.json",
+      "status": "parsed",
+      "parser": "json",
+      "artifact_type_guess": "protocol_manifest",
+      "taxonomy_bucket_guess": "Runtime and deployment",
+      "warnings": [],
+      "error": null
+    },
+    {
+      "source_path": "prompts/weekly-review.md",
+      "status": "partial",
+      "parser": "markdown",
+      "artifact_type_guess": "prompt_template",
+      "taxonomy_bucket_guess": "Prompts and interfaces",
+      "warnings": [
+        "weak_description",
+        "missing_outputs",
+        "missing_output_contract",
+        "missing_examples"
+      ],
+      "error": null
+    },
+    {
+      "source_path": "skills/summarize-docs/SKILL.md",
+      "status": "parsed",
+      "parser": "markdown",
+      "artifact_type_guess": "capability_module",
+      "taxonomy_bucket_guess": "Capability modules",
+      "warnings": [],
+      "error": null
+    },
+    {
+      "source_path": "skills/summarize-notes/SKILL.md",
+      "status": "parsed",
+      "parser": "markdown",
+      "artifact_type_guess": "capability_module",
+      "taxonomy_bucket_guess": "Capability modules",
+      "warnings": [],
+      "error": null
+    },
+    {
+      "source_path": "tools/tools.yaml",
+      "status": "parsed",
+      "parser": "yaml",
+      "artifact_type_guess": "tool_manifest",
+      "taxonomy_bucket_guess": "Tools",
+      "warnings": [],
+      "error": null
+    }
+  ]
+}

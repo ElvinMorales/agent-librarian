@@ -1,6 +1,6 @@
 # Catalog Format
 
-The CLI produces three files under the selected output directory.
+The CLI produces four files under the selected output directory.
 
 ## `index.json`
 
@@ -35,10 +35,46 @@ Each candidate contains:
 Confidence is a deterministic similarity indicator, not a probability or a
 merge instruction.
 
+## `diagnostics.json`
+
+Diagnostics report inspectable parse outcomes without storing source file
+contents. The top-level object contains:
+
+- `schema_version`
+- `source_root`
+- `generated_at`: UTC generation time
+- `summary`: counts for all four statuses
+- `files`: one diagnostic for each non-ignored file seen by the scanner
+
+Each file diagnostic contains:
+
+- `source_path`: path relative to the scanned collection
+- `status`: `parsed`, `partial`, `skipped`, or `failed`
+- `parser`: `markdown`, `yaml`, `json`, or `null` for unsupported files
+- `artifact_type_guess` and `taxonomy_bucket_guess`
+- `warnings`: deterministic warning codes
+- `error`: a sanitized parse error summary or `null`
+
+Status meanings:
+
+- `parsed`: the file was read and metadata was extracted without warnings.
+- `partial`: useful metadata was extracted, but structure or important
+  discoverability metadata was incomplete.
+- `skipped`: the file type is unsupported and its contents were not read.
+- `failed`: the file was selected for parsing but could not be read or parsed.
+
+Normal mode records failures and continues. `--strict` writes diagnostics when
+practical and exits non-zero when the summary contains one or more failed
+files. Partial and skipped files do not cause strict-mode failure.
+
+`generated_at` reflects the run time. Set `SOURCE_DATE_EPOCH` to a Unix
+timestamp when reproducible generated output is required.
+
 ## Schemas
 
 - [`catalog-entry.schema.json`](../schemas/catalog-entry.schema.json)
 - [`catalog-index.schema.json`](../schemas/catalog-index.schema.json)
 - [`overlap-report.schema.json`](../schemas/overlap-report.schema.json)
+- [`diagnostics.schema.json`](../schemas/diagnostics.schema.json)
 
 Schema version `0.1.0` describes the MVP output contract.
