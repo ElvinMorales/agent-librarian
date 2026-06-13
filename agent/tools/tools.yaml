@@ -1,0 +1,24 @@
+name: agent-librarian-local-tools
+description: Local file operations used by the catalog command.
+tools:
+  - name: scan_supported_files
+    inputs:
+      - input_directory
+      - excluded_output_directory
+    outputs:
+      - ordered_file_paths
+    permissions:
+      - read supported files under the input directory
+    side_effects: []
+  - name: write_catalog_outputs
+    inputs:
+      - normalized_entries
+      - overlap_candidates
+    outputs:
+      - index.json
+      - catalog.md
+      - overlap-report.json
+    permissions:
+      - write only under the selected output directory
+    side_effects:
+      - replaces generated output files with the same names

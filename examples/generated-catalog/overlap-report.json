@@ -1,0 +1,51 @@
+{
+  "schema_version": "0.1.0",
+  "source_root": "sample-collection",
+  "synthetic_example": true,
+  "candidate_count": 1,
+  "candidates": [
+    {
+      "entry_ids": [
+        "skills-summarize-docs-skill",
+        "skills-summarize-notes-skill"
+      ],
+      "overlap_type": "duplicate",
+      "shared_terms": [
+        "action",
+        "collection",
+        "concise",
+        "condense",
+        "decision",
+        "document",
+        "item",
+        "length",
+        "markdown",
+        "maximum",
+        "more",
+        "need",
+        "one",
+        "open",
+        "optional",
+        "output",
+        "overview",
+        "plain",
+        "preserv",
+        "produce",
+        "question",
+        "reader",
+        "reviewable",
+        "separat",
+        "several",
+        "structur",
+        "summarization",
+        "summarize",
+        "summary",
+        "synthetic",
+        "text"
+      ],
+      "confidence": 0.81,
+      "needs_human_review": true,
+      "recommendation": "Compare scope and contracts; consolidate or cross-reference only after human review."
+    }
+  ]
+}

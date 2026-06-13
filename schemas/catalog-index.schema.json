@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/agent-librarian/catalog-index.schema.json",
+  "title": "Agent Librarian Catalog Index",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "source_root",
+    "synthetic_example",
+    "entry_count",
+    "entries"
+  ],
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "source_root": { "type": "string", "minLength": 1 },
+    "synthetic_example": { "type": "boolean" },
+    "entry_count": { "type": "integer", "minimum": 0 },
+    "entries": {
+      "type": "array",
+      "items": { "$ref": "catalog-entry.schema.json" }
+    }
+  }
+}

@@ -1,0 +1,301 @@
+{
+  "schema_version": "0.1.0",
+  "source_root": "sample-collection",
+  "synthetic_example": true,
+  "entry_count": 6,
+  "entries": [
+    {
+      "id": "agents-research-assistant-agents",
+      "name": "Synthetic Research Assistant",
+      "artifact_type": "agent_definition",
+      "taxonomy_bucket": "Identity",
+      "framework_hint": "Codex",
+      "source_path": "agents/research-assistant/AGENTS.md",
+      "description": "Organize public reference material into a cited research brief.",
+      "purpose": "Create a structured brief from user-provided public reference material while\nkeeping claims tied to the supplied sources.",
+      "activation_triggers": [
+        "A user provides public reference documents for comparison.",
+        "A concise, source-linked brief is needed."
+      ],
+      "inputs": [
+        "Research question.",
+        "Public reference documents."
+      ],
+      "outputs": [
+        "Markdown brief with findings, source notes, and unresolved questions."
+      ],
+      "tool_scope": [
+        "Read-only access to user-provided local documents."
+      ],
+      "side_effects": [
+        "None."
+      ],
+      "dependencies": [
+        "User-provided reference material."
+      ],
+      "related_files": [
+        "evals/research-cases.jsonl"
+      ],
+      "tags": [
+        "research",
+        "citations",
+        "synthesis"
+      ],
+      "owner": "example-maintainers",
+      "version": "1.0.0",
+      "public_safety_flags": [],
+      "discoverability_warnings": [],
+      "extraction": {
+        "source_format": "markdown",
+        "frontmatter": true,
+        "heading_sections": [
+          "dependencies",
+          "examples",
+          "inputs",
+          "outputs",
+          "purpose",
+          "side effects",
+          "tools",
+          "when to use"
+        ],
+        "confidence": 1.0,
+        "examples_present": true
+      }
+    },
+    {
+      "id": "mcp-sample-server",
+      "name": "synthetic-reference-server",
+      "artifact_type": "protocol_manifest",
+      "taxonomy_bucket": "Runtime and deployment",
+      "framework_hint": "MCP",
+      "source_path": "mcp/sample-server.json",
+      "description": "Synthetic MCP-style discovery manifest for public reference resources.",
+      "purpose": "",
+      "activation_triggers": [],
+      "inputs": [],
+      "outputs": [],
+      "tool_scope": [],
+      "side_effects": [
+        "None in this documentation-only fixture."
+      ],
+      "dependencies": [
+        "A compatible local protocol host."
+      ],
+      "related_files": [],
+      "tags": [
+        "mcp",
+        "synthetic",
+        "reference"
+      ],
+      "owner": null,
+      "version": "0.1.0",
+      "public_safety_flags": [],
+      "discoverability_warnings": [],
+      "extraction": {
+        "source_format": "json",
+        "frontmatter": false,
+        "heading_sections": [],
+        "confidence": 0.6
+      }
+    },
+    {
+      "id": "prompts-weekly-review",
+      "name": "Weekly Review",
+      "artifact_type": "prompt_template",
+      "taxonomy_bucket": "Prompts and interfaces",
+      "framework_hint": null,
+      "source_path": "prompts/weekly-review.md",
+      "description": "Helpful review prompt.",
+      "purpose": "Ask a user to summarize a fabricated week of project activity.",
+      "activation_triggers": [
+        "At the end of a synthetic planning exercise."
+      ],
+      "inputs": [
+        "A list of completed and pending example tasks."
+      ],
+      "outputs": [],
+      "tool_scope": [],
+      "side_effects": [],
+      "dependencies": [],
+      "related_files": [],
+      "tags": [],
+      "owner": null,
+      "version": null,
+      "public_safety_flags": [],
+      "discoverability_warnings": [
+        "weak_description",
+        "missing_outputs",
+        "missing_output_contract",
+        "missing_examples"
+      ],
+      "extraction": {
+        "source_format": "markdown",
+        "frontmatter": false,
+        "heading_sections": [
+          "description",
+          "inputs",
+          "purpose",
+          "when to use"
+        ],
+        "confidence": 0.8
+      }
+    },
+    {
+      "id": "skills-summarize-docs-skill",
+      "name": "Summarize Documents",
+      "artifact_type": "capability_module",
+      "taxonomy_bucket": "Capability modules",
+      "framework_hint": null,
+      "source_path": "skills/summarize-docs/SKILL.md",
+      "description": "Condense a collection of plain-text documents into a concise structured summary.",
+      "purpose": "Produce a concise summary that preserves decisions, action items, and open\nquestions from synthetic documents.",
+      "activation_triggers": [
+        "Several plain-text documents need one reviewable summary.",
+        "A reader needs decisions and action items separated."
+      ],
+      "inputs": [
+        "One or more plain-text documents.",
+        "Optional maximum summary length."
+      ],
+      "outputs": [
+        "Markdown summary with overview, decisions, action items, and open questions."
+      ],
+      "tool_scope": [
+        "Read-only local text access."
+      ],
+      "side_effects": [
+        "None; the skill returns text without changing source documents."
+      ],
+      "dependencies": [
+        "UTF-8 text input."
+      ],
+      "related_files": [
+        "evals/summarization-cases.jsonl"
+      ],
+      "tags": [
+        "summarization",
+        "documents",
+        "structured-output"
+      ],
+      "owner": "example-maintainers",
+      "version": "1.0.0",
+      "public_safety_flags": [],
+      "discoverability_warnings": [
+        "duplicate_candidate"
+      ],
+      "extraction": {
+        "source_format": "markdown",
+        "frontmatter": true,
+        "heading_sections": [
+          "dependencies",
+          "examples",
+          "inputs",
+          "outputs",
+          "purpose",
+          "side effects",
+          "tools",
+          "when to use"
+        ],
+        "confidence": 1.0,
+        "examples_present": true
+      }
+    },
+    {
+      "id": "skills-summarize-notes-skill",
+      "name": "Summarize Notes",
+      "artifact_type": "capability_module",
+      "taxonomy_bucket": "Capability modules",
+      "framework_hint": null,
+      "source_path": "skills/summarize-notes/SKILL.md",
+      "description": "Condense a collection of plain-text notes into a concise structured summary.",
+      "purpose": "Produce a concise summary that preserves decisions, action items, and open\nquestions from synthetic notes.",
+      "activation_triggers": [
+        "Several plain-text notes need one reviewable summary.",
+        "A reader needs decisions and action items separated."
+      ],
+      "inputs": [
+        "One or more plain-text note documents.",
+        "Optional maximum summary length."
+      ],
+      "outputs": [
+        "Markdown summary with overview, decisions, action items, and open questions."
+      ],
+      "tool_scope": [
+        "Read-only local text access."
+      ],
+      "side_effects": [
+        "None; the skill returns text without changing source notes."
+      ],
+      "dependencies": [
+        "UTF-8 text input."
+      ],
+      "related_files": [
+        "evals/summarization-cases.jsonl"
+      ],
+      "tags": [
+        "summarization",
+        "notes",
+        "structured-output"
+      ],
+      "owner": "example-maintainers",
+      "version": "1.0.0",
+      "public_safety_flags": [],
+      "discoverability_warnings": [
+        "duplicate_candidate"
+      ],
+      "extraction": {
+        "source_format": "markdown",
+        "frontmatter": true,
+        "heading_sections": [
+          "dependencies",
+          "examples",
+          "inputs",
+          "outputs",
+          "purpose",
+          "side effects",
+          "tools",
+          "when to use"
+        ],
+        "confidence": 1.0,
+        "examples_present": true
+      }
+    },
+    {
+      "id": "tools-tools",
+      "name": "synthetic-document-tools",
+      "artifact_type": "tool_manifest",
+      "taxonomy_bucket": "Tools",
+      "framework_hint": null,
+      "source_path": "tools/tools.yaml",
+      "description": "Read-only local tools for inspecting fabricated text documents.",
+      "purpose": "",
+      "activation_triggers": [],
+      "inputs": [],
+      "outputs": [],
+      "tool_scope": [
+        "name: read_text; description: Read one UTF-8 text file under the selected example directory.; inputs: relative_path; outputs: text_content"
+      ],
+      "side_effects": [
+        "None; source files are not changed."
+      ],
+      "dependencies": [
+        "Local filesystem access limited to the selected example directory."
+      ],
+      "related_files": [],
+      "tags": [
+        "local-files",
+        "read-only"
+      ],
+      "owner": null,
+      "version": "1.0.0",
+      "public_safety_flags": [],
+      "discoverability_warnings": [],
+      "extraction": {
+        "source_format": "yaml",
+        "frontmatter": false,
+        "heading_sections": [],
+        "confidence": 0.6
+      }
+    }
+  ]
+}

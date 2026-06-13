@@ -1,0 +1,4 @@
+{"id":"classify-skill","input":"skills/summarize-notes/SKILL.md","expected":{"artifact_type":"capability_module","taxonomy_bucket":"Capability modules"}}
+{"id":"classify-mcp","input":"mcp/sample-server.json","expected":{"artifact_type":"protocol_manifest","framework_hint":"MCP"}}
+{"id":"detect-overlap","input":["skills/summarize-notes/SKILL.md","skills/summarize-docs/SKILL.md"],"expected":{"overlap_candidate":true,"needs_human_review":true}}
+{"id":"warn-incomplete-prompt","input":"prompts/weekly-review.md","expected":{"warnings":["missing_outputs","missing_output_contract","missing_examples"]}}

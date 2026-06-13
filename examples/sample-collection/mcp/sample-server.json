@@ -1,0 +1,26 @@
+{
+  "name": "synthetic-reference-server",
+  "description": "Synthetic MCP-style discovery manifest for public reference resources.",
+  "protocol": "mcp",
+  "version": "0.1.0",
+  "tags": [
+    "mcp",
+    "synthetic",
+    "reference"
+  ],
+  "mcpServers": {
+    "reference-library": {
+      "transport": "stdio",
+      "command": "synthetic-reference-server",
+      "capabilities": [
+        "resources"
+      ]
+    }
+  },
+  "dependencies": [
+    "A compatible local protocol host."
+  ],
+  "side_effects": [
+    "None in this documentation-only fixture."
+  ]
+}

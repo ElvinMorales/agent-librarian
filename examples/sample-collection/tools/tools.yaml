@@ -1,0 +1,17 @@
+name: synthetic-document-tools
+description: Read-only local tools for inspecting fabricated text documents.
+version: 1.0.0
+tags:
+  - local-files
+  - read-only
+tools:
+  - name: read_text
+    description: Read one UTF-8 text file under the selected example directory.
+    inputs:
+      - relative_path
+    outputs:
+      - text_content
+side_effects:
+  - None; source files are not changed.
+dependencies:
+  - Local filesystem access limited to the selected example directory.

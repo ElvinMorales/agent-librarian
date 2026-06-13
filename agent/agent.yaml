@@ -1,0 +1,11 @@
+name: agent-librarian
+version: 0.1.0
+purpose: Catalog local agentic AI artifacts for discoverability and human review.
+scope:
+  - Read Markdown, YAML, and JSON artifact definitions.
+  - Write generated catalog files only to the selected output directory.
+out_of_scope:
+  - Execute scanned content.
+  - Call external services.
+  - Merge or delete source artifacts.
+owner: project-maintainers
