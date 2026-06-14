@@ -117,4 +117,8 @@ pytest
 git diff --check
 ```
 
+GitHub Actions runs these checks on Python 3.10, 3.11, and 3.12. It also
+regenerates and validates the synthetic sample catalog with a fixed
+`SOURCE_DATE_EPOCH`, then fails if the committed generated outputs differ.
+
 The project does not call external services and requires no API keys.
