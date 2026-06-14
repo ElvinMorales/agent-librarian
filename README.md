@@ -11,6 +11,9 @@ tool specifications, schemas, and protocol-facing manifests.
 For a short project framing and demo-safe overview, see the
 [Showcase Brief](docs/showcase-brief.md).
 
+For a runnable five-minute demo path, see the
+[Demo Walkthrough](docs/demo-walkthrough.md).
+
 ## Quickstart
 
 ```bash
