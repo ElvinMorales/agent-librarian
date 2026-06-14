@@ -21,6 +21,12 @@ Empty fields are preserved so missing contracts remain visible.
 The Markdown catalog is a review-oriented rendering of the same entries. It is
 not a separate source of truth.
 
+## Warning Reference
+
+See [Warnings and overlap](warnings-and-overlap.md) for every active warning
+code, suggested review actions, interpretation limits, and public-safety flag
+meanings.
+
 ## `overlap-report.json`
 
 Each candidate contains:
@@ -33,7 +39,9 @@ Each candidate contains:
 - `recommendation`
 
 Confidence is a deterministic similarity indicator, not a probability or a
-merge instruction.
+merge instruction. The exact formula, reporting thresholds, candidate types,
+and synthetic examples are documented in
+[Warnings and overlap](warnings-and-overlap.md#overlap-scoring).
 
 ## `diagnostics.json`
 
@@ -57,7 +65,9 @@ Each file diagnostic contains:
 
 Status meanings:
 
-- `parsed`: the file was read and metadata was extracted without warnings.
+- `parsed`: the file was read and metadata was extracted without structural or
+  completeness warnings that make the result partial. Advisory review warnings
+  can still be present.
 - `partial`: useful metadata was extracted, but structure or important
   discoverability metadata was incomplete.
 - `skipped`: the file type is unsupported and its contents were not read.
@@ -96,3 +106,7 @@ Validation is local and does not require network access.
 Validation confirms generated JSON matches expected structure. It does not
 certify that the catalog is complete, safe, semantically correct, or free of
 private data.
+
+Absence of validation errors or warning codes does not make an artifact
+publication-ready. Public-safety review remains a human responsibility, and
+generated catalogs from private collections must not be committed.
