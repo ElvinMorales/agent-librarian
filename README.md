@@ -28,8 +28,30 @@ The `catalog` command creates:
 
 The CLI parses only supported files under the input directory and records
 unsupported non-ignored files as skipped without reading their contents. It
-ignores `.git`, `.env`, `.venv`, `node_modules`, `__pycache__`, and the selected
-output directory. It writes only the four generated files under `--out`.
+applies safe default excludes for Git metadata, environment and dependency
+folders, caches, build outputs, and generated catalogs. The selected output
+directory is also excluded whenever it is inside the input directory. It
+writes only the four generated files under `--out`.
+
+### Scan Include and Exclude Patterns
+
+Narrow the inventoried files with repeated `--include` glob patterns and add
+custom relative path or name exclusions with `--exclude`:
+
+```bash
+agent-librarian catalog ./collection --out ./catalog \
+  --include "**/*.md" \
+  --include "**/*.yaml" \
+  --exclude "private, scratch, tmp"
+```
+
+Include patterns narrow what appears in the scan and diagnostics. Repeated
+include patterns are combined with OR. Exclude values may be comma-separated
+or repeated, and custom excludes always add to the safe defaults.
+
+Use include and exclude patterns to keep private folders, raw traces,
+memory/state snapshots, credentials, and generated outputs out of public
+catalogs. Generated catalogs from private collections should not be committed.
 
 Normal mode continues when an individual file cannot be parsed, omits failed
 files from the catalog entries, records the failure in `diagnostics.json`, and
