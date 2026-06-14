@@ -116,10 +116,11 @@ and generated outputs remains required.
 ## Where to start
 
 1. Read the [project overview](../README.md).
-2. Inspect the [synthetic sample collection](../examples/README.md).
-3. Review the committed outputs in
+2. Follow the [five-minute demo walkthrough](demo-walkthrough.md).
+3. Inspect the [synthetic sample collection](../examples/README.md).
+4. Review the committed outputs in
    [`examples/generated-catalog`](../examples/generated-catalog/).
-4. Read the [architecture](architecture.md),
+5. Read the [architecture](architecture.md),
    [catalog format](catalog-format.md),
    [warnings and overlap](warnings-and-overlap.md), and
    [public-safety guidance](public-safety.md).
