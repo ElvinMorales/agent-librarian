@@ -18,10 +18,12 @@ input directory
 
 The scanner recursively inventories non-ignored files. Markdown, YAML, YML,
 and JSON files are selected for parsing; unsupported files are recorded as
-skipped without reading their contents. The scanner does not follow symbolic
-links or enter common source-control, environment, dependency, cache, or
-output directories. Selected files are read as text and are never imported,
-sourced, evaluated, or executed.
+skipped without reading their contents. Optional include globs narrow the
+inventory, while custom relative path or name excludes add to the safe default
+excludes. The scanner does not follow symbolic links or enter common
+source-control, environment, dependency, cache, build, generated catalog, or
+selected output directories. Selected files are read as text and are never
+imported, sourced, evaluated, or executed.
 
 ## Parser and Classifier
 

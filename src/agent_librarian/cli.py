@@ -49,6 +49,26 @@ def build_parser() -> argparse.ArgumentParser:
         "--out", required=True, type=Path, help="Directory for generated outputs."
     )
     catalog.add_argument(
+        "--include",
+        action="append",
+        default=[],
+        metavar="GLOB",
+        help=(
+            "Only inventory files matching this glob; repeat for multiple patterns. "
+            "Defaults to all non-excluded files."
+        ),
+    )
+    catalog.add_argument(
+        "--exclude",
+        action="append",
+        default=[],
+        metavar="PATTERNS",
+        help=(
+            "Add comma-separated relative path or name patterns to the safe "
+            "default excludes; may be repeated."
+        ),
+    )
+    catalog.add_argument(
         "--strict",
         action="store_true",
         help="Exit non-zero if any selected file fails to parse.",
@@ -69,13 +89,22 @@ class StrictParseError(Exception):
 
 
 def run_catalog(
-    input_dir: Path, output_dir: Path, strict: bool = False
+    input_dir: Path,
+    output_dir: Path,
+    strict: bool = False,
+    include_patterns: list[str] | None = None,
+    exclude_patterns: list[str] | None = None,
 ) -> list[Path]:
     root = input_dir.resolve()
     out = output_dir.resolve()
     entries = []
     file_diagnostics = []
-    for path in scan_file_inventory(root, out):
+    for path in scan_file_inventory(
+        root,
+        out,
+        include_patterns=include_patterns,
+        exclude_patterns=exclude_patterns,
+    ):
         result = parse_artifact_with_diagnostic(path, root)
         if result.entry is not None and result.source_text is not None:
             apply_warnings(result.entry, result.source_text)
@@ -112,7 +141,13 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     if args.command == "catalog":
         try:
-            paths = run_catalog(args.input_dir, args.out, strict=args.strict)
+            paths = run_catalog(
+                args.input_dir,
+                args.out,
+                strict=args.strict,
+                include_patterns=args.include,
+                exclude_patterns=args.exclude,
+            )
         except StrictParseError as exc:
             print(f"Strict mode: {exc}", file=sys.stderr)
             for source_path, error in exc.failed_files:

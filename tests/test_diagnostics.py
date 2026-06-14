@@ -134,3 +134,93 @@ def test_clean_sample_collection_has_no_failed_diagnostics(tmp_path: Path) -> No
     assert exit_code == 0
     diagnostics = json.loads((output / "diagnostics.json").read_text(encoding="utf-8"))
     assert diagnostics["summary"]["failed"] == 0
+
+
+def test_cli_include_limits_diagnostics_to_matching_files(tmp_path: Path) -> None:
+    source = tmp_path / "synthetic-collection"
+    output = tmp_path / "generated"
+    source.mkdir()
+    (source / "included.md").write_text("# Included", encoding="utf-8")
+    (source / "excluded.yaml").write_text("name: excluded", encoding="utf-8")
+    (source / "excluded.json").write_text('{"name": "excluded"}', encoding="utf-8")
+
+    exit_code = main(
+        [
+            "catalog",
+            str(source),
+            "--out",
+            str(output),
+            "--include",
+            "**/*.md",
+        ]
+    )
+
+    diagnostics = json.loads((output / "diagnostics.json").read_text(encoding="utf-8"))
+    assert exit_code == 0
+    assert diagnostics["summary"]["total_files_seen"] == 1
+    assert [item["source_path"] for item in diagnostics["files"]] == ["included.md"]
+
+
+def test_cli_supports_repeated_include_patterns(tmp_path: Path) -> None:
+    source = tmp_path / "synthetic-collection"
+    output = tmp_path / "generated"
+    source.mkdir()
+    (source / "included.md").write_text("# Included", encoding="utf-8")
+    (source / "included.yaml").write_text("name: included", encoding="utf-8")
+    (source / "excluded.json").write_text('{"name": "excluded"}', encoding="utf-8")
+
+    exit_code = main(
+        [
+            "catalog",
+            str(source),
+            "--out",
+            str(output),
+            "--include",
+            "**/*.md",
+            "--include",
+            "**/*.yaml",
+        ]
+    )
+
+    diagnostics = json.loads((output / "diagnostics.json").read_text(encoding="utf-8"))
+    assert exit_code == 0
+    assert [item["source_path"] for item in diagnostics["files"]] == [
+        "included.md",
+        "included.yaml",
+    ]
+
+
+def test_cli_excludes_do_not_leak_private_files_into_diagnostics(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "synthetic-collection"
+    output = source / "generated"
+    private = source / "private"
+    private.mkdir(parents=True)
+    (source / "public.md").write_text("# Public", encoding="utf-8")
+    (private / "secret.md").write_text(
+        "private_contents_marker",
+        encoding="utf-8",
+    )
+    output.mkdir()
+    (output / "old-diagnostics.json").write_text(
+        '{"private": "private_contents_marker"}',
+        encoding="utf-8",
+    )
+
+    exit_code = main(
+        [
+            "catalog",
+            str(source),
+            "--out",
+            str(output),
+            "--exclude",
+            "private, scratch, tmp",
+        ]
+    )
+
+    serialized = (output / "diagnostics.json").read_text(encoding="utf-8")
+    assert exit_code == 0
+    assert "private/" not in serialized
+    assert "old-diagnostics.json" not in serialized
+    assert "private_contents_marker" not in serialized
