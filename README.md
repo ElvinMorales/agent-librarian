@@ -8,6 +8,9 @@ reports likely overlap without modifying or executing the source collection.
 The MVP is intended for public-safe collections of skills, agents, prompts,
 tool specifications, schemas, and protocol-facing manifests.
 
+For a short project framing and demo-safe overview, see the
+[Showcase Brief](docs/showcase-brief.md).
+
 ## Quickstart
 
 ```bash
