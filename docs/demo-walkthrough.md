@@ -82,6 +82,16 @@ agent-librarian validate examples/generated-catalog
 Validation checks generated JSON structure. It does not certify semantic
 correctness, safety, completeness, or publication readiness.
 
+Optionally summarize the generated review surfaces before opening individual
+files:
+
+```bash
+agent-librarian report examples/generated-catalog
+```
+
+The report reads the existing generated JSON files. It does not rescan the
+sample collection or make review decisions.
+
 ## Step 4: Review the generated files
 
 Open `examples/generated-catalog` and explain the four files:

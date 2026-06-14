@@ -90,6 +90,16 @@ Validation confirms generated JSON matches expected structure. It does not
 certify that the catalog is complete, safe, semantically correct, or free of
 private data.
 
+After generating a catalog, summarize the review surfaces:
+
+```bash
+agent-librarian report examples/generated-catalog
+```
+
+The report reads existing generated outputs and summarizes diagnostics,
+warnings, and overlap candidates for human review. It does not rescan source
+files, modify generated outputs, or make artifact-management decisions.
+
 ## What It Catalogs
 
 The classifier recognizes common artifact surfaces such as:
