@@ -7,6 +7,7 @@ from pathlib import Path
 from . import __version__
 from .overlap import find_overlaps
 from .parsers import parse_artifact_with_diagnostic
+from .report import ReportError, render_review_report
 from .renderers import (
     build_diagnostics,
     build_index,
@@ -64,6 +65,15 @@ def build_parser() -> argparse.ArgumentParser:
     )
     validate.add_argument(
         "catalog_dir", type=Path, help="Directory containing generated catalog files."
+    )
+    report = subparsers.add_parser(
+        "report",
+        help="Summarize generated catalog outputs for human review.",
+    )
+    report.add_argument(
+        "catalog_dir",
+        type=Path,
+        help="Directory containing generated catalog files.",
     )
     return parser
 
@@ -160,6 +170,14 @@ def main(argv: list[str] | None = None) -> int:
             )
             return 1
         print(f"Validation passed: {len(results)} file(s) validated.")
+        return 0
+    if args.command == "report":
+        try:
+            report = render_review_report(args.catalog_dir)
+        except ReportError as exc:
+            print(f"Report error: {exc}", file=sys.stderr)
+            return 1
+        print(report, end="")
         return 0
     return 1
 
