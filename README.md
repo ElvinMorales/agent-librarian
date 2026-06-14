@@ -14,6 +14,9 @@ For a short project framing and demo-safe overview, see the
 For a runnable five-minute demo path, see the
 [Demo Walkthrough](docs/demo-walkthrough.md).
 
+For a live presentation path, see the
+[Forum Demo Runbook](docs/forum-demo-runbook.md).
+
 For a taxonomy-aligned view of the system, see the
 [Architecture Map](docs/taxonomy-architecture-map.md).
 

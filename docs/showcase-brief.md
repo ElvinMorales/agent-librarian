@@ -118,12 +118,14 @@ and generated outputs remains required.
 1. Read the [project overview](../README.md).
 2. Review the [taxonomy-aligned architecture map](taxonomy-architecture-map.md).
 3. Follow the [five-minute demo walkthrough](demo-walkthrough.md).
-4. Read the [public-safe adoption guide](adoption-guide.md) before adapting the
+4. Use the [forum demo runbook](forum-demo-runbook.md) for a live presentation
+   from a work computer.
+5. Read the [public-safe adoption guide](adoption-guide.md) before adapting the
    tool to another collection.
-5. Inspect the [synthetic sample collection](../examples/README.md).
-6. Review the committed outputs in
+6. Inspect the [synthetic sample collection](../examples/README.md).
+7. Review the committed outputs in
    [`examples/generated-catalog`](../examples/generated-catalog/).
-7. Read the [architecture](architecture.md),
+8. Read the [architecture](architecture.md),
    [catalog format](catalog-format.md),
    [warnings and overlap](warnings-and-overlap.md), and
    [public-safety guidance](public-safety.md).
