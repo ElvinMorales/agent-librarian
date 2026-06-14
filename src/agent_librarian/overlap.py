@@ -4,6 +4,7 @@ from itertools import combinations
 
 from .models import CatalogEntry, OverlapCandidate
 from .normalizer import terms
+from .warning_codes import DUPLICATE_CANDIDATE, OVERLAP_CANDIDATE
 
 
 COMPARABLE_TYPES = {
@@ -57,9 +58,9 @@ def find_overlaps(entries: list[CatalogEntry]) -> list[OverlapCandidate]:
         )
         candidates.append(candidate)
         warning = (
-            "duplicate_candidate"
+            DUPLICATE_CANDIDATE
             if overlap_type == "duplicate"
-            else "overlap_candidate"
+            else OVERLAP_CANDIDATE
         )
         for entry in (left, right):
             if warning not in entry.discoverability_warnings:
