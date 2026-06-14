@@ -2,6 +2,40 @@
 
 All notable changes to this project are documented here.
 
+## [0.3.0] - 2026-06-14
+
+### Added
+
+- Added an AI expert forum showcase brief that frames `agent-librarian` as
+  deterministic, artifact-first infrastructure.
+- Added a five-minute demo walkthrough using the synthetic sample collection.
+- Added a taxonomy-aligned architecture map covering all 14 agentic AI
+  artifact buckets.
+- Added warning-reference synchronization checks backed by centralized
+  warning-code definitions.
+- Added a read-only `agent-librarian report` command for summarizing generated
+  catalog review surfaces.
+- Added a public-safe adoption guide for adapting the tool to local
+  collections without publishing private material.
+
+### Changed
+
+- Strengthened project documentation around design-time artifacts, runtime
+  outputs, memory/state boundaries, governance, observability, and human
+  review.
+- Centralized warning-code definitions for catalog, diagnostics, overlap, and
+  partial-status behavior.
+
+### Safety and non-goals
+
+- The report command does not rescan source files, call an LLM or network
+  service, mutate generated outputs, or make artifact-management decisions.
+- Public demos and examples remain limited to synthetic repository fixtures.
+- Generated catalogs from private collections remain private unless
+  explicitly reviewed and sanitized.
+- PyPI/package registry publishing remains out of scope.
+- Schema versions remain unchanged.
+
 ## [0.2.0] - 2026-06-14
 
 v0.2.0 focuses on trust and diagnostics: making local artifact catalogs easier
