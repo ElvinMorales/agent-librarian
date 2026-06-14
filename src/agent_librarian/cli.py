@@ -15,22 +15,8 @@ from .renderers import (
 )
 from .scanner import scan_file_inventory
 from .validation import validate_catalog
+from .warning_codes import PARTIAL_WARNING_CODES
 from .warnings import apply_warnings
-
-
-PARTIAL_WARNING_CODES = {
-    "missing_description",
-    "weak_description",
-    "missing_activation_trigger",
-    "missing_inputs",
-    "missing_outputs",
-    "missing_output_contract",
-    "side_effects_unclear",
-    "missing_dependencies",
-    "missing_examples",
-    "missing_evals",
-    "unknown_artifact_type",
-}
 
 
 def build_parser() -> argparse.ArgumentParser:

@@ -10,6 +10,12 @@ import yaml
 from .models import CatalogEntry, FileDiagnostic, ParseResult
 from .normalizer import as_list, as_text, slugify
 from .scanner import SUPPORTED_SUFFIXES
+from .warning_codes import (
+    NON_MAPPING_DOCUMENT,
+    NON_MAPPING_FRONTMATTER,
+    UNSUPPORTED_FILE_TYPE,
+    UNTERMINATED_FRONTMATTER,
+)
 
 
 SECTION_ALIASES = {
@@ -41,7 +47,7 @@ def parse_artifact_with_diagnostic(path: Path, root: Path) -> ParseResult:
                 source_path=relative_path,
                 status="skipped",
                 parser=None,
-                warnings=["unsupported_file_type"],
+                warnings=[UNSUPPORTED_FILE_TYPE],
             ),
         )
 
@@ -102,14 +108,14 @@ def _parse_artifact(
         loaded = yaml.safe_load(text)
         metadata = loaded if isinstance(loaded, dict) else {}
         if not isinstance(loaded, dict):
-            parser_warnings.append("non_mapping_document")
+            parser_warnings.append(NON_MAPPING_DOCUMENT)
         sections, heading = {}, ""
         source_format = "yaml"
     elif suffix == ".json":
         loaded = json.loads(text)
         metadata = loaded if isinstance(loaded, dict) else {}
         if not isinstance(loaded, dict):
-            parser_warnings.append("non_mapping_document")
+            parser_warnings.append(NON_MAPPING_DOCUMENT)
         sections, heading = {}, ""
         source_format = "json"
     else:
@@ -207,10 +213,10 @@ def _parse_markdown(
             loaded = yaml.safe_load(match.group(1))
             metadata = loaded if isinstance(loaded, dict) else {}
             if not isinstance(loaded, dict):
-                warnings.append("non_mapping_frontmatter")
+                warnings.append(NON_MAPPING_FRONTMATTER)
             body = text[match.end() :]
         else:
-            warnings.append("unterminated_frontmatter")
+            warnings.append(UNTERMINATED_FRONTMATTER)
 
     heading_match = re.search(r"^#\s+(.+?)\s*$", body, re.M)
     heading = heading_match.group(1).strip() if heading_match else ""
