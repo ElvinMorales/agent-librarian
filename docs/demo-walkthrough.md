@@ -181,3 +181,6 @@ before any public use.
 See the [taxonomy-aligned architecture map](taxonomy-architecture-map.md) for
 the connection between this demo flow, the repository's implementation
 artifacts, generated outputs, governance surfaces, and all 14 taxonomy buckets.
+
+Before adapting the workflow to another collection, read the
+[public-safe adoption guide](adoption-guide.md).
