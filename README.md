@@ -117,20 +117,8 @@ pytest
 git diff --check
 ```
 
-Normal `pytest` is the default for local development and CI. On Windows, use
-the following workaround only if `pytest` fails because it cannot create or
-access its default local temp or cache directories:
-
-```powershell
-New-Item -ItemType Directory -Force .pytest-tmp | Out-Null
-pytest --basetemp .\.pytest-tmp -p no:cacheprovider
-```
-
-The `.pytest-tmp/` and `.tmp/` directories are local-only troubleshooting
-folders and should not be committed.
-
-GitHub Actions runs these checks on Python 3.10, 3.11, and 3.12. It also
-regenerates and validates the synthetic sample catalog with a fixed
-`SOURCE_DATE_EPOCH`, then fails if the committed generated outputs differ.
+See [Developer workflow](docs/developer-workflow.md) for local setup,
+validation commands, branch hygiene, Codex handoff expectations, and
+public-safety reminders.
 
 The project does not call external services and requires no API keys.
