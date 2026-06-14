@@ -87,6 +87,10 @@ tool scope, unclear side effects, missing examples or evals, unknown artifact
 types, and overlap candidates. Warnings are review aids, not correctness or
 safety certifications.
 
+See [Warnings and overlap](docs/warnings-and-overlap.md) for warning code
+meanings, suggested review actions, diagnostics interpretation, and the exact
+overlap scoring thresholds.
+
 ## Non-Goals
 
 Version `0.1.0` is not:
