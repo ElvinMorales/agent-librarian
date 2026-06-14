@@ -17,6 +17,9 @@ For a runnable five-minute demo path, see the
 For a taxonomy-aligned view of the system, see the
 [Architecture Map](docs/taxonomy-architecture-map.md).
 
+For guidance on safely adapting the tool to your own collection, see the
+[Public-Safe Adoption Guide](docs/adoption-guide.md).
+
 ## Quickstart
 
 ```bash

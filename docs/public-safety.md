@@ -28,3 +28,6 @@ rough review aid and cannot prove that a collection is sanitized.
 
 Before publishing generated catalogs, review both source artifacts and
 generated outputs for contextual disclosure.
+
+See the [public-safe adoption guide](adoption-guide.md) for a step-by-step
+workflow using synthetic examples and private placeholder paths.
