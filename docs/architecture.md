@@ -2,6 +2,11 @@
 
 `agent-librarian` is a deterministic file inspection pipeline:
 
+For the broader mapping from generic agentic artifact classes to this
+repository's design-time files, runtime outputs, governance, and iteration
+surfaces, see the
+[taxonomy-aligned architecture map](taxonomy-architecture-map.md).
+
 ```text
 input directory
   -> safe scanner

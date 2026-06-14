@@ -165,3 +165,9 @@ Do not demo:
 Local processing reduces exposure, but it does not make arbitrary source
 material safe to publish. Review both source artifacts and generated outputs
 before any public use.
+
+## Related docs
+
+See the [taxonomy-aligned architecture map](taxonomy-architecture-map.md) for
+the connection between this demo flow, the repository's implementation
+artifacts, generated outputs, governance surfaces, and all 14 taxonomy buckets.
