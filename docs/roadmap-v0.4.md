@@ -78,7 +78,7 @@ directly without an LLM.
 | #49 | Safety policy | Define [refusal and approval-required cases](../agent/policies/public-safety.md) | Docs only |
 | #50 | Evals | Add [safe-scan cases](../agent/evals/safe-scan-cases.md) for future LLM layer | Static eval artifacts |
 | #51 | Roadmap/feedback | Add feedback log and v0.4 roadmap | Docs only |
-| #52 | Runtime prototype | Prototype optional local LLM orchestration wrapper | Future runtime |
+| #52 | Runtime prototype | Add an [optional local runtime wrapper prototype](runtime-wrapper-prototype.md) with exact approval and bounded deterministic CLI execution | Prototype runtime |
 | #53 | Taxonomy catalog | Classify two-layer architecture across taxonomy buckets | Docs only |
 | #54 | Runtime state | Define [run-state and approval-log artifacts](../agent/runtime/state-and-approval-log.md) | Design docs |
 | #55 | Summary schema | Draft the [LLM review summary output contract](../agent/schemas/review-summary.schema.json) | Schema/design |
@@ -140,6 +140,12 @@ The design-time output contract for #55 is documented in
 It defines evidence, validation, report, finding, human-review, limitation,
 and next-action fields without adding runtime behavior.
 
+The optional runtime prototype for #52 is documented in
+[runtime-wrapper-prototype.md](runtime-wrapper-prototype.md). It implements a
+local proposal and exact-approval harness for the existing deterministic
+`catalog`, `validate`, and `report` actions without adding an LLM provider,
+network access, or arbitrary shell execution.
+
 ## Out of scope for v0.4
 
 - no autonomous artifact approval
@@ -190,7 +196,7 @@ Supporting indicators:
 - #49 - [Safety policy](../agent/policies/public-safety.md)
 - #50 - [Safe-scan evals](../agent/evals/safe-scan-cases.md)
 - #51 - Roadmap and feedback log
-- #52 - Runtime prototype
+- #52 - [Runtime wrapper prototype](runtime-wrapper-prototype.md)
 - #53 - Taxonomy catalog
 - #54 - [Runtime state and approval log](../agent/runtime/state-and-approval-log.md)
 - #55 - [Review summary schema](../agent/schemas/review-summary.schema.json)
