@@ -23,9 +23,9 @@ operations**.
 The LLM layer should orchestrate the workflow, not invent catalog results.
 CLI-generated files remain the source of truth for review.
 
-## Current baseline
+## Historical baseline
 
-Version 0.3.0 already includes:
+Version 0.3.0 established:
 
 - a deterministic local CLI
 - catalog generation
@@ -39,9 +39,10 @@ Version 0.3.0 already includes:
 - warning-code documentation and a synchronization check
 - release hygiene
 
-The current v0.3 runtime does not call an LLM, execute scanned artifacts,
-maintain hidden memory or session state, or make artifact-management
-decisions.
+The stable CLI remains deterministic and does not call an LLM. The optional
+runtime wrapper prototype also does not call an LLM provider or network
+service, execute scanned artifacts, maintain hidden memory, or make
+artifact-management decisions.
 
 ## Target architecture
 

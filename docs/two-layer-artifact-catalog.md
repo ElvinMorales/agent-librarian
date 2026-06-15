@@ -19,9 +19,9 @@ The LLM layer should orchestrate the workflow, not replace deterministic
 cataloging logic or invent catalog results. CLI-generated files remain the
 source of truth for review.
 
-This catalog makes the v0.4 direction inspectable before runtime work begins.
-It does not claim that the planned LLM layer is part of current v0.3 runtime
-behavior.
+This catalog makes the v0.4 direction inspectable. It does not claim that the
+planned LLM layer is part of the stable CLI or the optional local runtime
+wrapper prototype.
 
 ## Architecture summary
 
@@ -58,8 +58,8 @@ generated outputs, and the identity, prompt, capability, tool-boundary, and
 policy documents under `agent/`.
 
 Files under `agent/` describe planned behavior and are not loaded as runtime
-LLM instructions. Their presence does not mean the current v0.3 or v0.4 CLI
-has an LLM wrapper.
+LLM instructions. Their presence does not mean the stable CLI or optional
+runtime wrapper calls an LLM provider.
 
 Entries that still name future issue artifacts are directional, not runtime
 behavior implemented by this documentation issue. Public/private notes apply

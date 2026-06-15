@@ -68,8 +68,9 @@ generated outputs.
 
 The LLM layer should orchestrate the workflow, not replace deterministic
 cataloging logic or invent results. CLI-generated files remain the source of
-truth and explicit review artifacts. Current v0.3 behavior does not call an
-LLM.
+truth and explicit review artifacts. The stable CLI remains deterministic and
+does not call an LLM. The optional runtime wrapper prototype also does not call
+an LLM provider or network service.
 
 ## Quickstart
 

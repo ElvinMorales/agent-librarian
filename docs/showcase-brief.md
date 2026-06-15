@@ -20,8 +20,8 @@ boundaries are all visible in the repository.
 
 ## Architecture direction
 
-The current v0.3 showcase is CLI-first: it demonstrates the deterministic
-backend that performs `catalog`, `validate`, and `report` actions. A future LLM
+The showcase is CLI-first: it demonstrates the deterministic backend that
+performs `catalog`, `validate`, and `report` actions. A planned LLM
 interaction layer can sit in front of this same backend to scope intent,
 explain safety boundaries, propose bounded commands, ask for approval before
 execution, and summarize the generated outputs.
@@ -97,11 +97,12 @@ It is:
 - not a tool that executes scanned artifacts
 - not a replacement for human review
 
-Current v0.3 behavior does not use an LLM and is not an LLM-powered autonomous
-agent. It is the deterministic backend for a planned two-layer architecture,
-not an autonomous agent runtime. Warnings and overlap candidates are review
-prompts, not decisions, and a future model summary must not present them as
-safety, completeness, approval, or publication-readiness certifications.
+The stable CLI and optional runtime wrapper do not use an LLM provider and are
+not an LLM-powered autonomous agent. They support a planned two-layer
+architecture, not an autonomous agent runtime. Warnings and overlap candidates
+are review prompts, not decisions, and a future model summary must not present
+them as safety, completeness, approval, or publication-readiness
+certifications.
 
 ## Why it matters for agentic AI artifacts
 
