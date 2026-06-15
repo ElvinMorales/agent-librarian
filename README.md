@@ -34,6 +34,9 @@ The bounded CLI contract for the planned interaction layer is documented in
 The approval-gated catalog-review workflow is documented in
 [catalog-review.md](agent/workflows/catalog-review.md).
 
+The planned LLM layer's refusal and redirect policy is documented in
+[public-safety.md](agent/policies/public-safety.md).
+
 For guidance on safely adapting the tool to your own collection, see the
 [Public-Safe Adoption Guide](docs/adoption-guide.md).
 

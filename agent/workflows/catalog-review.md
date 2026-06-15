@@ -92,8 +92,10 @@ safe synthetic/public example
 private local collection
 work/client/customer/regulated collection
 unclear sensitivity
-unsafe/publication-risk request
-unsupported command request
+unsafe publication request
+unsupported command or shell request
+certification/approval request
+private memory/state/log/trace request
 ```
 
 Apply these behaviors:
@@ -105,12 +107,17 @@ Apply these behaviors:
   scope and warn that generated outputs must not be published.
 - For unclear sensitivity, ask one necessary clarifying question or default
   the material to private.
-- For an unsafe or publication-risk request, stop and redirect to a safe
+- For an unsafe publication request, stop and redirect to a safe
   synthetic or private-local pattern.
-- For an unsupported command request, stop and point to the
+- For an unsupported command or shell request, stop and point to the
   [CLI tool contract](../tools/agent-librarian-cli.md).
+- For a certification or approval request, stop and offer an evidence-based
+  summary plus human-review prompts.
+- For a private memory, state, log, or trace request, stop public use and
+  redirect to a synthetic fixture.
 
-Detailed refusal examples and case handling are deferred to #49.
+Apply the detailed classifications, refusal cases, and redirect patterns in the
+[LLM-layer public-safety policy](../policies/public-safety.md).
 
 ## Phase 3: Command proposal
 
@@ -314,6 +321,9 @@ When a safe part of the request remains possible, redirect to a documented
 command using synthetic placeholders or a narrowly scoped private-local
 pattern.
 
+Detailed stop-condition responses and safe redirects are defined in the
+[LLM-layer public-safety policy](../policies/public-safety.md).
+
 ## Handoff outputs
 
 The future LLM layer should hand back:
@@ -354,6 +364,7 @@ changes.
 - [Catalog directory task prompt](../prompts/tasks/catalog-directory.md)
 - [Catalog Collection capability](../capabilities/catalog-collection/SKILL.md)
 - [Governance policy](../governance/policy.md)
+- [LLM-layer public-safety policy](../policies/public-safety.md)
 - [State strategy](../state/state-strategy.md)
 - [Two-Layer Artifact Catalog](../../docs/two-layer-artifact-catalog.md)
 - [v0.4 roadmap](../../docs/roadmap-v0.4.md)

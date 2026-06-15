@@ -75,7 +75,7 @@ directly without an LLM.
 | #46 | Agent identity | Define LLM Artifact Librarian identity and operating-style design artifacts under `agent/` | Docs only |
 | #47 | Tool contract | Define the bounded [`agent-librarian` CLI tool contract](../agent/tools/agent-librarian-cli.md) for the LLM layer | Docs only |
 | #48 | Workflow | Define the [catalog-review workflow and approval gates](../agent/workflows/catalog-review.md) | Docs only |
-| #49 | Safety policy | Define refusal and approval-required cases | Docs only |
+| #49 | Safety policy | Define [refusal and approval-required cases](../agent/policies/public-safety.md) | Docs only |
 | #50 | Evals | Add safe-scan cases for future LLM layer | Static eval artifacts |
 | #51 | Roadmap/feedback | Add feedback log and v0.4 roadmap | Docs only |
 | #52 | Runtime prototype | Prototype optional local LLM orchestration wrapper | Future runtime |
@@ -118,6 +118,12 @@ The design-time workflow for #48 is documented in
 It defines intake, safety classification, exact-command approval, backend
 execution boundaries, validation and reporting gates, and human-review handoff
 without adding runtime execution.
+
+The design-time safety policy for #49 is documented in
+[`agent/policies/public-safety.md`](../agent/policies/public-safety.md). It
+defines sensitivity classes, approval-required cases, refusal and redirect
+patterns, publication boundaries, claims limits, memory and state safety, and
+error handling without adding runtime enforcement.
 
 ## Out of scope for v0.4
 
@@ -166,7 +172,7 @@ Supporting indicators:
 - #46 - Agent identity
 - #47 - Tool contract
 - #48 - Workflow and approval gates
-- #49 - Safety policy
+- #49 - [Safety policy](../agent/policies/public-safety.md)
 - #50 - Safe-scan evals
 - #51 - Roadmap and feedback log
 - #52 - Runtime prototype
@@ -184,5 +190,6 @@ Supporting indicators:
 - [Taxonomy-aligned architecture map](taxonomy-architecture-map.md)
 - [Two-Layer Artifact Catalog](two-layer-artifact-catalog.md)
 - [Agent Layer Design Artifacts](../agent/README.md)
+- [LLM-Layer Public Safety Policy](../agent/policies/public-safety.md)
 - [Public-safe adoption guide](adoption-guide.md)
 - [Public safety](public-safety.md)

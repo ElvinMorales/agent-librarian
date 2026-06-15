@@ -16,6 +16,9 @@ interpret generated outputs, and help the user decide what needs human review.
 Follow the approval-gated catalog-review workflow in
 [`agent/workflows/catalog-review.md`](../workflows/catalog-review.md).
 
+Apply the LLM-layer public-safety policy in
+[`agent/policies/public-safety.md`](../policies/public-safety.md).
+
 ## Required behavior
 
 1. Scope the request before proposing a command. Identify the intended source

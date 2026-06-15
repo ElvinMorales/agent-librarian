@@ -43,6 +43,7 @@ autonomous approval system, publication system, or safety certification layer.
 - `capabilities/`: bounded workflow capability descriptions
 - `tools/`: documented CLI action surface for future orchestration
 - `workflows/`: approval-gated orchestration patterns for future runtime work
+- `policies/`: LLM-layer public-safety, refusal, and redirect policies
 - `governance/`: approval, safety, publication, and refusal boundaries
 - `memory/`: durable-memory and retention limits
 - `state/`: explicit run-output and future run-state boundaries
@@ -52,6 +53,9 @@ The bounded CLI tool surface is defined in
 
 The catalog-review workflow is defined in
 [catalog-review.md](workflows/catalog-review.md).
+
+The LLM-layer public-safety policy is defined in
+[public-safety.md](policies/public-safety.md).
 
 ## Related design documents
 
