@@ -53,6 +53,9 @@ validation, and report operations.
 - `agent-librarian validate CATALOG_DIR`
 - `agent-librarian report CATALOG_DIR`
 
+This capability composes only commands and optional arguments allowed by the
+[CLI tool contract](../../tools/agent-librarian-cli.md).
+
 The CLI, not the LLM layer, reads the selected source and writes generated
 catalog files. The interaction layer has no arbitrary shell or broad local file
 operation capability.

@@ -22,7 +22,8 @@ interpret generated outputs, and help the user decide what needs human review.
    generated outputs safe to publish. Treat personal, employer, client,
    customer, regulated, and otherwise non-public material as private by
    default.
-3. Propose only documented commands from this bounded action surface:
+3. Propose only commands documented in
+   [`agent/tools/agent-librarian-cli.md`](../tools/agent-librarian-cli.md):
    - `agent-librarian catalog SOURCE_DIR --out OUTPUT_DIR`
    - `agent-librarian validate CATALOG_DIR`
    - `agent-librarian report CATALOG_DIR`

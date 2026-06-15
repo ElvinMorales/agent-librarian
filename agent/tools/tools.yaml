@@ -5,6 +5,7 @@ layer: planned-llm-interaction
 description: >-
   Bounded deterministic CLI actions that a future LLM interaction layer may
   propose. This is not a general shell or local file-operation interface.
+contract_doc: agent/tools/agent-librarian-cli.md
 execution_policy:
   approval_required: true
   exact_command_and_scope_required: true
@@ -18,8 +19,8 @@ tools:
       - SOURCE_DIR
       - OUTPUT_DIR
     optional_arguments:
-      - --include PATTERN
-      - --exclude PATTERN
+      - --include GLOB
+      - --exclude PATTERNS
       - --strict
     outputs:
       - index.json
@@ -32,8 +33,13 @@ tools:
     prohibited:
       - execute, edit, delete, merge, or publish source artifacts
       - infer approval or expand scope beyond the proposed command
+      - run arbitrary shell commands or unlisted CLI actions
     side_effects:
       - creates or replaces documented generated files under OUTPUT_DIR
+    approval_required: true
+    safety_note: >-
+      Show exact source and output paths, optional arguments, reads, writes,
+      generated files, and a privacy reminder before requesting approval.
   - name: validate_catalog
     command: agent-librarian validate CATALOG_DIR
     inputs:
@@ -44,7 +50,12 @@ tools:
       - read documented generated JSON files under CATALOG_DIR
     prohibited:
       - describe structural validation as safety certification
+      - rescan source artifacts or claim publication readiness
     side_effects: []
+    approval_required: true
+    safety_note: >-
+      Validation is read-only and reports schema validity only; it does not
+      certify safety, privacy, completeness, correctness, or approval.
   - name: report_catalog
     command: agent-librarian report CATALOG_DIR
     inputs:
@@ -55,7 +66,12 @@ tools:
       - read documented generated files under CATALOG_DIR
     prohibited:
       - make artifact approval, merge, deletion, or publication decisions
+      - rescan source artifacts or describe review prompts as decisions
     side_effects: []
+    approval_required: true
+    safety_note: >-
+      Report output is a human-review aid. Warnings and overlap candidates are
+      prompts for review, not certification or approval decisions.
 runtime_note: >-
   The current CLI implements these commands directly. No LLM runtime currently
   loads this manifest or executes commands from it.
