@@ -19,9 +19,10 @@ The LLM layer should orchestrate the workflow, not replace deterministic
 cataloging logic or invent catalog results. CLI-generated files remain the
 source of truth for review.
 
-This catalog makes the v0.4 direction inspectable. It does not claim that the
-planned LLM layer is part of the stable CLI or the optional local runtime
-wrapper prototype.
+This catalog makes the v0.4 direction inspectable. The v0.5 portable package
+foundation adds shared package manifests and conformance expectations for
+future LLM-native adapters without changing the stable CLI or optional local
+runtime wrapper prototype.
 
 ## Architecture summary
 
@@ -70,10 +71,10 @@ model-authored summaries.
 
 | Taxonomy bucket | Artifact class | Current CLI/backend artifacts | Planned LLM-layer artifacts | Role in the system | Public/private boundary note |
 | --- | --- | --- | --- | --- | --- |
-| 1. Identity | Project and agent identity | `README.md`, `docs/showcase-brief.md`, and package name `agent-librarian` | `agent/README.md`, `agent/agent.yaml`, and `agent/persona.md` define the planned LLM Artifact Librarian identity | Defines what the system is, which layer is active, and the limits of each layer | Do not claim current autonomous or LLM-powered runtime behavior; do not imply employer endorsement |
+| 1. Identity | Project and agent identity | `README.md`, `docs/showcase-brief.md`, and package name `agent-librarian` | `agent/identity.md` defines the canonical framework-neutral Agent Librarian identity; `agent/README.md`, `agent/agent.yaml`, and `agent/persona.md` provide layer and user-facing identity context | Defines what the system is, which layer is active, and the limits of each layer | Do not claim current autonomous or LLM-powered runtime behavior; do not imply employer endorsement |
 | 2. Operating style | Operating rules and interaction principles | CLI help and docs describing deterministic, local, human-review-first behavior | `agent/principles.md` and `agent/persona.md` define scoping, safety explanation, approval, and evidence-based summary behavior | Defines how each layer behaves and communicates limits | The future layer must preserve local-only, private-by-default, and human-review boundaries |
 | 3. Capability modules | Bounded capability descriptions | Implemented `catalog`, `validate`, and `report` commands | `agent/capabilities/catalog-collection/SKILL.md` guides an approval-gated workflow that composes only documented backend actions | Describes what the system can perform and where each capability is implemented | The LLM layer may propose supported actions but must not invent commands or imply unsupported capabilities |
-| 4. Tools | Tool interfaces and contracts | `src/agent_librarian/cli.py`, command help, scanner/parser modules, validation, and read-only reporting | `agent/tools/agent-librarian-cli.md` defines the bounded contract and `agent/tools/tools.yaml` provides its manifest | Defines the allowed command surface, arguments, outputs, permissions, side effects, approval requirements, and prohibited actions | No arbitrary shell execution; selected input and output scope must be visible before approval |
+| 4. Tools | Tool interfaces and contracts | `src/agent_librarian/cli.py`, command help, scanner/parser modules, validation, and read-only reporting | `agent/tools/agent-librarian-cli.md` defines the bounded contract, `agent/tools/tools.yaml` provides its manifest, and `packages/shared/package-manifest.schema.json` requires future packages to preserve the bounded command surface | Defines the allowed command surface, arguments, outputs, permissions, side effects, approval requirements, and prohibited actions | No arbitrary shell execution; selected input and output scope must be visible before approval |
 | 5. Knowledge/resources | Reference material, schemas, and sample collections | `docs/`, `examples/sample-collection/`, `examples/generated-catalog/`, `schemas/`, and packaged schema resources | Public-safe grounding material, synthetic review examples, and references to backend contracts | Provides context for explanations, command selection, and review | Public examples must remain synthetic; private collection content must not become shared grounding material |
 | 6. Prompts/interfaces | User and system interaction surfaces | CLI arguments and help, include/exclude patterns, and README examples | `agent/prompts/system.md` and `agent/prompts/tasks/catalog-directory.md` define reusable future interaction instructions | Defines how users request work and how the interaction layer proposes and explains actions | Prompts must not embed private paths, secrets, employer workflows, private scans, or internal examples |
 | 7. Memory | Durable reusable knowledge and retention policy | No durable memory exists in the CLI runtime | `agent/memory/policy.md` documents no durable memory by default and consent requirements for any future retention | Defines what, if anything, may be reused across sessions | Private scans, generated catalogs, approvals, and summaries must not silently become durable memory |
@@ -81,11 +82,28 @@ model-authored summaries.
 | 9. Planning/orchestration | Workflow sequence and approval flow | `docs/demo-walkthrough.md`, `docs/forum-demo-runbook.md`, `docs/developer-workflow.md`, and the documented `catalog` -> `validate` -> `report` sequence | `agent/workflows/catalog-review.md` defines the approval-gated workflow, with `agent/prompts/tasks/catalog-directory.md` providing the task prompt | Orders scoping, safety classification, command proposal, approval, backend execution, validation, reporting, summary, and human-review handoff | Human approval applies only to the exact command and scope shown; changed commands, paths, arguments, or sensitivity require reapproval |
 | 10. Guardrails/governance | Safety policies, refusals, and review constraints | `docs/public-safety.md`, `docs/adoption-guide.md`, README non-goals, and warning guidance | `agent/governance/policy.md` defines governance boundaries, and `agent/policies/public-safety.md` defines detailed sensitivity, approval, refusal, redirect, publication, and claims rules | Prevents unsafe scanning, disclosure, unsupported execution, certification claims, and boundary violations | The LLM layer must not weaken existing scan, publication, privacy, or human-review boundaries |
 | 11. Outputs/schemas | Output contracts and review artifacts | `schemas/`, packaged schemas, `index.json`, `diagnostics.json`, `overlap-report.json`, `catalog.md`, and CLI report text | `agent/schemas/review-summary.schema.json` defines the model-authored review summary contract with references back to CLI-generated evidence | Makes deterministic findings and model-authored interpretation inspectable and reviewable | LLM summaries are secondary artifacts; CLI outputs remain the source of truth and must be reviewed before sharing |
-| 12. Evaluation/observability | Tests, diagnostics, validation, reports, and evals | `tests/`, GitHub Actions CI, `diagnostics.json`, `validate`, `report`, and the warning-reference synchronization test | `agent/evals/safe-scan-cases.md` defines public-safe cases for scoping, refusal, approval, tool boundaries, and summary behavior | Checks deterministic behavior, warning contracts, safety expectations, and future orchestration behavior | Evals must use synthetic, public-safe inputs and must not include real traces, prompts, logs, or user data |
-| 13. Runtime/deployment | Execution environment, packaging, and adapters | `pyproject.toml`, local CLI entry point, supported Python versions, GitHub Actions CI, and release tags | `src/agent_librarian/runtime_wrapper.py` and [runtime wrapper prototype documentation](runtime-wrapper-prototype.md) implement a narrow local approval-gated harness from #52 | Defines how the backend runs today and how an optional interaction layer may invoke it without changing the stable CLI surface | The wrapper remains optional, calls only the deterministic CLI actions, requires exact approval, and must not expose private collections |
+| 12. Evaluation/observability | Tests, diagnostics, validation, reports, and evals | `tests/`, GitHub Actions CI, `diagnostics.json`, `validate`, `report`, and the warning-reference synchronization test | `agent/evals/safe-scan-cases.md` defines public-safe cases for scoping, refusal, approval, tool boundaries, and summary behavior; `packages/shared/conformance/` defines shared package-adapter conformance scenarios | Checks deterministic behavior, warning contracts, safety expectations, future orchestration behavior, and package adapter behavior | Evals and package conformance examples must use synthetic, public-safe inputs and must not include real traces, prompts, logs, or user data |
+| 13. Runtime/deployment | Execution environment, packaging, and adapters | `pyproject.toml`, local CLI entry point, supported Python versions, GitHub Actions CI, and release tags | `src/agent_librarian/runtime_wrapper.py`, [runtime wrapper prototype documentation](runtime-wrapper-prototype.md), [portable package architecture](portable-agent-packages.md), `packages/README.md`, and `packages/shared/package-manifest.example.yaml` define the adapter foundation from canonical `agent/` artifacts to future platform packages | Defines how the backend runs today and how optional interaction and package layers may invoke or explain it without changing the stable CLI surface | The wrapper remains optional, calls only the deterministic CLI actions, requires exact approval, and must not expose private collections; advisory packages must not claim local execution |
 | 14. Learning/iteration | Feedback, decisions, backlog, and release iteration | `CHANGELOG.md`, GitHub issues and pull requests, `docs/release-checklist.md`, `docs/forum-feedback-log.md`, and `docs/roadmap-v0.4.md` | Public-safe decision records and follow-up issues informed by evals and feedback | Converts reviewed observations into explicitly scoped, versioned work | Feedback must be generic and public-safe before entering the repo; the runtime must not learn from users automatically |
 
 ## Boundary notes
+
+### Portable package adapters
+
+The v0.5 package layer adds shared package artifacts without creating live
+provider integrations:
+
+| File or directory | Taxonomy bucket | Role |
+| --- | --- | --- |
+| `docs/portable-agent-packages.md` | Runtime/deployment | Explains the "one agent contract, multiple LLM-native package adapters" architecture. |
+| `packages/README.md` | Runtime/deployment | Defines the package adapter directory and source-of-truth relationship to `agent/`. |
+| `packages/shared/package-manifest.schema.json` | Tools / runtime-deployment | Defines required manifest fields, target values, safety boundaries, source-of-truth notes, approval model, and validation references. |
+| `packages/shared/package-manifest.example.yaml` | Knowledge/resources / runtime-deployment | Maps canonical `agent/` artifacts, including `agent/identity.md`, to planned platform package files using synthetic public-safe examples. |
+| `packages/shared/conformance/` | Evaluation/observability | Captures package behavior expectations for approval, refusals, advisory-only limits, evidence grounding, and review summaries. |
+
+These package artifacts are adapters around the existing contract. They do not
+change CLI behavior, generated output schemas, runtime wrapper behavior,
+provider access, MCP/API exposure, or publication status.
 
 ### Memory vs state
 

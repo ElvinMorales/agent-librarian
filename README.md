@@ -72,6 +72,16 @@ truth and explicit review artifacts. The stable CLI remains deterministic and
 does not call an LLM. The optional runtime wrapper prototype also does not call
 an LLM provider or network service.
 
+## Portable agent packages
+
+The v0.5 workstream packages the same canonical `agent-librarian` artifact
+contract for multiple LLM workspaces. The canonical agent artifacts remain
+under `agent/`; platform-specific adapters live under `packages/`.
+
+See [Portable Agent Packages](docs/portable-agent-packages.md) and
+[Agent Package Adapters](packages/README.md) for the shared package manifest
+and conformance foundation.
+
 ## Quickstart
 
 ```bash
