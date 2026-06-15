@@ -7,11 +7,11 @@ artifact-librarian agent reference implementation. It connects generic
 artifact classes from the Agentic AI Artifact Taxonomy to concrete files,
 runtime behavior, generated outputs, and review surfaces in this repository.
 
-The files under `agent/` are design-time descriptions of the system's
-identity, operating stance, capability, tools, prompts, memory boundary, state
-boundary, and governance. The executable CLI is implemented under
-`src/agent_librarian/`; it does not load the `agent/` documents as runtime
-instructions.
+The files under `agent/` are design-time descriptions of the planned LLM
+interaction layer's identity, operating stance, capability, bounded CLI tool
+surface, prompts, memory boundary, state boundary, and governance. The
+executable deterministic CLI is implemented under `src/agent_librarian/`; it
+does not load the `agent/` documents as runtime instructions.
 
 ## System summary
 
@@ -67,16 +67,16 @@ the packaged schemas.
 
 | Taxonomy bucket | Generic artifact class | Possible filenames | Implementation in this repo | Role in `agent-librarian` |
 | --- | --- | --- | --- | --- |
-| 1. Identity | Agent definition or identity manifest | `agent.yaml`, `AGENTS.md`, package metadata | `agent/agent.yaml`, `agent/persona.md`, `README.md`, `pyproject.toml` | Defines the system's purpose, scope, ownership, package identity, and limits without claiming an autonomous runtime. |
-| 2. Operating style | Principles, behavior guidance, or operating constraints | `principles.md`, persona guidance, non-goals | `agent/principles.md`, `agent/persona.md`, `docs/showcase-brief.md`, README non-goals | Establishes framework-neutral, deterministic, conservative, local-only, and human-review-first behavior. |
-| 3. Capability modules | Skill or reusable capability bundle | `SKILL.md`, capability package, procedure | `agent/capabilities/catalog-collection/SKILL.md`, `src/agent_librarian/scanner.py`, `parsers.py`, `normalizer.py`, `renderers.py` | Describes and implements the catalog-collection capability from file discovery through normalized output rendering. |
-| 4. Tools | Tool manifest, callable command, parser, or permission surface | `tools.yaml`, CLI subcommand, parser module | `agent/tools/tools.yaml`, `src/agent_librarian/cli.py`, the `catalog` and `validate` commands, scanner and parser modules | Provides executable cataloging and validation surfaces with local read scope and writes confined to `--out`. |
+| 1. Identity | Agent definition or identity manifest | `agent.yaml`, `AGENTS.md`, package metadata | `agent/README.md`, `agent/agent.yaml`, `agent/persona.md`, `README.md`, `pyproject.toml` | Separates the planned user-facing Artifact Librarian identity from the current deterministic package and runtime. |
+| 2. Operating style | Principles, behavior guidance, or operating constraints | `principles.md`, persona guidance, non-goals | `agent/principles.md`, `agent/persona.md`, `docs/showcase-brief.md`, README non-goals | Establishes cautious, artifact-first, approval-gated, public-safety-aware, and human-review-oriented interaction behavior. |
+| 3. Capability modules | Skill or reusable capability bundle | `SKILL.md`, capability package, procedure | `agent/capabilities/catalog-collection/SKILL.md`, `src/agent_librarian/scanner.py`, `parsers.py`, `normalizer.py`, `renderers.py` | Separates LLM workflow guidance from the deterministic implementation that performs catalog operations. |
+| 4. Tools | Tool manifest, callable command, parser, or permission surface | `tools.yaml`, CLI subcommand, parser module | `agent/tools/tools.yaml`, `src/agent_librarian/cli.py`, the `catalog`, `validate`, and `report` commands, scanner and parser modules | Bounds future orchestration to documented CLI commands while the executable backend retains local read scope and confined writes. |
 | 5. Knowledge and resources | Reference documentation, schemas, examples, or sample data | `README.md`, reference docs, sample collection, schema resources | `docs/`, `examples/sample-collection/`, `examples/README.md`, `src/agent_librarian/schema_data/` | Grounds users, maintainers, tests, and validation in public-safe documentation, fixtures, and packaged contracts. |
-| 6. Prompts and interfaces | Prompt template, task instruction, CLI contract, or help text | system prompt, task prompt, CLI usage, example prompt | `agent/prompts/system.md`, `agent/prompts/tasks/catalog-directory.md`, CLI help in `src/agent_librarian/cli.py`, README commands, `examples/sample-collection/prompts/weekly-review.md` | Defines user-facing command contracts and demonstrates that prompts are catalogable artifacts, not instructions executed by the CLI. |
+| 6. Prompts and interfaces | Prompt template, task instruction, CLI contract, or help text | system prompt, task prompt, CLI usage, example prompt | `agent/prompts/system.md`, `agent/prompts/tasks/catalog-directory.md`, CLI help in `src/agent_librarian/cli.py`, README commands, `examples/sample-collection/prompts/weekly-review.md` | Defines future LLM interaction instructions and current CLI interfaces without implying that the CLI executes prompt artifacts. |
 | 7. Memory | Durable remembered knowledge, retention policy, or memory schema | memory policy, memory store, retained facts | `agent/memory/policy.md` and the documented absence of a memory store | Makes explicit that no durable user memory is retained; only explicitly written output files persist. |
 | 8. State | Run state, checkpoint, generated snapshot, or execution record | state strategy, `index.json`, diagnostics, checkpoint | `agent/state/state-strategy.md`, `examples/generated-catalog/index.json`, `diagnostics.json`, `overlap-report.json`, `catalog.md` | Defines the stateless command boundary and exposes run results as visible files rather than hidden or resumable session state. |
-| 9. Planning and orchestration | Workflow plan, command sequence, router, or handoff process | task procedure, walkthrough, developer workflow, CI job | `agent/prompts/tasks/catalog-directory.md`, `docs/demo-walkthrough.md`, `docs/developer-workflow.md`, `.github/workflows/ci.yml` | Orders scanning, validation, testing, review, deterministic checks, and release handoffs without adding autonomous planning. |
-| 10. Guardrails and governance | Safety policy, approval boundary, review rule, or non-goal list | governance policy, safety guidance, warning reference | `agent/governance/policy.md`, `docs/public-safety.md`, `docs/warnings-and-overlap.md`, README safety and non-goals | Defines public/private boundaries, safe defaults, interpretation limits, and decisions that remain with human reviewers. |
+| 9. Planning and orchestration | Workflow plan, command sequence, router, or handoff process | task procedure, walkthrough, developer workflow, CI job | `agent/prompts/tasks/catalog-directory.md`, `docs/demo-walkthrough.md`, `docs/developer-workflow.md`, `.github/workflows/ci.yml` | Defines a future scope-propose-approve-execute-summarize flow and current deterministic review sequences without adding a runtime wrapper. |
+| 10. Guardrails and governance | Safety policy, approval boundary, review rule, or non-goal list | governance policy, safety guidance, warning reference | `agent/governance/policy.md`, `docs/public-safety.md`, `docs/warnings-and-overlap.md`, README safety and non-goals | Defines approval, refusal, public/private, certification, endorsement, and human-decision boundaries for both layers. |
 | 11. Outputs and schemas | Output contract, generated report, catalog format, or JSON Schema | `*.schema.json`, `index.json`, `catalog.md`, report JSON | `src/agent_librarian/schema_data/*.schema.json`, public `schemas/*.schema.json`, `docs/catalog-format.md`, `examples/generated-catalog/` | Makes catalog entries, diagnostics, overlap findings, and validation contracts inspectable and machine-checkable. |
 | 12. Evaluation and observability | Tests, diagnostics, validation checks, CI, or review metrics | test modules, CI workflow, diagnostics report, validator | `tests/`, `.github/workflows/ci.yml`, `examples/generated-catalog/diagnostics.json`, `agent-librarian validate` | Exposes parse outcomes and warning conditions, verifies schemas and deterministic behavior, and catches regressions. |
 | 13. Runtime and deployment | Package metadata, entry point, environment, release configuration, or protocol adapter | `pyproject.toml`, CLI entry point, workflow, protocol manifest | `pyproject.toml`, `agent_librarian.cli:main`, `src/agent_librarian/__init__.py`, `.github/workflows/ci.yml`, `examples/sample-collection/mcp/sample-server.json` | Defines supported Python versions, installation, command execution, CI environments, and a synthetic protocol-facing artifact example. |
@@ -204,6 +204,7 @@ system.
 - [Architecture](architecture.md)
 - [Taxonomy alignment](taxonomy-alignment.md)
 - [Two-Layer Artifact Catalog](two-layer-artifact-catalog.md)
+- [Agent Layer Design Artifacts](../agent/README.md)
 - [Showcase brief](showcase-brief.md)
 - [Demo walkthrough](demo-walkthrough.md)
 - [Catalog format](catalog-format.md)

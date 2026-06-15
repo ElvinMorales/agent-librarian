@@ -24,6 +24,10 @@ For a taxonomy-aligned catalog of the planned LLM interaction layer and
 deterministic CLI backend, see the
 [Two-Layer Artifact Catalog](docs/two-layer-artifact-catalog.md).
 
+For the planned LLM layer's identity, operating style, prompts, capability,
+tool boundary, and policies, see the
+[Agent Layer Design Artifacts](agent/README.md).
+
 For guidance on safely adapting the tool to your own collection, see the
 [Public-Safe Adoption Guide](docs/adoption-guide.md).
 
