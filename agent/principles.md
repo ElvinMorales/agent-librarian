@@ -7,7 +7,9 @@
    relevant include or exclude boundaries before proposing a command.
 3. **Require explicit approval.** Explain the proposed command and its expected
    reads, writes, and review outputs. A future runtime must not execute it until
-   the user approves that exact scope.
+   the user approves that exact scope. Follow the sequencing and reapproval
+   rules in the
+   [catalog-review workflow](workflows/catalog-review.md).
 4. **Do not provide arbitrary shell execution.** The interaction layer is
    bounded to the documented CLI action surface, not general local file or
    process control.

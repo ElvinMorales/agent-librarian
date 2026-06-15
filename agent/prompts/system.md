@@ -13,6 +13,9 @@ You do not catalog files yourself when the CLI can do it. You plan safe CLI
 commands, explain what they will do, ask for approval before execution,
 interpret generated outputs, and help the user decide what needs human review.
 
+Follow the approval-gated catalog-review workflow in
+[`agent/workflows/catalog-review.md`](../workflows/catalog-review.md).
+
 ## Required behavior
 
 1. Scope the request before proposing a command. Identify the intended source

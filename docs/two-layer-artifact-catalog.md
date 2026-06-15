@@ -78,7 +78,7 @@ model-authored summaries.
 | 6. Prompts/interfaces | User and system interaction surfaces | CLI arguments and help, include/exclude patterns, and README examples | `agent/prompts/system.md` and `agent/prompts/tasks/catalog-directory.md` define reusable future interaction instructions | Defines how users request work and how the interaction layer proposes and explains actions | Prompts must not embed private paths, secrets, employer workflows, private scans, or internal examples |
 | 7. Memory | Durable reusable knowledge and retention policy | No durable memory exists in the CLI runtime | `agent/memory/policy.md` documents no durable memory by default and consent requirements for any future retention | Defines what, if anything, may be reused across sessions | Private scans, generated catalogs, approvals, and summaries must not silently become durable memory |
 | 8. State | Explicit run, session, and approval records | Generated `index.json`, `diagnostics.json`, `overlap-report.json`, and `catalog.md` expose run results without hidden session state | `agent/state/state-strategy.md` defines explicit state boundaries; #54 may add run-state and approval-log contracts | Captures selected scope, proposed action, approval evidence, execution result, and generated review artifacts | State from private scans is private by default and must not be committed as a public example |
-| 9. Planning/orchestration | Workflow sequence and approval flow | `docs/demo-walkthrough.md`, `docs/forum-demo-runbook.md`, `docs/developer-workflow.md`, and the documented `catalog` -> `validate` -> `report` sequence | `agent/prompts/tasks/catalog-directory.md` defines the high-level approval-gated flow; #48 may refine the workflow contract | Orders scoping, command proposal, approval, backend execution, validation, reporting, and summary | Human approval is required before future LLM-triggered execution; approval must not be inferred from conversation |
+| 9. Planning/orchestration | Workflow sequence and approval flow | `docs/demo-walkthrough.md`, `docs/forum-demo-runbook.md`, `docs/developer-workflow.md`, and the documented `catalog` -> `validate` -> `report` sequence | `agent/workflows/catalog-review.md` defines the approval-gated workflow, with `agent/prompts/tasks/catalog-directory.md` providing the task prompt | Orders scoping, safety classification, command proposal, approval, backend execution, validation, reporting, summary, and human-review handoff | Human approval applies only to the exact command and scope shown; changed commands, paths, arguments, or sensitivity require reapproval |
 | 10. Guardrails/governance | Safety policies, refusals, and review constraints | `docs/public-safety.md`, `docs/adoption-guide.md`, README non-goals, and warning guidance | `agent/governance/policy.md` defines interaction-layer approval, refusal, publication, and certification boundaries; #49 may refine cases | Prevents unsafe scanning, disclosure, unsupported execution, certification claims, and boundary violations | The LLM layer must not weaken existing scan, publication, privacy, or human-review boundaries |
 | 11. Outputs/schemas | Output contracts and review artifacts | `schemas/`, packaged schemas, `index.json`, `diagnostics.json`, `overlap-report.json`, `catalog.md`, and CLI report text | Review-summary contract from #55, with references back to CLI-generated evidence | Makes deterministic findings and model-authored interpretation inspectable and reviewable | LLM summaries are secondary artifacts; CLI outputs remain the source of truth and must be reviewed before sharing |
 | 12. Evaluation/observability | Tests, diagnostics, validation, reports, and evals | `tests/`, GitHub Actions CI, `diagnostics.json`, `validate`, `report`, and the warning-reference synchronization test | Public-safe scan cases from #50 and future mock LLM evals for scoping, refusal, approval, and summary behavior | Checks deterministic behavior, warning contracts, safety expectations, and future orchestration behavior | Evals must use synthetic, public-safe inputs and must not include real traces, prompts, logs, or user data |
@@ -123,15 +123,16 @@ interpretation.
 
 ## Relationship to future runtime work
 
-This documentation-only catalog, the identity artifacts from #46, and the
-[CLI tool contract](../agent/tools/agent-librarian-cli.md) from #47 establish
-classifications and boundaries for later issues. They do not add an LLM
-runtime, provider integration, command execution wrapper, memory store,
+This documentation-only catalog, the identity artifacts from #46, the
+[CLI tool contract](../agent/tools/agent-librarian-cli.md) from #47, and the
+[catalog-review workflow](../agent/workflows/catalog-review.md) from #48
+establish classifications and boundaries for later issues. They do not add an
+LLM runtime, provider integration, command execution wrapper, memory store,
 runtime state, approval log, or summary schema.
 
 The catalog informs:
 
-- #48 - catalog-review workflow and approval gates
+- #48 - [catalog-review workflow and approval gates](../agent/workflows/catalog-review.md)
 - #49 - safety policy and refusal cases
 - #50 - public-safe scan evals
 - #52 - optional runtime wrapper prototype

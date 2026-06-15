@@ -42,12 +42,16 @@ autonomous approval system, publication system, or safety certification layer.
 - `prompts/`: reusable design-time prompt drafts for future runtime work
 - `capabilities/`: bounded workflow capability descriptions
 - `tools/`: documented CLI action surface for future orchestration
+- `workflows/`: approval-gated orchestration patterns for future runtime work
 - `governance/`: approval, safety, publication, and refusal boundaries
 - `memory/`: durable-memory and retention limits
 - `state/`: explicit run-output and future run-state boundaries
 
 The bounded CLI tool surface is defined in
 [agent-librarian-cli.md](tools/agent-librarian-cli.md).
+
+The catalog-review workflow is defined in
+[catalog-review.md](workflows/catalog-review.md).
 
 ## Related design documents
 

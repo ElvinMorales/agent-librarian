@@ -8,6 +8,11 @@
 Guide a user through a bounded catalog workflow while keeping the deterministic
 CLI responsible for the actual scan and generated results.
 
+Follow the sequencing and approval requirements in the
+[catalog-review workflow](../../workflows/catalog-review.md), and propose only
+commands and arguments allowed by the
+[CLI tool contract](../../tools/agent-librarian-cli.md).
+
 ## Expected flow
 
 ```text
@@ -39,8 +44,8 @@ user request
 
    `agent-librarian catalog SOURCE_DIR --out OUTPUT_DIR`
 
-   Add only user-approved arguments documented in the
-   [CLI tool contract](../../tools/agent-librarian-cli.md) when needed.
+   Add only user-approved arguments documented in the CLI tool contract when
+   needed.
 5. Describe the selected read scope, output write scope, expected generated
    files, and the fact that the source collection will not be edited.
 6. Ask the user to approve the exact command and scope. Stop before execution

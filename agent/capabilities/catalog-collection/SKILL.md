@@ -9,6 +9,8 @@ tags:
 owner: project-maintainers
 related_files:
   - evals/cases.jsonl
+  - agent/workflows/catalog-review.md
+  - agent/tools/agent-librarian-cli.md
 ---
 
 # Catalog Collection
@@ -55,6 +57,11 @@ validation, and report operations.
 
 This capability composes only commands and optional arguments allowed by the
 [CLI tool contract](../../tools/agent-librarian-cli.md).
+
+It applies those commands through the approval-gated
+[catalog-review workflow](../../workflows/catalog-review.md), which defines
+intake, safety classification, proposal, approval, execution, validation,
+reporting, summary, and human-review handoff.
 
 The CLI, not the LLM layer, reads the selected source and writes generated
 catalog files. The interaction layer has no arbitrary shell or broad local file
