@@ -1,0 +1,486 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/agent-librarian/agent/schemas/review-summary.schema.json",
+  "title": "Agent Librarian Model-Authored Review Summary",
+  "description": "Design-time contract for a future LLM interaction layer's secondary review summary. Deterministic CLI-generated files and command outputs remain the source of truth. A conforming summary must not certify safety, privacy, correctness, completeness, approval, or publication readiness; report findings are review prompts rather than decisions; publication requires separate human review; and private outputs remain private.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "summary_id",
+    "run_id",
+    "created_at",
+    "summary_type",
+    "source_evidence",
+    "validation",
+    "report",
+    "findings",
+    "human_review",
+    "limitations",
+    "next_actions"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0",
+      "description": "Version of this model-authored review summary contract."
+    },
+    "summary_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "run_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the model-authored summary was created."
+    },
+    "summary_type": {
+      "enum": [
+        "catalog_review",
+        "validation_review",
+        "report_review",
+        "failure_review"
+      ]
+    },
+    "source_evidence": {
+      "$ref": "#/$defs/sourceEvidence"
+    },
+    "validation": {
+      "$ref": "#/$defs/validation"
+    },
+    "report": {
+      "$ref": "#/$defs/report"
+    },
+    "findings": {
+      "type": "array",
+      "description": "Evidence-bounded review prompts derived from deterministic outputs. Findings are not correction, consolidation, deletion, approval, sharing, or publication decisions.",
+      "items": {
+        "$ref": "#/$defs/finding"
+      }
+    },
+    "human_review": {
+      "$ref": "#/$defs/humanReview"
+    },
+    "limitations": {
+      "type": "array",
+      "description": "Explicit limits on the summary's evidence, interpretation, and authority.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "contains": {
+        "const": "This summary does not certify safety, privacy, correctness, completeness, approval, or publication readiness."
+      },
+      "minContains": 1,
+      "uniqueItems": true
+    },
+    "next_actions": {
+      "type": "array",
+      "description": "Bounded follow-up suggestions. Any command must use the documented CLI form and requires explicit approval before future runtime execution.",
+      "items": {
+        "$ref": "#/$defs/nextAction"
+      }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+      "minLength": 1,
+      "description": "Stable synthetic or runtime-provided identifier."
+    },
+    "nonNegativeCountOrNull": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0,
+      "description": "Deterministic count when available, otherwise null. The model must not invent an unavailable count."
+    },
+    "documentedCommand": {
+      "type": "string",
+      "description": "One exact command form documented in agent/tools/agent-librarian-cli.md. Shell chaining and unsupported arguments are prohibited.",
+      "oneOf": [
+        {
+          "pattern": "^agent-librarian catalog (?:\"[^\"\\r\\n]+\"|'[^'\\r\\n]+'|[^\\s;&|]+) --out (?:\"[^\"\\r\\n]+\"|'[^'\\r\\n]+'|[^\\s;&|]+)(?: --include (?:\"[^\"\\r\\n]+\"|'[^'\\r\\n]+'|[^\\s;&|]+)| --exclude (?:\"[^\"\\r\\n]+\"|'[^'\\r\\n]+'|[^\\s;&|]+)| --strict)*$"
+        },
+        {
+          "pattern": "^agent-librarian validate (?:\"[^\"\\r\\n]+\"|'[^'\\r\\n]+'|[^\\s;&|]+)$"
+        },
+        {
+          "pattern": "^agent-librarian report (?:\"[^\"\\r\\n]+\"|'[^'\\r\\n]+'|[^\\s;&|]+)$"
+        }
+      ]
+    },
+    "sourceEvidence": {
+      "type": "object",
+      "description": "Pointers to deterministic evidence summarized by the model. CLI-generated files and command outputs are authoritative; this object must not embed private source contents, secrets, or unsupported model claims.",
+      "additionalProperties": false,
+      "required": [
+        "catalog_dir",
+        "commands_run",
+        "generated_files",
+        "source_of_truth_note"
+      ],
+      "properties": {
+        "catalog_dir": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Approved catalog directory. Public examples must use synthetic paths."
+        },
+        "commands_run": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/commandEvidence"
+          },
+          "minItems": 1
+        },
+        "generated_files": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true,
+          "description": "Generated evidence paths that actually exist. Use an empty array when no files were generated."
+        },
+        "source_of_truth_note": {
+          "const": "CLI-generated files and command outputs are the source of truth. This summary is a secondary review aid."
+        }
+      }
+    },
+    "commandEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "command",
+        "status",
+        "evidence_type"
+      ],
+      "properties": {
+        "command": {
+          "$ref": "#/$defs/documentedCommand"
+        },
+        "status": {
+          "enum": [
+            "not_run",
+            "succeeded",
+            "failed",
+            "partial",
+            "skipped"
+          ]
+        },
+        "evidence_type": {
+          "enum": [
+            "cli_output",
+            "generated_file",
+            "runtime_state",
+            "approval_log"
+          ]
+        },
+        "exit_status": {
+          "type": "integer",
+          "description": "Process exit status when deterministic execution evidence provides it."
+        },
+        "evidence_paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "description": "Deterministic schema-validation evidence only. Validation status must not be interpreted as safety, privacy, correctness, completeness, approval, or publication readiness.",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "validated_files",
+        "messages"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "not_run",
+            "passed",
+            "failed",
+            "partial",
+            "unknown"
+          ]
+        },
+        "validated_files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/validatedFile"
+          }
+        },
+        "messages": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "validatedFile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "status"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "passed",
+            "failed",
+            "not_checked"
+          ]
+        }
+      }
+    },
+    "report": {
+      "type": "object",
+      "description": "Evidence-bounded representation of deterministic report output. Counts must come from CLI evidence, and summary_text must not introduce unsupported conclusions.",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "entry_count",
+        "warning_count",
+        "overlap_candidate_count",
+        "parse_failure_count",
+        "summary_text"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "not_run",
+            "available",
+            "failed",
+            "partial",
+            "unknown"
+          ]
+        },
+        "entry_count": {
+          "$ref": "#/$defs/nonNegativeCountOrNull"
+        },
+        "warning_count": {
+          "$ref": "#/$defs/nonNegativeCountOrNull"
+        },
+        "overlap_candidate_count": {
+          "$ref": "#/$defs/nonNegativeCountOrNull"
+        },
+        "parse_failure_count": {
+          "$ref": "#/$defs/nonNegativeCountOrNull"
+        },
+        "summary_text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "description": "Concise model-authored restatement limited to the cited deterministic evidence."
+        }
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "finding_type",
+        "severity",
+        "title",
+        "evidence",
+        "review_required"
+      ],
+      "properties": {
+        "finding_type": {
+          "enum": [
+            "warning",
+            "overlap_candidate",
+            "parse_failure",
+            "missing_output",
+            "privacy_boundary",
+            "tool_boundary",
+            "publication_risk",
+            "other"
+          ]
+        },
+        "severity": {
+          "enum": [
+            "info",
+            "review",
+            "warning",
+            "blocked"
+          ],
+          "description": "Review priority assigned for the summary. It is not a CLI warning severity or a certification."
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence": {
+          "$ref": "#/$defs/findingEvidence"
+        },
+        "review_required": {
+          "type": "boolean"
+        }
+      }
+    },
+    "findingEvidence": {
+      "type": "object",
+      "description": "Reference to deterministic evidence. At least one of source, path, or message is required. code is optional because the model must not invent a code absent from CLI evidence.",
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1
+        },
+        "code": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "source"
+          ]
+        },
+        {
+          "required": [
+            "path"
+          ]
+        },
+        {
+          "required": [
+            "message"
+          ]
+        }
+      ]
+    },
+    "humanReview": {
+      "type": "object",
+      "description": "Human reviewers retain authority over correction, consolidation, deletion, approval, sharing, and publication. Publication requires separate review even when validation passes or no warnings are reported.",
+      "additionalProperties": false,
+      "required": [
+        "required",
+        "review_items",
+        "publication_review_required"
+      ],
+      "properties": {
+        "required": {
+          "type": "boolean"
+        },
+        "review_items": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "publication_review_required": {
+          "type": "boolean",
+          "description": "Whether a separate human publication review is required. Private outputs remain private and must not be published by the model."
+        }
+      }
+    },
+    "nextAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action_type",
+        "description",
+        "requires_approval",
+        "suggested_command"
+      ],
+      "properties": {
+        "action_type": {
+          "enum": [
+            "inspect_warning",
+            "inspect_overlap",
+            "rerun_catalog",
+            "run_validate",
+            "run_report",
+            "sanitize_example",
+            "human_review",
+            "no_action"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requires_approval": {
+          "type": "boolean"
+        },
+        "suggested_command": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/documentedCommand"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "suggested_command"
+            ],
+            "properties": {
+              "suggested_command": {
+                "type": "string"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "requires_approval": {
+                "const": true
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "action_type"
+            ],
+            "properties": {
+              "action_type": {
+                "const": "no_action"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "suggested_command": {
+                "const": null
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

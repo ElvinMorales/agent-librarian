@@ -44,6 +44,9 @@ Runtime state and approval-log designs for the planned LLM layer are
 documented in
 [state-and-approval-log.md](agent/runtime/state-and-approval-log.md).
 
+The planned LLM layer's review summary contract is documented in
+[review-summary.schema.json](agent/schemas/review-summary.schema.json).
+
 For guidance on safely adapting the tool to your own collection, see the
 [Public-Safe Adoption Guide](docs/adoption-guide.md).
 
