@@ -15,6 +15,10 @@ default.
 - Do not add real retained user facts or private artifact content to this
   public repository.
 
+Runtime state and approval logs are explicit run artifacts, not durable
+memory. See
+[state-and-approval-log.md](../runtime/state-and-approval-log.md).
+
 Any future retention feature requires explicit user consent and documented
 scope, purpose, access, duration, correction, deletion, and review rules. It
 must distinguish durable memory from run state and must not silently retain

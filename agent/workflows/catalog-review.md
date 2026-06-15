@@ -338,8 +338,10 @@ The future LLM layer should hand back:
 - privacy and publication warnings
 - next safe command proposal, if needed
 
-This workflow defines the handoff content, not a runtime persistence format.
-Actual runtime state and the approval-log schema are deferred to #54.
+This workflow defines the handoff content. The inspectable runtime state,
+approval log, command execution record, and summary handoff artifacts are
+defined in
+[state-and-approval-log.md](../runtime/state-and-approval-log.md).
 
 ## Relationship to future runtime work
 
@@ -367,6 +369,7 @@ changes.
 - [LLM-layer public-safety policy](../policies/public-safety.md)
 - [Safe-scan eval cases](../evals/safe-scan-cases.md)
 - [State strategy](../state/state-strategy.md)
+- [Runtime state and approval log artifacts](../runtime/state-and-approval-log.md)
 - [Two-Layer Artifact Catalog](../../docs/two-layer-artifact-catalog.md)
 - [v0.4 roadmap](../../docs/roadmap-v0.4.md)
 - [Public safety](../../docs/public-safety.md)

@@ -73,6 +73,10 @@ context, visible approval, and explicit CLI outputs available in the current
 workflow. Any future run record or approval log must be an inspectable artifact
 with an explicit retention scope.
 
+Do not use hidden runtime state or approval history; use only explicit runtime
+state and approval-log artifacts defined in
+[`agent/runtime/state-and-approval-log.md`](../runtime/state-and-approval-log.md).
+
 ## Summary behavior
 
 When outputs are available, state:

@@ -80,7 +80,7 @@ directly without an LLM.
 | #51 | Roadmap/feedback | Add feedback log and v0.4 roadmap | Docs only |
 | #52 | Runtime prototype | Prototype optional local LLM orchestration wrapper | Future runtime |
 | #53 | Taxonomy catalog | Classify two-layer architecture across taxonomy buckets | Docs only |
-| #54 | Runtime state | Define run-state and approval-log artifacts | Design/schema docs |
+| #54 | Runtime state | Define [run-state and approval-log artifacts](../agent/runtime/state-and-approval-log.md) | Design docs |
 | #55 | Summary schema | Draft LLM review summary output contract | Schema/design |
 
 The [Two-Layer Artifact Catalog](two-layer-artifact-catalog.md) classifies the
@@ -129,6 +129,11 @@ The static eval artifact for #50 is documented in
 [`agent/evals/safe-scan-cases.md`](../agent/evals/safe-scan-cases.md). It
 turns those interaction, approval, tool-boundary, and safety contracts into
 public-safe design-time cases without adding an eval runner.
+
+The runtime artifact design for #54 is documented in
+[`agent/runtime/state-and-approval-log.md`](../agent/runtime/state-and-approval-log.md).
+It defines inspectable run state, approval evidence, command execution
+records, and summary handoffs without adding persistence or runtime behavior.
 
 ## Out of scope for v0.4
 
@@ -182,7 +187,7 @@ Supporting indicators:
 - #51 - Roadmap and feedback log
 - #52 - Runtime prototype
 - #53 - Taxonomy catalog
-- #54 - Runtime state and approval log
+- #54 - [Runtime state and approval log](../agent/runtime/state-and-approval-log.md)
 - #55 - Review summary schema
 
 ## Related docs
@@ -197,5 +202,6 @@ Supporting indicators:
 - [Agent Layer Design Artifacts](../agent/README.md)
 - [LLM-Layer Public Safety Policy](../agent/policies/public-safety.md)
 - [Safe-Scan Eval Cases](../agent/evals/safe-scan-cases.md)
+- [Runtime State and Approval Log Artifacts](../agent/runtime/state-and-approval-log.md)
 - [Public-safe adoption guide](adoption-guide.md)
 - [Public safety](public-safety.md)

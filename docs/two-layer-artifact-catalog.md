@@ -77,7 +77,7 @@ model-authored summaries.
 | 5. Knowledge/resources | Reference material, schemas, and sample collections | `docs/`, `examples/sample-collection/`, `examples/generated-catalog/`, `schemas/`, and packaged schema resources | Public-safe grounding material, synthetic review examples, and references to backend contracts | Provides context for explanations, command selection, and review | Public examples must remain synthetic; private collection content must not become shared grounding material |
 | 6. Prompts/interfaces | User and system interaction surfaces | CLI arguments and help, include/exclude patterns, and README examples | `agent/prompts/system.md` and `agent/prompts/tasks/catalog-directory.md` define reusable future interaction instructions | Defines how users request work and how the interaction layer proposes and explains actions | Prompts must not embed private paths, secrets, employer workflows, private scans, or internal examples |
 | 7. Memory | Durable reusable knowledge and retention policy | No durable memory exists in the CLI runtime | `agent/memory/policy.md` documents no durable memory by default and consent requirements for any future retention | Defines what, if anything, may be reused across sessions | Private scans, generated catalogs, approvals, and summaries must not silently become durable memory |
-| 8. State | Explicit run, session, and approval records | Generated `index.json`, `diagnostics.json`, `overlap-report.json`, and `catalog.md` expose run results without hidden session state | `agent/state/state-strategy.md` defines explicit state boundaries; #54 may add run-state and approval-log contracts | Captures selected scope, proposed action, approval evidence, execution result, and generated review artifacts | State from private scans is private by default and must not be committed as a public example |
+| 8. State | Explicit run, session, and approval records | Generated `index.json`, `diagnostics.json`, `overlap-report.json`, and `catalog.md` expose run results without hidden session state | `agent/state/state-strategy.md` defines explicit state boundaries; `agent/runtime/state-and-approval-log.md` defines run-state, approval-log, execution, and summary-handoff artifacts | Captures selected scope, proposed action, approval evidence, execution result, and generated review artifacts | State from private scans is private by default and must not be committed as a public example |
 | 9. Planning/orchestration | Workflow sequence and approval flow | `docs/demo-walkthrough.md`, `docs/forum-demo-runbook.md`, `docs/developer-workflow.md`, and the documented `catalog` -> `validate` -> `report` sequence | `agent/workflows/catalog-review.md` defines the approval-gated workflow, with `agent/prompts/tasks/catalog-directory.md` providing the task prompt | Orders scoping, safety classification, command proposal, approval, backend execution, validation, reporting, summary, and human-review handoff | Human approval applies only to the exact command and scope shown; changed commands, paths, arguments, or sensitivity require reapproval |
 | 10. Guardrails/governance | Safety policies, refusals, and review constraints | `docs/public-safety.md`, `docs/adoption-guide.md`, README non-goals, and warning guidance | `agent/governance/policy.md` defines governance boundaries, and `agent/policies/public-safety.md` defines detailed sensitivity, approval, refusal, redirect, publication, and claims rules | Prevents unsafe scanning, disclosure, unsupported execution, certification claims, and boundary violations | The LLM layer must not weaken existing scan, publication, privacy, or human-review boundaries |
 | 11. Outputs/schemas | Output contracts and review artifacts | `schemas/`, packaged schemas, `index.json`, `diagnostics.json`, `overlap-report.json`, `catalog.md`, and CLI report text | Review-summary contract from #55, with references back to CLI-generated evidence | Makes deterministic findings and model-authored interpretation inspectable and reviewable | LLM summaries are secondary artifacts; CLI outputs remain the source of truth and must be reviewed before sharing |
@@ -136,7 +136,7 @@ The catalog informs:
 - #49 - [LLM-layer public-safety policy and refusal cases](../agent/policies/public-safety.md)
 - #50 - [public-safe scan evals](../agent/evals/safe-scan-cases.md)
 - #52 - optional runtime wrapper prototype
-- #54 - explicit runtime state and approval logs
+- #54 - [explicit runtime state and approval logs](../agent/runtime/state-and-approval-log.md)
 - #55 - review summary schema
 
 Those issues should preserve the separation between model orchestration and
@@ -149,6 +149,7 @@ inspectable.
 - [Agent Layer Design Artifacts](../agent/README.md)
 - [LLM-Layer Public Safety Policy](../agent/policies/public-safety.md)
 - [Safe-Scan Eval Cases](../agent/evals/safe-scan-cases.md)
+- [Runtime State and Approval Log Artifacts](../agent/runtime/state-and-approval-log.md)
 - [v0.4 roadmap](roadmap-v0.4.md)
 - [Taxonomy-aligned architecture map](taxonomy-architecture-map.md)
 - [Showcase brief](showcase-brief.md)
