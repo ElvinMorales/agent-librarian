@@ -46,6 +46,9 @@ autonomous approval system, publication system, or safety certification layer.
 - `memory/`: durable-memory and retention limits
 - `state/`: explicit run-output and future run-state boundaries
 
+The bounded CLI tool surface is defined in
+[agent-librarian-cli.md](tools/agent-librarian-cli.md).
+
 ## Related design documents
 
 - [Two-Layer Artifact Catalog](../docs/two-layer-artifact-catalog.md)

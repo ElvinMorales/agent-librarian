@@ -73,7 +73,7 @@ directly without an LLM.
 | --- | --- | --- | --- |
 | #45 | Documentation adaptation | Adapt docs for LLM interaction layer + deterministic CLI backend | Docs only |
 | #46 | Agent identity | Define LLM Artifact Librarian identity and operating-style design artifacts under `agent/` | Docs only |
-| #47 | Tool contract | Define bounded CLI command contract for LLM layer | Docs only |
+| #47 | Tool contract | Define the bounded [`agent-librarian` CLI tool contract](../agent/tools/agent-librarian-cli.md) for the LLM layer | Docs only |
 | #48 | Workflow | Define catalog-review workflow and approval gates | Docs only |
 | #49 | Safety policy | Define refusal and approval-required cases | Docs only |
 | #50 | Evals | Add safe-scan cases for future LLM layer | Static eval artifacts |
@@ -107,6 +107,11 @@ inspectable artifacts before adding optional runtime orchestration.
 The identity and operating-style design artifacts for #46 are organized under
 [`agent/`](../agent/README.md). They describe future interaction-layer
 behavior and are not loaded by the current CLI runtime.
+
+The design-time tool contract for #47 is documented in
+[`agent/tools/agent-librarian-cli.md`](../agent/tools/agent-librarian-cli.md).
+It limits future orchestration to approval-gated `catalog`, `validate`, and
+`report` commands and does not implement runtime execution.
 
 ## Out of scope for v0.4
 

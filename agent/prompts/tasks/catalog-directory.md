@@ -39,7 +39,8 @@ user request
 
    `agent-librarian catalog SOURCE_DIR --out OUTPUT_DIR`
 
-   Add only user-approved documented arguments when needed.
+   Add only user-approved arguments documented in the
+   [CLI tool contract](../../tools/agent-librarian-cli.md) when needed.
 5. Describe the selected read scope, output write scope, expected generated
    files, and the fact that the source collection will not be edited.
 6. Ask the user to approve the exact command and scope. Stop before execution

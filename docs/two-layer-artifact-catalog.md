@@ -73,7 +73,7 @@ model-authored summaries.
 | 1. Identity | Project and agent identity | `README.md`, `docs/showcase-brief.md`, and package name `agent-librarian` | `agent/README.md`, `agent/agent.yaml`, and `agent/persona.md` define the planned LLM Artifact Librarian identity | Defines what the system is, which layer is active, and the limits of each layer | Do not claim current autonomous or LLM-powered runtime behavior; do not imply employer endorsement |
 | 2. Operating style | Operating rules and interaction principles | CLI help and docs describing deterministic, local, human-review-first behavior | `agent/principles.md` and `agent/persona.md` define scoping, safety explanation, approval, and evidence-based summary behavior | Defines how each layer behaves and communicates limits | The future layer must preserve local-only, private-by-default, and human-review boundaries |
 | 3. Capability modules | Bounded capability descriptions | Implemented `catalog`, `validate`, and `report` commands | `agent/capabilities/catalog-collection/SKILL.md` guides an approval-gated workflow that composes only documented backend actions | Describes what the system can perform and where each capability is implemented | The LLM layer may propose supported actions but must not invent commands or imply unsupported capabilities |
-| 4. Tools | Tool interfaces and contracts | `src/agent_librarian/cli.py`, command help, scanner/parser modules, validation, and read-only reporting | `agent/tools/tools.yaml` bounds the planned interaction layer to documented CLI actions; #47 may refine the full command contract | Defines the allowed command surface, arguments, outputs, permissions, and side effects | No arbitrary shell execution; selected input and output scope must be visible before approval |
+| 4. Tools | Tool interfaces and contracts | `src/agent_librarian/cli.py`, command help, scanner/parser modules, validation, and read-only reporting | `agent/tools/agent-librarian-cli.md` defines the bounded contract and `agent/tools/tools.yaml` provides its manifest | Defines the allowed command surface, arguments, outputs, permissions, side effects, approval requirements, and prohibited actions | No arbitrary shell execution; selected input and output scope must be visible before approval |
 | 5. Knowledge/resources | Reference material, schemas, and sample collections | `docs/`, `examples/sample-collection/`, `examples/generated-catalog/`, `schemas/`, and packaged schema resources | Public-safe grounding material, synthetic review examples, and references to backend contracts | Provides context for explanations, command selection, and review | Public examples must remain synthetic; private collection content must not become shared grounding material |
 | 6. Prompts/interfaces | User and system interaction surfaces | CLI arguments and help, include/exclude patterns, and README examples | `agent/prompts/system.md` and `agent/prompts/tasks/catalog-directory.md` define reusable future interaction instructions | Defines how users request work and how the interaction layer proposes and explains actions | Prompts must not embed private paths, secrets, employer workflows, private scans, or internal examples |
 | 7. Memory | Durable reusable knowledge and retention policy | No durable memory exists in the CLI runtime | `agent/memory/policy.md` documents no durable memory by default and consent requirements for any future retention | Defines what, if anything, may be reused across sessions | Private scans, generated catalogs, approvals, and summaries must not silently become durable memory |
@@ -123,14 +123,14 @@ interpretation.
 
 ## Relationship to future runtime work
 
-This documentation-only catalog and the identity artifacts from #46 establish
+This documentation-only catalog, the identity artifacts from #46, and the
+[CLI tool contract](../agent/tools/agent-librarian-cli.md) from #47 establish
 classifications and boundaries for later issues. They do not add an LLM
 runtime, provider integration, command execution wrapper, memory store,
 runtime state, approval log, or summary schema.
 
 The catalog informs:
 
-- #47 - bounded CLI tool contract
 - #48 - catalog-review workflow and approval gates
 - #49 - safety policy and refusal cases
 - #50 - public-safe scan evals

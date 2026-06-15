@@ -28,6 +28,9 @@ For the planned LLM layer's identity, operating style, prompts, capability,
 tool boundary, and policies, see the
 [Agent Layer Design Artifacts](agent/README.md).
 
+The bounded CLI contract for the planned interaction layer is documented in
+[agent-librarian-cli.md](agent/tools/agent-librarian-cli.md).
+
 For guidance on safely adapting the tool to your own collection, see the
 [Public-Safe Adoption Guide](docs/adoption-guide.md).
 
