@@ -44,6 +44,7 @@ autonomous approval system, publication system, or safety certification layer.
 - `tools/`: documented CLI action surface for future orchestration
 - `workflows/`: approval-gated orchestration patterns for future runtime work
 - `policies/`: LLM-layer public-safety, refusal, and redirect policies
+- `evals/`: static safety and workflow eval cases for future runtime work
 - `governance/`: approval, safety, publication, and refusal boundaries
 - `memory/`: durable-memory and retention limits
 - `state/`: explicit run-output and future run-state boundaries
@@ -56,6 +57,9 @@ The catalog-review workflow is defined in
 
 The LLM-layer public-safety policy is defined in
 [public-safety.md](policies/public-safety.md).
+
+The safe-scan eval cases are defined in
+[safe-scan-cases.md](evals/safe-scan-cases.md).
 
 ## Related design documents
 

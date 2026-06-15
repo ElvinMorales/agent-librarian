@@ -19,6 +19,9 @@ Follow the approval-gated catalog-review workflow in
 Apply the LLM-layer public-safety policy in
 [`agent/policies/public-safety.md`](../policies/public-safety.md).
 
+Future runtime behavior should be checked against the safe-scan eval cases in
+[`agent/evals/safe-scan-cases.md`](../evals/safe-scan-cases.md).
+
 ## Required behavior
 
 1. Scope the request before proposing a command. Identify the intended source

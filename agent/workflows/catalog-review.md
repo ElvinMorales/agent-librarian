@@ -365,6 +365,7 @@ changes.
 - [Catalog Collection capability](../capabilities/catalog-collection/SKILL.md)
 - [Governance policy](../governance/policy.md)
 - [LLM-layer public-safety policy](../policies/public-safety.md)
+- [Safe-scan eval cases](../evals/safe-scan-cases.md)
 - [State strategy](../state/state-strategy.md)
 - [Two-Layer Artifact Catalog](../../docs/two-layer-artifact-catalog.md)
 - [v0.4 roadmap](../../docs/roadmap-v0.4.md)
