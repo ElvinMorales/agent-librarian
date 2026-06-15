@@ -23,6 +23,10 @@ For a taxonomy-aligned view of the system, see the
 For guidance on safely adapting the tool to your own collection, see the
 [Public-Safe Adoption Guide](docs/adoption-guide.md).
 
+For post-forum planning and the next LLM-layer direction, see the
+[v0.4 roadmap](docs/roadmap-v0.4.md) and
+[forum feedback log](docs/forum-feedback-log.md).
+
 ## Quickstart
 
 ```bash

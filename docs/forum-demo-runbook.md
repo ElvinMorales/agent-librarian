@@ -160,6 +160,9 @@ inputs and generated outputs are committed and intentionally public-safe.
 - Deactivate the virtual environment with `deactivate` when finished.
 - Direct follow-up questions about adapting the workflow to the public-safe
   adoption guide.
+- Capture public-safe questions and observations in the
+  [Forum Feedback Log](forum-feedback-log.md) before converting them into
+  issues.
 
 ## Related docs
 
@@ -168,5 +171,6 @@ inputs and generated outputs are committed and intentionally public-safe.
 - [Demo walkthrough](demo-walkthrough.md)
 - [Taxonomy-aligned architecture map](taxonomy-architecture-map.md)
 - [Public-safe adoption guide](adoption-guide.md)
+- [Forum feedback log](forum-feedback-log.md)
 - [Public safety](public-safety.md)
 - [Warnings and overlap](warnings-and-overlap.md)
