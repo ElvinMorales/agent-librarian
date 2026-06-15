@@ -69,6 +69,10 @@ Runtime state and approval log artifacts are defined in
 The review summary output contract is defined in
 [review-summary.schema.json](schemas/review-summary.schema.json).
 
+The optional local runtime wrapper that prototypes these approval and safety
+contracts is documented in
+[runtime-wrapper-prototype.md](../docs/runtime-wrapper-prototype.md).
+
 ## Related design documents
 
 - [Two-Layer Artifact Catalog](../docs/two-layer-artifact-catalog.md)

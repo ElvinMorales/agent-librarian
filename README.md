@@ -47,6 +47,9 @@ documented in
 The planned LLM layer's review summary contract is documented in
 [review-summary.schema.json](agent/schemas/review-summary.schema.json).
 
+The optional local runtime wrapper prototype is documented in
+[runtime-wrapper-prototype.md](docs/runtime-wrapper-prototype.md).
+
 For guidance on safely adapting the tool to your own collection, see the
 [Public-Safe Adoption Guide](docs/adoption-guide.md).
 
