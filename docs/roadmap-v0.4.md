@@ -83,6 +83,10 @@ directly without an LLM.
 | #54 | Runtime state | Define run-state and approval-log artifacts | Design/schema docs |
 | #55 | Summary schema | Draft LLM review summary output contract | Schema/design |
 
+The [Two-Layer Artifact Catalog](two-layer-artifact-catalog.md) classifies the
+planned LLM interaction layer and current deterministic CLI backend across the
+14 taxonomy buckets.
+
 ## Suggested implementation order
 
 1. #51 - Roadmap and feedback log
@@ -163,5 +167,6 @@ Supporting indicators:
 - [Demo walkthrough](demo-walkthrough.md)
 - [Forum demo runbook](forum-demo-runbook.md)
 - [Taxonomy-aligned architecture map](taxonomy-architecture-map.md)
+- [Two-Layer Artifact Catalog](two-layer-artifact-catalog.md)
 - [Public-safe adoption guide](adoption-guide.md)
 - [Public safety](public-safety.md)

@@ -40,8 +40,9 @@ CLI-generated files remain the source of truth; model summaries remain review
 aids and cannot certify safety, completeness, approval, or publication
 readiness.
 
-This distinction is directional, not a complete two-layer taxonomy catalog.
-Detailed classification of the future layer is tracked separately.
+For the expanded table that classifies both layers across all 14 taxonomy
+buckets, see the
+[Two-Layer Artifact Catalog](two-layer-artifact-catalog.md).
 
 ## Artifact flow
 
@@ -202,6 +203,7 @@ system.
 - [Project overview](../README.md)
 - [Architecture](architecture.md)
 - [Taxonomy alignment](taxonomy-alignment.md)
+- [Two-Layer Artifact Catalog](two-layer-artifact-catalog.md)
 - [Showcase brief](showcase-brief.md)
 - [Demo walkthrough](demo-walkthrough.md)
 - [Catalog format](catalog-format.md)

@@ -20,6 +20,10 @@ For a live presentation path, see the
 For a taxonomy-aligned view of the system, see the
 [Architecture Map](docs/taxonomy-architecture-map.md).
 
+For a taxonomy-aligned catalog of the planned LLM interaction layer and
+deterministic CLI backend, see the
+[Two-Layer Artifact Catalog](docs/two-layer-artifact-catalog.md).
+
 For guidance on safely adapting the tool to your own collection, see the
 [Public-Safe Adoption Guide](docs/adoption-guide.md).
 
