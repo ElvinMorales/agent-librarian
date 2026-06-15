@@ -395,6 +395,9 @@ the source artifacts.
 
 ## Relationship to future runtime work
 
+The safety policy is converted into static eval coverage in
+[safe-scan-cases.md](../evals/safe-scan-cases.md).
+
 This policy informs:
 
 - #50 safe-scan eval cases
@@ -419,6 +422,7 @@ implement and test these boundaries.
 - [Governance policy](../governance/policy.md)
 - [Memory policy](../memory/policy.md)
 - [State strategy](../state/state-strategy.md)
+- [Safe-scan eval cases](../evals/safe-scan-cases.md)
 - [Public safety](../../docs/public-safety.md)
 - [Public-Safe Adoption Guide](../../docs/adoption-guide.md)
 - [Two-Layer Artifact Catalog](../../docs/two-layer-artifact-catalog.md)

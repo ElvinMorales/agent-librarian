@@ -37,6 +37,9 @@ The approval-gated catalog-review workflow is documented in
 The planned LLM layer's refusal and redirect policy is documented in
 [public-safety.md](agent/policies/public-safety.md).
 
+Static safe-scan eval cases for the planned LLM layer are documented in
+[safe-scan-cases.md](agent/evals/safe-scan-cases.md).
+
 For guidance on safely adapting the tool to your own collection, see the
 [Public-Safe Adoption Guide](docs/adoption-guide.md).
 

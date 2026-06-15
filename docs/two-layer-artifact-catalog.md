@@ -81,7 +81,7 @@ model-authored summaries.
 | 9. Planning/orchestration | Workflow sequence and approval flow | `docs/demo-walkthrough.md`, `docs/forum-demo-runbook.md`, `docs/developer-workflow.md`, and the documented `catalog` -> `validate` -> `report` sequence | `agent/workflows/catalog-review.md` defines the approval-gated workflow, with `agent/prompts/tasks/catalog-directory.md` providing the task prompt | Orders scoping, safety classification, command proposal, approval, backend execution, validation, reporting, summary, and human-review handoff | Human approval applies only to the exact command and scope shown; changed commands, paths, arguments, or sensitivity require reapproval |
 | 10. Guardrails/governance | Safety policies, refusals, and review constraints | `docs/public-safety.md`, `docs/adoption-guide.md`, README non-goals, and warning guidance | `agent/governance/policy.md` defines governance boundaries, and `agent/policies/public-safety.md` defines detailed sensitivity, approval, refusal, redirect, publication, and claims rules | Prevents unsafe scanning, disclosure, unsupported execution, certification claims, and boundary violations | The LLM layer must not weaken existing scan, publication, privacy, or human-review boundaries |
 | 11. Outputs/schemas | Output contracts and review artifacts | `schemas/`, packaged schemas, `index.json`, `diagnostics.json`, `overlap-report.json`, `catalog.md`, and CLI report text | Review-summary contract from #55, with references back to CLI-generated evidence | Makes deterministic findings and model-authored interpretation inspectable and reviewable | LLM summaries are secondary artifacts; CLI outputs remain the source of truth and must be reviewed before sharing |
-| 12. Evaluation/observability | Tests, diagnostics, validation, reports, and evals | `tests/`, GitHub Actions CI, `diagnostics.json`, `validate`, `report`, and the warning-reference synchronization test | Public-safe scan cases from #50 and future mock LLM evals for scoping, refusal, approval, and summary behavior | Checks deterministic behavior, warning contracts, safety expectations, and future orchestration behavior | Evals must use synthetic, public-safe inputs and must not include real traces, prompts, logs, or user data |
+| 12. Evaluation/observability | Tests, diagnostics, validation, reports, and evals | `tests/`, GitHub Actions CI, `diagnostics.json`, `validate`, `report`, and the warning-reference synchronization test | `agent/evals/safe-scan-cases.md` defines public-safe cases for scoping, refusal, approval, tool boundaries, and summary behavior | Checks deterministic behavior, warning contracts, safety expectations, and future orchestration behavior | Evals must use synthetic, public-safe inputs and must not include real traces, prompts, logs, or user data |
 | 13. Runtime/deployment | Execution environment, packaging, and adapters | `pyproject.toml`, local CLI entry point, supported Python versions, GitHub Actions CI, and release tags | Optional local runtime wrapper and provider/mock adapter documentation from #52 | Defines how the backend runs today and how an optional interaction layer may invoke it later | The wrapper must remain optional, cannot bypass the CLI, and must not require public exposure of private collections |
 | 14. Learning/iteration | Feedback, decisions, backlog, and release iteration | `CHANGELOG.md`, GitHub issues and pull requests, `docs/release-checklist.md`, `docs/forum-feedback-log.md`, and `docs/roadmap-v0.4.md` | Public-safe decision records and follow-up issues informed by evals and feedback | Converts reviewed observations into explicitly scoped, versioned work | Feedback must be generic and public-safe before entering the repo; the runtime must not learn from users automatically |
 
@@ -134,7 +134,7 @@ The catalog informs:
 
 - #48 - [catalog-review workflow and approval gates](../agent/workflows/catalog-review.md)
 - #49 - [LLM-layer public-safety policy and refusal cases](../agent/policies/public-safety.md)
-- #50 - public-safe scan evals
+- #50 - [public-safe scan evals](../agent/evals/safe-scan-cases.md)
 - #52 - optional runtime wrapper prototype
 - #54 - explicit runtime state and approval logs
 - #55 - review summary schema
@@ -148,6 +148,7 @@ inspectable.
 
 - [Agent Layer Design Artifacts](../agent/README.md)
 - [LLM-Layer Public Safety Policy](../agent/policies/public-safety.md)
+- [Safe-Scan Eval Cases](../agent/evals/safe-scan-cases.md)
 - [v0.4 roadmap](roadmap-v0.4.md)
 - [Taxonomy-aligned architecture map](taxonomy-architecture-map.md)
 - [Showcase brief](showcase-brief.md)

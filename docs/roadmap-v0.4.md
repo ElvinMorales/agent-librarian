@@ -76,7 +76,7 @@ directly without an LLM.
 | #47 | Tool contract | Define the bounded [`agent-librarian` CLI tool contract](../agent/tools/agent-librarian-cli.md) for the LLM layer | Docs only |
 | #48 | Workflow | Define the [catalog-review workflow and approval gates](../agent/workflows/catalog-review.md) | Docs only |
 | #49 | Safety policy | Define [refusal and approval-required cases](../agent/policies/public-safety.md) | Docs only |
-| #50 | Evals | Add safe-scan cases for future LLM layer | Static eval artifacts |
+| #50 | Evals | Add [safe-scan cases](../agent/evals/safe-scan-cases.md) for future LLM layer | Static eval artifacts |
 | #51 | Roadmap/feedback | Add feedback log and v0.4 roadmap | Docs only |
 | #52 | Runtime prototype | Prototype optional local LLM orchestration wrapper | Future runtime |
 | #53 | Taxonomy catalog | Classify two-layer architecture across taxonomy buckets | Docs only |
@@ -124,6 +124,11 @@ The design-time safety policy for #49 is documented in
 defines sensitivity classes, approval-required cases, refusal and redirect
 patterns, publication boundaries, claims limits, memory and state safety, and
 error handling without adding runtime enforcement.
+
+The static eval artifact for #50 is documented in
+[`agent/evals/safe-scan-cases.md`](../agent/evals/safe-scan-cases.md). It
+turns those interaction, approval, tool-boundary, and safety contracts into
+public-safe design-time cases without adding an eval runner.
 
 ## Out of scope for v0.4
 
@@ -173,7 +178,7 @@ Supporting indicators:
 - #47 - Tool contract
 - #48 - Workflow and approval gates
 - #49 - [Safety policy](../agent/policies/public-safety.md)
-- #50 - Safe-scan evals
+- #50 - [Safe-scan evals](../agent/evals/safe-scan-cases.md)
 - #51 - Roadmap and feedback log
 - #52 - Runtime prototype
 - #53 - Taxonomy catalog
@@ -191,5 +196,6 @@ Supporting indicators:
 - [Two-Layer Artifact Catalog](two-layer-artifact-catalog.md)
 - [Agent Layer Design Artifacts](../agent/README.md)
 - [LLM-Layer Public Safety Policy](../agent/policies/public-safety.md)
+- [Safe-Scan Eval Cases](../agent/evals/safe-scan-cases.md)
 - [Public-safe adoption guide](adoption-guide.md)
 - [Public safety](public-safety.md)
