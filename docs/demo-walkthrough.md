@@ -12,6 +12,13 @@ The project is a local, deterministic artifact-librarian reference
 implementation. It does not call an LLM, execute scanned artifacts, or make
 review decisions.
 
+This walkthrough demonstrates the current CLI backend workflow. A future LLM
+interaction layer could wrap the same bounded `catalog`, `validate`, and
+`report` sequence by scoping intent, explaining safety boundaries, proposing a
+command, requesting approval before execution, and summarizing the result.
+The generated files, not the model summary, would remain the source of truth
+for review.
+
 ## Demo boundaries
 
 Use only these public, synthetic repository resources:
@@ -136,8 +143,15 @@ and overlap candidates are review prompts, not decisions.
 ## Presenter notes
 
 **What to say:** "This project is intentionally not calling an LLM. The point
-of the demo is to show the artifact system around an agent: files, schemas,
-generated outputs, diagnostics, warnings, tests, and release boundaries."
+of the current demo is to show the deterministic backend and artifact system
+under a future interaction layer: files, schemas, generated outputs,
+diagnostics, warnings, tests, and release boundaries."
+
+**How to describe the future layer:** It may help a user scope intent, explain
+boundaries, propose a documented CLI command, request approval, and summarize
+outputs. It must not bypass the CLI, run arbitrary shell commands, invent
+catalog findings, or certify artifacts as safe, complete, approved, or ready
+to publish.
 
 **Why local and deterministic matters:** Review findings come from explainable
 rules rather than a remote model. CI fixes `SOURCE_DATE_EPOCH` when

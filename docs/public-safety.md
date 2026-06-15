@@ -31,3 +31,21 @@ generated outputs for contextual disclosure.
 
 See the [public-safe adoption guide](adoption-guide.md) for a step-by-step
 workflow using synthetic examples and private placeholder paths.
+
+## Future LLM Interaction Layer
+
+A future LLM interaction layer must preserve these public/private boundaries.
+It may scope intent, explain constraints, propose bounded and documented
+`catalog`, `validate`, and `report` commands, request human approval before
+execution, and summarize generated outputs.
+
+It must not:
+
+- run arbitrary shell commands or bypass the deterministic CLI
+- publish or expose private scans or generated catalogs
+- certify artifacts as safe, complete, approved, or ready to publish
+- imply employer sponsorship, approval, or endorsement
+- assume hidden memory or state that changes scope or approval boundaries
+
+CLI-generated files remain explicit review artifacts and the source of truth.
+Model summaries do not replace human review.

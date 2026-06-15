@@ -27,6 +27,20 @@ For post-forum planning and the next LLM-layer direction, see the
 [v0.4 roadmap](docs/roadmap-v0.4.md) and
 [forum feedback log](docs/forum-feedback-log.md).
 
+## Architecture direction
+
+`agent-librarian` currently provides the deterministic CLI backend for
+cataloging, validating, and reviewing local agentic AI artifact collections.
+The project is evolving toward a two-layer architecture where a future LLM
+interaction layer can scope user intent, explain safety boundaries, propose
+bounded CLI commands, request approval before execution, and summarize
+generated outputs.
+
+The LLM layer should orchestrate the workflow, not replace deterministic
+cataloging logic or invent results. CLI-generated files remain the source of
+truth and explicit review artifacts. Current v0.3 behavior does not call an
+LLM.
+
 ## Quickstart
 
 ```bash

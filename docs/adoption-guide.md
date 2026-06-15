@@ -11,6 +11,13 @@ The CLI runs locally and does not execute scanned artifacts or call an LLM or
 network service. Those boundaries reduce exposure, but they do not make source
 files or generated catalogs safe to publish. Human review remains required.
 
+The current CLI is the deterministic backend and can be adapted directly for
+private local use. Any future LLM interaction layer should preserve the same
+local and private boundaries, propose only documented `catalog`, `validate`,
+and `report` commands, show the selected input and output scope, and obtain
+human approval before execution. It may summarize generated outputs, but the
+CLI-generated files remain the source of truth.
+
 ## Start with the synthetic example
 
 Learn the workflow with the fabricated, public-safe files in
@@ -118,6 +125,10 @@ findings from the scanned collection.
 Absence of validation errors or public-safety warnings does not prove that the
 source or generated files are safe to publish.
 
+The same rule applies to any future LLM summary. A model must not certify that
+artifacts are safe, complete, approved, or ready to publish, and its summary
+does not replace review of the private source collection and generated files.
+
 ## What is safe to commit
 
 Commit examples only when they are:
@@ -166,6 +177,8 @@ publication rights are unclear, keep the material private.
       and generated outputs.
 - [ ] Run `validate` and `report` after generating the catalog.
 - [ ] Review both source artifacts and all generated outputs.
+- [ ] In any future LLM workflow, review and approve the scoped CLI command
+      before execution.
 - [ ] Keep public examples synthetic and intentionally public.
 - [ ] Do not commit generated catalogs from private collections.
 - [ ] Confirm no credentials, secrets, private paths, internal URLs, or

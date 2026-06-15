@@ -25,16 +25,35 @@ a user memory store, or preserve hidden runtime session state. It does not
 automatically approve, merge, delete, rewrite, or publish artifacts. Warnings,
 overlap candidates, and validation results remain inputs to human review.
 
+## Current and future layers
+
+The current v0.3 repository implements the deterministic CLI backend. Its
+commands, parsers, schemas, diagnostics, generated catalogs, and reports are
+the current runtime and review artifacts.
+
+A future LLM interaction layer would add user-facing identity and orchestration
+artifacts for scoping intent, explaining safety boundaries, proposing bounded
+CLI commands, recording approval before execution, and summarizing generated
+outputs. It must call the backend through documented command contracts rather
+than replace catalog logic, invent findings, or run arbitrary shell commands.
+CLI-generated files remain the source of truth; model summaries remain review
+aids and cannot certify safety, completeness, approval, or publication
+readiness.
+
+This distinction is directional, not a complete two-layer taxonomy catalog.
+Detailed classification of the future layer is tracked separately.
+
 ## Artifact flow
 
 ```text
 source artifact collection
-  -> scanner and parsers
-  -> classification and normalization
-  -> warnings and diagnostics
-  -> overlap analysis
-  -> generated catalog outputs
-  -> schema validation
+  -> deterministic CLI backend
+       -> scanner and parsers
+       -> classification and normalization
+       -> warnings and diagnostics
+       -> overlap analysis
+       -> generated catalog outputs
+       -> schema validation
   -> human review
   -> docs/tests/release iteration
 ```
@@ -158,7 +177,8 @@ Iteration is explicit and repository-driven rather than learned at runtime:
 - `docs/release-checklist.md` defines the manual release handoff
 
 The CLI does not train, adapt, retain feedback, or rewrite its own rules after
-a run.
+a run. A future interaction layer must not assume hidden memory or state; any
+required approval or run-state artifacts should be explicit and inspectable.
 
 ## What this map does not claim
 
