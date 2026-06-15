@@ -74,7 +74,7 @@ directly without an LLM.
 | #45 | Documentation adaptation | Adapt docs for LLM interaction layer + deterministic CLI backend | Docs only |
 | #46 | Agent identity | Define LLM Artifact Librarian identity and operating-style design artifacts under `agent/` | Docs only |
 | #47 | Tool contract | Define the bounded [`agent-librarian` CLI tool contract](../agent/tools/agent-librarian-cli.md) for the LLM layer | Docs only |
-| #48 | Workflow | Define catalog-review workflow and approval gates | Docs only |
+| #48 | Workflow | Define the [catalog-review workflow and approval gates](../agent/workflows/catalog-review.md) | Docs only |
 | #49 | Safety policy | Define refusal and approval-required cases | Docs only |
 | #50 | Evals | Add safe-scan cases for future LLM layer | Static eval artifacts |
 | #51 | Roadmap/feedback | Add feedback log and v0.4 roadmap | Docs only |
@@ -112,6 +112,12 @@ The design-time tool contract for #47 is documented in
 [`agent/tools/agent-librarian-cli.md`](../agent/tools/agent-librarian-cli.md).
 It limits future orchestration to approval-gated `catalog`, `validate`, and
 `report` commands and does not implement runtime execution.
+
+The design-time workflow for #48 is documented in
+[`agent/workflows/catalog-review.md`](../agent/workflows/catalog-review.md).
+It defines intake, safety classification, exact-command approval, backend
+execution boundaries, validation and reporting gates, and human-review handoff
+without adding runtime execution.
 
 ## Out of scope for v0.4
 

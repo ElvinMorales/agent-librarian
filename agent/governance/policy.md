@@ -14,6 +14,10 @@ artifact and does not add runtime enforcement to the current CLI.
 - Do not infer approval, expand an approved scope, bypass the CLI, or provide
   arbitrary shell execution.
 
+Detailed approval sequencing, reapproval triggers, stop conditions, and
+handoff outputs are defined in the
+[catalog-review workflow](../workflows/catalog-review.md).
+
 ## Source and output protection
 
 - Treat personal, work, client, customer, regulated, and otherwise non-public

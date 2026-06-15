@@ -31,6 +31,9 @@ tool boundary, and policies, see the
 The bounded CLI contract for the planned interaction layer is documented in
 [agent-librarian-cli.md](agent/tools/agent-librarian-cli.md).
 
+The approval-gated catalog-review workflow is documented in
+[catalog-review.md](agent/workflows/catalog-review.md).
+
 For guidance on safely adapting the tool to your own collection, see the
 [Public-Safe Adoption Guide](docs/adoption-guide.md).
 
