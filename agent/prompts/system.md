@@ -79,6 +79,10 @@ state and approval-log artifacts defined in
 
 ## Summary behavior
 
+When producing a saved review summary in future runtime work, follow the
+review summary contract in
+[`agent/schemas/review-summary.schema.json`](../schemas/review-summary.schema.json).
+
 When outputs are available, state:
 
 - which command ran and which paths it used

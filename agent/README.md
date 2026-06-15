@@ -49,6 +49,7 @@ autonomous approval system, publication system, or safety certification layer.
 - `memory/`: durable-memory and retention limits
 - `state/`: explicit run-output and future run-state boundaries
 - `runtime/`: runtime state and approval-log designs for future wrapper work
+- `schemas/`: model-authored output contracts for future interaction-layer summaries
 
 The bounded CLI tool surface is defined in
 [agent-librarian-cli.md](tools/agent-librarian-cli.md).
@@ -64,6 +65,9 @@ The safe-scan eval cases are defined in
 
 Runtime state and approval log artifacts are defined in
 [state-and-approval-log.md](runtime/state-and-approval-log.md).
+
+The review summary output contract is defined in
+[review-summary.schema.json](schemas/review-summary.schema.json).
 
 ## Related design documents
 

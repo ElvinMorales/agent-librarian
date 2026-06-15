@@ -746,12 +746,13 @@ These cases inform:
 
 - #52 runtime wrapper prototype
 - #54 [runtime state and approval logs](../runtime/state-and-approval-log.md)
-- #55 review summary schema
+- #55 [review summary schema](../schemas/review-summary.schema.json)
 
 They may later be converted into machine-readable test fixtures for a mock
 model, runtime wrapper, eval runner, or test harness. Any conversion should
 preserve the exact command, approval, sensitivity, source-protection, claims,
-and output-grounding expectations in this document.
+and output-grounding expectations in this document. Saved summary fixtures
+should validate against the review summary schema.
 
 This artifact does not implement command execution, provider integration,
 runtime state, approval logging, summary schemas, or current enforcement.
@@ -768,5 +769,6 @@ runtime state, approval logging, summary schemas, or current enforcement.
 - [Memory policy](../memory/policy.md)
 - [State strategy](../state/state-strategy.md)
 - [Runtime state and approval log artifacts](../runtime/state-and-approval-log.md)
+- [Review summary schema](../schemas/review-summary.schema.json)
 - [Two-Layer Artifact Catalog](../../docs/two-layer-artifact-catalog.md)
 - [v0.4 roadmap](../../docs/roadmap-v0.4.md)

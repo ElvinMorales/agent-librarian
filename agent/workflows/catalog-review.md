@@ -252,6 +252,9 @@ retry command requires a new proposal and explicit approval.
 
 ## Phase 7: Summary and human review
 
+When a future runtime saves the summary, it must follow
+[review-summary.schema.json](../schemas/review-summary.schema.json).
+
 After outputs exist, the LLM layer may summarize:
 
 - the command run
@@ -351,7 +354,7 @@ This workflow informs:
 - #50 safe-scan evaluation cases
 - #52 runtime wrapper prototype
 - #54 runtime state and approval logs
-- #55 review summary schema
+- #55 [review summary schema](../schemas/review-summary.schema.json)
 
 This issue does not implement command execution, state logging, provider
 integration, an MCP server, a tool adapter, new CLI behavior, or schema
@@ -370,6 +373,7 @@ changes.
 - [Safe-scan eval cases](../evals/safe-scan-cases.md)
 - [State strategy](../state/state-strategy.md)
 - [Runtime state and approval log artifacts](../runtime/state-and-approval-log.md)
+- [Review summary schema](../schemas/review-summary.schema.json)
 - [Two-Layer Artifact Catalog](../../docs/two-layer-artifact-catalog.md)
 - [v0.4 roadmap](../../docs/roadmap-v0.4.md)
 - [Public safety](../../docs/public-safety.md)

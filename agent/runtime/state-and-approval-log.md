@@ -154,6 +154,9 @@ sensitive-derived information in command output.
 
 ## Summary handoff record
 
+A saved model-authored review summary must follow the contract in
+[review-summary.schema.json](../schemas/review-summary.schema.json).
+
 A future LLM layer may hand back an inspectable summary containing:
 
 - command run
@@ -325,7 +328,7 @@ prior approval evidence.
 This document informs:
 
 - #52 runtime wrapper prototype
-- #55 review summary schema
+- #55 [review summary schema](../schemas/review-summary.schema.json)
 
 It consumes:
 
@@ -347,6 +350,7 @@ or schema work.
 - [Catalog Review Workflow](../workflows/catalog-review.md)
 - [LLM-Layer Public Safety Policy](../policies/public-safety.md)
 - [Safe-scan eval cases](../evals/safe-scan-cases.md)
+- [Review summary schema](../schemas/review-summary.schema.json)
 - [Memory policy](../memory/policy.md)
 - [State strategy](../state/state-strategy.md)
 - [Two-Layer Artifact Catalog](../../docs/two-layer-artifact-catalog.md)

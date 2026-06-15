@@ -236,6 +236,11 @@ Allowed evidence-bounded claims include:
 Allowed claims must identify their evidence and must not be expanded into
 certification, approval, or publication advice.
 
+The saved-review contract in
+[review-summary.schema.json](../schemas/review-summary.schema.json) preserves
+these claims boundaries by requiring source evidence, non-certification
+limitations, human-review status, and separate publication-review status.
+
 ## Memory and state safety
 
 - No durable memory by default.
@@ -406,7 +411,7 @@ This policy informs:
 - #50 safe-scan eval cases
 - #52 runtime wrapper prototype
 - #54 runtime state and approval logs
-- #55 review summary schema
+- #55 [review summary schema](../schemas/review-summary.schema.json)
 
 Issue #49 does not implement runtime enforcement, provider integration,
 command execution, an MCP server, a tool adapter, new CLI behavior, schema
@@ -426,6 +431,7 @@ implement and test these boundaries.
 - [Memory policy](../memory/policy.md)
 - [State strategy](../state/state-strategy.md)
 - [Runtime state and approval log artifacts](../runtime/state-and-approval-log.md)
+- [Review summary schema](../schemas/review-summary.schema.json)
 - [Safe-scan eval cases](../evals/safe-scan-cases.md)
 - [Public safety](../../docs/public-safety.md)
 - [Public-Safe Adoption Guide](../../docs/adoption-guide.md)

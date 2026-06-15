@@ -1,0 +1,136 @@
+{
+  "schema_version": "0.1.0",
+  "summary_id": "summary_example_001",
+  "run_id": "run_example_001",
+  "created_at": "2026-06-15T00:00:00Z",
+  "summary_type": "catalog_review",
+  "source_evidence": {
+    "catalog_dir": "examples/generated-catalog",
+    "commands_run": [
+      {
+        "command": "agent-librarian catalog examples/sample-collection --out examples/generated-catalog",
+        "status": "succeeded",
+        "evidence_type": "generated_file",
+        "exit_status": 0,
+        "evidence_paths": [
+          "examples/generated-catalog/index.json",
+          "examples/generated-catalog/catalog.md",
+          "examples/generated-catalog/diagnostics.json",
+          "examples/generated-catalog/overlap-report.json"
+        ]
+      },
+      {
+        "command": "agent-librarian validate examples/generated-catalog",
+        "status": "succeeded",
+        "evidence_type": "cli_output",
+        "exit_status": 0
+      },
+      {
+        "command": "agent-librarian report examples/generated-catalog",
+        "status": "succeeded",
+        "evidence_type": "cli_output",
+        "exit_status": 0,
+        "evidence_paths": [
+          "examples/generated-catalog/diagnostics.json",
+          "examples/generated-catalog/index.json",
+          "examples/generated-catalog/overlap-report.json"
+        ]
+      }
+    ],
+    "generated_files": [
+      "examples/generated-catalog/index.json",
+      "examples/generated-catalog/catalog.md",
+      "examples/generated-catalog/diagnostics.json",
+      "examples/generated-catalog/overlap-report.json"
+    ],
+    "source_of_truth_note": "CLI-generated files and command outputs are the source of truth. This summary is a secondary review aid."
+  },
+  "validation": {
+    "status": "passed",
+    "validated_files": [
+      {
+        "path": "examples/generated-catalog/index.json",
+        "status": "passed"
+      },
+      {
+        "path": "examples/generated-catalog/diagnostics.json",
+        "status": "passed"
+      },
+      {
+        "path": "examples/generated-catalog/overlap-report.json",
+        "status": "passed"
+      }
+    ],
+    "messages": [
+      "The required generated JSON files passed deterministic schema validation."
+    ]
+  },
+  "report": {
+    "status": "available",
+    "entry_count": 6,
+    "warning_count": 4,
+    "overlap_candidate_count": 1,
+    "parse_failure_count": 0,
+    "summary_text": "The deterministic report lists 6 catalog entries, 4 catalog warnings, 1 overlap candidate, and no failed parses."
+  },
+  "findings": [
+    {
+      "finding_type": "warning",
+      "severity": "warning",
+      "title": "Weekly Review metadata needs human review",
+      "evidence": {
+        "source": "examples/generated-catalog/diagnostics.json",
+        "path": "prompts/weekly-review.md",
+        "message": "The diagnostic is partial and lists weak_description, missing_outputs, missing_output_contract, and missing_examples.",
+        "code": "weak_description"
+      },
+      "review_required": true
+    },
+    {
+      "finding_type": "overlap_candidate",
+      "severity": "review",
+      "title": "Two summarization skills are a duplicate candidate",
+      "evidence": {
+        "source": "examples/generated-catalog/overlap-report.json",
+        "path": "candidates[0]",
+        "message": "skills-summarize-docs-skill and skills-summarize-notes-skill have deterministic overlap confidence 0.81 and require human review.",
+        "code": "duplicate_candidate"
+      },
+      "review_required": true
+    }
+  ],
+  "human_review": {
+    "required": true,
+    "review_items": [
+      "Review the Weekly Review prompt's description, outputs, output contract, and example coverage.",
+      "Compare the two summarization skills before any correction, consolidation, deletion, or cross-reference decision.",
+      "Review the source and generated outputs before any sharing or publication decision."
+    ],
+    "publication_review_required": true
+  },
+  "limitations": [
+    "This summary does not certify safety, privacy, correctness, completeness, approval, or publication readiness.",
+    "Warnings and overlap candidates are review prompts, not decisions.",
+    "Private source collections and their generated outputs remain private."
+  ],
+  "next_actions": [
+    {
+      "action_type": "inspect_warning",
+      "description": "Inspect the Weekly Review source metadata and the cited deterministic warning evidence.",
+      "requires_approval": false,
+      "suggested_command": null
+    },
+    {
+      "action_type": "human_review",
+      "description": "Have an authorized human decide whether the two summarization skills should remain separate, be cross-referenced, or be consolidated.",
+      "requires_approval": false,
+      "suggested_command": null
+    },
+    {
+      "action_type": "run_report",
+      "description": "Rerun the deterministic report after regenerated catalog outputs are available.",
+      "requires_approval": true,
+      "suggested_command": "agent-librarian report examples/generated-catalog"
+    }
+  ]
+}

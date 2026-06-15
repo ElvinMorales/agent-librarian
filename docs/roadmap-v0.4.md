@@ -81,7 +81,7 @@ directly without an LLM.
 | #52 | Runtime prototype | Prototype optional local LLM orchestration wrapper | Future runtime |
 | #53 | Taxonomy catalog | Classify two-layer architecture across taxonomy buckets | Docs only |
 | #54 | Runtime state | Define [run-state and approval-log artifacts](../agent/runtime/state-and-approval-log.md) | Design docs |
-| #55 | Summary schema | Draft LLM review summary output contract | Schema/design |
+| #55 | Summary schema | Draft the [LLM review summary output contract](../agent/schemas/review-summary.schema.json) | Schema/design |
 
 The [Two-Layer Artifact Catalog](two-layer-artifact-catalog.md) classifies the
 planned LLM interaction layer and current deterministic CLI backend across the
@@ -134,6 +134,11 @@ The runtime artifact design for #54 is documented in
 [`agent/runtime/state-and-approval-log.md`](../agent/runtime/state-and-approval-log.md).
 It defines inspectable run state, approval evidence, command execution
 records, and summary handoffs without adding persistence or runtime behavior.
+
+The design-time output contract for #55 is documented in
+[`agent/schemas/review-summary.schema.json`](../agent/schemas/review-summary.schema.json).
+It defines evidence, validation, report, finding, human-review, limitation,
+and next-action fields without adding runtime behavior.
 
 ## Out of scope for v0.4
 
@@ -188,7 +193,7 @@ Supporting indicators:
 - #52 - Runtime prototype
 - #53 - Taxonomy catalog
 - #54 - [Runtime state and approval log](../agent/runtime/state-and-approval-log.md)
-- #55 - Review summary schema
+- #55 - [Review summary schema](../agent/schemas/review-summary.schema.json)
 
 ## Related docs
 
@@ -203,5 +208,6 @@ Supporting indicators:
 - [LLM-Layer Public Safety Policy](../agent/policies/public-safety.md)
 - [Safe-Scan Eval Cases](../agent/evals/safe-scan-cases.md)
 - [Runtime State and Approval Log Artifacts](../agent/runtime/state-and-approval-log.md)
+- [Review Summary Schema](../agent/schemas/review-summary.schema.json)
 - [Public-safe adoption guide](adoption-guide.md)
 - [Public safety](public-safety.md)
