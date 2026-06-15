@@ -72,7 +72,7 @@ directly without an LLM.
 | Issue | Theme | Purpose | Runtime impact |
 | --- | --- | --- | --- |
 | #45 | Documentation adaptation | Adapt docs for LLM interaction layer + deterministic CLI backend | Docs only |
-| #46 | Agent identity | Define LLM Artifact Librarian identity and operating style | Docs only |
+| #46 | Agent identity | Define LLM Artifact Librarian identity and operating-style design artifacts under `agent/` | Docs only |
 | #47 | Tool contract | Define bounded CLI command contract for LLM layer | Docs only |
 | #48 | Workflow | Define catalog-review workflow and approval gates | Docs only |
 | #49 | Safety policy | Define refusal and approval-required cases | Docs only |
@@ -103,6 +103,10 @@ planned LLM interaction layer and current deterministic CLI backend across the
 
 This order establishes the public framing, contracts, safety boundaries, and
 inspectable artifacts before adding optional runtime orchestration.
+
+The identity and operating-style design artifacts for #46 are organized under
+[`agent/`](../agent/README.md). They describe future interaction-layer
+behavior and are not loaded by the current CLI runtime.
 
 ## Out of scope for v0.4
 
@@ -168,5 +172,6 @@ Supporting indicators:
 - [Forum demo runbook](forum-demo-runbook.md)
 - [Taxonomy-aligned architecture map](taxonomy-architecture-map.md)
 - [Two-Layer Artifact Catalog](two-layer-artifact-catalog.md)
+- [Agent Layer Design Artifacts](../agent/README.md)
 - [Public-safe adoption guide](adoption-guide.md)
 - [Public safety](public-safety.md)

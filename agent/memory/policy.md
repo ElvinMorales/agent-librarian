@@ -1,9 +1,21 @@
 # Memory Policy
 
-The MVP has no durable memory feature. It does not retain cataloged content
-between invocations beyond files explicitly generated in the selected output
-directory.
+The current CLI and the planned LLM interaction layer have no durable memory by
+default.
 
-Do not add real retained user facts or private artifact content to this public
-repository. Future durable-memory behavior requires separate consent,
-retention, correction, deletion, and review rules.
+- Do not assume remembered user facts, prior approvals, scan scope, private
+  paths, or earlier catalog findings.
+- A private scan is not memory and must not become reusable model context by
+  default.
+- Generated outputs are explicit files, not public memory. Outputs from a
+  private collection remain private and must not be committed or reused as
+  shared grounding material.
+- Command approvals and summaries are not durable authorization for later
+  runs.
+- Do not add real retained user facts or private artifact content to this
+  public repository.
+
+Any future retention feature requires explicit user consent and documented
+scope, purpose, access, duration, correction, deletion, and review rules. It
+must distinguish durable memory from run state and must not silently retain
+private source content, generated catalogs, approvals, or summaries.
