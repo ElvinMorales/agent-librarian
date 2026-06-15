@@ -11,6 +11,7 @@ related_files:
   - evals/cases.jsonl
   - agent/workflows/catalog-review.md
   - agent/tools/agent-librarian-cli.md
+  - agent/policies/public-safety.md
 ---
 
 # Catalog Collection
@@ -62,6 +63,11 @@ It applies those commands through the approval-gated
 [catalog-review workflow](../../workflows/catalog-review.md), which defines
 intake, safety classification, proposal, approval, execution, validation,
 reporting, summary, and human-review handoff.
+
+Public-safety behavior follows the
+[LLM-layer public-safety policy](../../policies/public-safety.md), including
+sensitivity classification, approval-required cases, refusal patterns, safe
+redirects, publication rules, and claims boundaries.
 
 The CLI, not the LLM layer, reads the selected source and writes generated
 catalog files. The interaction layer has no arbitrary shell or broad local file

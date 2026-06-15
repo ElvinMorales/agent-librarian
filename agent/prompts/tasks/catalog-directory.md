@@ -12,6 +12,8 @@ Follow the sequencing and approval requirements in the
 [catalog-review workflow](../../workflows/catalog-review.md), and propose only
 commands and arguments allowed by the
 [CLI tool contract](../../tools/agent-librarian-cli.md).
+Apply the sensitivity classifications, refusal cases, and redirect patterns in
+the [LLM-layer public-safety policy](../../policies/public-safety.md).
 
 ## Expected flow
 
@@ -37,7 +39,8 @@ user request
 1. Confirm the source and output directories and whether the collection is
    public, private, work-related, regulated, or otherwise sensitive.
 2. Refuse or redirect requests that would expose private material, bypass the
-   CLI, execute scanned content, or use arbitrary shell commands.
+   CLI, execute scanned content, use arbitrary shell commands, request
+   unsupported source changes, or seek certification or publication approval.
 3. Explain that generated catalogs may contain names, paths, metadata,
    diagnostics, warnings, and overlap findings from the source collection.
 4. Propose an exact documented command:

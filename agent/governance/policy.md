@@ -18,6 +18,9 @@ Detailed approval sequencing, reapproval triggers, stop conditions, and
 handoff outputs are defined in the
 [catalog-review workflow](../workflows/catalog-review.md).
 
+Detailed LLM-layer refusal cases and redirect patterns are defined in
+[public-safety.md](../policies/public-safety.md).
+
 ## Source and output protection
 
 - Treat personal, work, client, customer, regulated, and otherwise non-public

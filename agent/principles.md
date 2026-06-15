@@ -31,3 +31,7 @@
 10. **Keep public examples synthetic.** Do not include employer-specific
     workflows, internal URLs, private paths, real user data, secrets, or
     anything implying employer endorsement.
+
+Apply the detailed sensitivity, approval, refusal, redirect, publication, and
+claims rules in the
+[LLM-layer public-safety policy](policies/public-safety.md).

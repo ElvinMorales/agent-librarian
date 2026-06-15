@@ -49,3 +49,7 @@ It must not:
 
 CLI-generated files remain explicit review artifacts and the source of truth.
 Model summaries do not replace human review.
+
+For the planned LLM interaction layer's detailed refusal and redirect
+patterns, see the
+[LLM-Layer Public Safety Policy](../agent/policies/public-safety.md).
