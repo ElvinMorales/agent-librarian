@@ -19,6 +19,12 @@ hygiene.
 The demo should emphasize inspectable artifacts and bounded behavior rather
 than model autonomy.
 
+The current forum demo shows the deterministic CLI backend. The project
+direction adds a future LLM interaction layer in front of this workflow to
+scope user intent, explain safety boundaries, propose documented CLI commands,
+request approval before execution, and summarize generated outputs. Do not
+claim that this LLM behavior exists in v0.3.
+
 ## What this demo is
 
 - a local, deterministic cataloging and review workflow
@@ -30,8 +36,8 @@ than model autonomy.
 
 ## What this demo is not
 
-It is not an autonomous LLM agent. It does not call an LLM, use the network,
-execute scanned files, or make artifact-management decisions.
+Current v0.3 is not an autonomous LLM agent. It does not call an LLM, use the
+network, execute scanned files, or make artifact-management decisions.
 
 It is also not a hosted registry, semantic search system, automatic
 deduplication engine, safety certification, or replacement for human review.
@@ -87,6 +93,9 @@ Explain that `catalog` reads the synthetic artifacts as data and writes four
 files under `examples/generated-catalog`. `validate` checks the generated JSON
 against bundled schemas. `report` summarizes diagnostics, warnings, and
 overlap candidates for human review without rescanning the source collection.
+These commands are the deterministic backend sequence that a future LLM layer
+could propose and invoke only after human approval. The generated files remain
+the review source of truth.
 
 ## Files to open during the demo
 
@@ -119,6 +128,11 @@ report.
 The point is not LLM autonomy. The point is the artifact and governance layer
 agents need around them.
 
+A future interaction layer can make this backend easier to use without
+changing what is authoritative: it can propose a bounded command and summarize
+the result, while the CLI performs the action and produces the review
+artifacts. Human approval remains required before execution.
+
 A practical five-minute sequence is:
 
 1. Use the README and showcase brief to establish the problem and boundaries.
@@ -130,12 +144,13 @@ A practical five-minute sequence is:
 
 ## If someone asks "is this really an agent?"
 
-I would not call this an autonomous LLM agent. I would call it a deterministic
-artifact-librarian agent or agentic infrastructure component. It has a bounded
-role, explicit inputs and outputs, operating constraints, tool surfaces,
-validation, diagnostics, and governance boundaries. I am showing it in an
-agentic AI forum because these are the artifacts autonomous agents depend on
-but often do not expose clearly.
+I would not call the current v0.3 runtime an autonomous LLM agent. I would call
+it the deterministic backend of an evolving artifact-librarian agent or an
+agentic infrastructure component. It has a bounded role, explicit inputs and
+outputs, operating constraints, tool surfaces, validation, diagnostics, and
+governance boundaries. A future LLM interaction layer can provide the
+user-facing identity and orchestration while preserving this backend as the
+source of truth.
 
 ## Fallback plan
 

@@ -18,6 +18,19 @@ The project is intentionally small enough to inspect. Its source artifacts,
 schemas, generated outputs, diagnostics, tests, CI workflow, and safety
 boundaries are all visible in the repository.
 
+## Architecture direction
+
+The current v0.3 showcase is CLI-first: it demonstrates the deterministic
+backend that performs `catalog`, `validate`, and `report` actions. A future LLM
+interaction layer can sit in front of this same backend to scope intent,
+explain safety boundaries, propose bounded commands, ask for approval before
+execution, and summarize the generated outputs.
+
+That interaction layer would orchestrate the workflow, not replace the
+cataloging logic or invent findings. CLI-generated files remain the source of
+truth for review. This distinction keeps the project precise about what is
+implemented today and what is planned for a future agent-facing experience.
+
 ## Why it exists
 
 Agentic systems depend on more than prompts. They also depend on artifacts that
@@ -84,9 +97,11 @@ It is:
 - not a tool that executes scanned artifacts
 - not a replacement for human review
 
-It does not use an LLM and is not an LLM-powered autonomous agent. It is
-deterministic artifact infrastructure, not an autonomous agent runtime.
-Warnings and overlap candidates are review prompts, not decisions.
+Current v0.3 behavior does not use an LLM and is not an LLM-powered autonomous
+agent. It is the deterministic backend for a planned two-layer architecture,
+not an autonomous agent runtime. Warnings and overlap candidates are review
+prompts, not decisions, and a future model summary must not present them as
+safety, completeness, approval, or publication-readiness certifications.
 
 ## Why it matters for agentic AI artifacts
 

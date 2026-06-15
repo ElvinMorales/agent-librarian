@@ -15,7 +15,8 @@ operations**.
 `agent-librarian` is evolving toward a two-layer agentic architecture:
 
 1. **LLM interaction layer** - scopes user intent, explains safety boundaries,
-   proposes commands, asks for approval, and summarizes generated outputs.
+   proposes bounded commands, asks for approval before execution, and
+   summarizes generated outputs.
 2. **Deterministic CLI backend** - performs `catalog`, `validate`, and `report`
    actions against local artifact collections.
 
@@ -38,8 +39,9 @@ Version 0.3.0 already includes:
 - warning-code documentation and a synchronization check
 - release hygiene
 
-The current runtime does not call an LLM, execute scanned artifacts, maintain
-hidden memory or session state, or make artifact-management decisions.
+The current v0.3 runtime does not call an LLM, execute scanned artifacts,
+maintain hidden memory or session state, or make artifact-management
+decisions.
 
 ## Target architecture
 
@@ -48,8 +50,8 @@ user
   -> LLM interaction layer
        -> scope intent and selected collection
        -> explain public/private safety boundaries
-       -> propose a bounded CLI command
-       -> ask for approval when required
+       -> propose a bounded, documented CLI command
+       -> ask for human approval before execution
        -> invoke the deterministic backend
        -> summarize generated outputs with source references
   -> deterministic CLI backend
@@ -61,7 +63,9 @@ user
 
 The interaction layer should use a defined tool contract and visible approval
 gates. It should not substitute model claims for generated catalog evidence.
-The backend should remain usable directly without an LLM.
+It should not run arbitrary shell commands or certify artifacts as safe,
+complete, approved, or ready to publish. The backend should remain usable
+directly without an LLM.
 
 ## Planned work
 
