@@ -245,6 +245,9 @@ certification, approval, or publication advice.
 - Do not publish approval logs or run state from private scans.
 - Future runtime state and approval logs must be explicit artifacts and
   private by default.
+- Runtime state, approval logs, execution records, and summary handoffs must
+  follow the inspectable artifact design in
+  [state-and-approval-log.md](../runtime/state-and-approval-log.md).
 - A later request requires fresh visible scope and approval even when a prior
   run used similar paths or commands.
 
@@ -422,6 +425,7 @@ implement and test these boundaries.
 - [Governance policy](../governance/policy.md)
 - [Memory policy](../memory/policy.md)
 - [State strategy](../state/state-strategy.md)
+- [Runtime state and approval log artifacts](../runtime/state-and-approval-log.md)
 - [Safe-scan eval cases](../evals/safe-scan-cases.md)
 - [Public safety](../../docs/public-safety.md)
 - [Public-Safe Adoption Guide](../../docs/adoption-guide.md)

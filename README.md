@@ -40,6 +40,10 @@ The planned LLM layer's refusal and redirect policy is documented in
 Static safe-scan eval cases for the planned LLM layer are documented in
 [safe-scan-cases.md](agent/evals/safe-scan-cases.md).
 
+Runtime state and approval-log designs for the planned LLM layer are
+documented in
+[state-and-approval-log.md](agent/runtime/state-and-approval-log.md).
+
 For guidance on safely adapting the tool to your own collection, see the
 [Public-Safe Adoption Guide](docs/adoption-guide.md).
 

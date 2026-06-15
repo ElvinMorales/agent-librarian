@@ -48,6 +48,7 @@ autonomous approval system, publication system, or safety certification layer.
 - `governance/`: approval, safety, publication, and refusal boundaries
 - `memory/`: durable-memory and retention limits
 - `state/`: explicit run-output and future run-state boundaries
+- `runtime/`: runtime state and approval-log designs for future wrapper work
 
 The bounded CLI tool surface is defined in
 [agent-librarian-cli.md](tools/agent-librarian-cli.md).
@@ -60,6 +61,9 @@ The LLM-layer public-safety policy is defined in
 
 The safe-scan eval cases are defined in
 [safe-scan-cases.md](evals/safe-scan-cases.md).
+
+Runtime state and approval log artifacts are defined in
+[state-and-approval-log.md](runtime/state-and-approval-log.md).
 
 ## Related design documents
 

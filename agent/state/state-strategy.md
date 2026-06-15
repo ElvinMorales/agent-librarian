@@ -23,3 +23,6 @@ For a future LLM runtime:
 The public repository must not contain real run state, session snapshots,
 pending approvals, tool-call histories, private paths, or private generated
 outputs. Use synthetic examples only if future state artifacts are added.
+
+Detailed future runtime state and approval-log artifacts are defined in
+[state-and-approval-log.md](../runtime/state-and-approval-log.md).

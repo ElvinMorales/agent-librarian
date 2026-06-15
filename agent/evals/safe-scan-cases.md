@@ -745,7 +745,7 @@ boundary and requirement for human review before sharing.
 These cases inform:
 
 - #52 runtime wrapper prototype
-- #54 runtime state and approval logs
+- #54 [runtime state and approval logs](../runtime/state-and-approval-log.md)
 - #55 review summary schema
 
 They may later be converted into machine-readable test fixtures for a mock
@@ -767,5 +767,6 @@ runtime state, approval logging, summary schemas, or current enforcement.
 - [Governance policy](../governance/policy.md)
 - [Memory policy](../memory/policy.md)
 - [State strategy](../state/state-strategy.md)
+- [Runtime state and approval log artifacts](../runtime/state-and-approval-log.md)
 - [Two-Layer Artifact Catalog](../../docs/two-layer-artifact-catalog.md)
 - [v0.4 roadmap](../../docs/roadmap-v0.4.md)
