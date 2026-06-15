@@ -27,7 +27,7 @@ overlap candidates, and validation results remain inputs to human review.
 
 ## Current and future layers
 
-The current v0.3 repository implements the deterministic CLI backend. Its
+The stable repository runtime implements the deterministic CLI backend. Its
 commands, parsers, schemas, diagnostics, generated catalogs, and reports are
 the current runtime and review artifacts.
 

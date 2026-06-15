@@ -20,10 +20,10 @@ The demo should emphasize inspectable artifacts and bounded behavior rather
 than model autonomy.
 
 The current forum demo shows the deterministic CLI backend. The project
-direction adds a future LLM interaction layer in front of this workflow to
+direction adds a planned LLM interaction layer in front of this workflow to
 scope user intent, explain safety boundaries, propose documented CLI commands,
 request approval before execution, and summarize generated outputs. Do not
-claim that this LLM behavior exists in v0.3.
+claim that the optional local runtime wrapper calls an LLM provider.
 
 ## What this demo is
 
@@ -36,8 +36,9 @@ claim that this LLM behavior exists in v0.3.
 
 ## What this demo is not
 
-Current v0.3 is not an autonomous LLM agent. It does not call an LLM, use the
-network, execute scanned files, or make artifact-management decisions.
+The stable CLI and optional local runtime wrapper are not autonomous LLM
+agents. They do not call an LLM provider, use the network, execute scanned
+files, or make artifact-management decisions.
 
 It is also not a hosted registry, semantic search system, automatic
 deduplication engine, safety certification, or replacement for human review.
@@ -144,10 +145,10 @@ A practical five-minute sequence is:
 
 ## If someone asks "is this really an agent?"
 
-I would not call the current v0.3 runtime an autonomous LLM agent. I would call
-it the deterministic backend of an evolving artifact-librarian agent or an
-agentic infrastructure component. It has a bounded role, explicit inputs and
-outputs, operating constraints, tool surfaces, validation, diagnostics, and
+I would not call the current runtime an autonomous LLM agent. I would call it
+the deterministic backend and optional approval-gated wrapper of an evolving
+artifact-librarian design. It has a bounded role, explicit inputs and outputs,
+operating constraints, tool surfaces, validation, diagnostics, and
 governance boundaries. A future LLM interaction layer can provide the
 user-facing identity and orchestration while preserving this backend as the
 source of truth.

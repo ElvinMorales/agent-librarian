@@ -2,6 +2,52 @@
 
 All notable changes to this project are documented here.
 
+## [0.4.0] - 2026-06-15
+
+### Added
+
+- Added a two-layer architecture model for a planned LLM interaction layer,
+  with the deterministic CLI backend remaining the source of truth.
+- Added agent-layer design artifacts covering identity, operating boundaries,
+  prompts, capabilities, governance, memory, state, tools, policies, evals,
+  runtime state, and schemas.
+- Added a documented CLI tool contract and an approval-gated catalog-review
+  workflow for scoped proposals, exact approval, deterministic execution,
+  validation, reporting, and human-review handoff.
+- Added an LLM-layer public-safety policy and safe-scan eval cases.
+- Added runtime state and approval-log artifact designs.
+- Added a review-summary JSON Schema and synthetic example.
+- Added an optional local runtime wrapper prototype for proposing and
+  exact-approval execution of documented `catalog`, `validate`, and `report`
+  actions.
+- Added runtime-wrapper tests for proposals, approval, execution, sensitivity,
+  records, and safety boundaries.
+
+### Changed
+
+- Updated roadmap, taxonomy architecture, and README references for the v0.4
+  LLM-layer and runtime-prototype artifact set.
+- Clarified that the stable CLI remains deterministic and that the optional
+  runtime wrapper does not call an LLM provider, use network access, or expose
+  arbitrary shell execution.
+
+### Safety
+
+- The runtime wrapper supports only documented `catalog`, `validate`, and
+  `report` actions and requires exact command approval before execution.
+- `unclear` and `work-internal` execution are blocked by the prototype.
+- Runtime records are written only when explicitly requested, and generated
+  outputs and records inherit source sensitivity.
+- Validation, reports, and review summaries remain review aids, not safety,
+  correctness, completeness, approval, or publication certification.
+
+### Not included
+
+- No LLM provider integration, network calls, or arbitrary shell execution.
+- No autonomous publication, approval, deletion, merge, or source-editing
+  behavior.
+- No PyPI publishing or release artifact upload in this repository change.
+
 ## [0.3.0] - 2026-06-14
 
 ### Added

@@ -41,6 +41,17 @@ jobs:
       - name: Validate generated catalog
         run: agent-librarian validate examples/generated-catalog
 
+      - name: Check runtime wrapper proposals
+        run: |
+          python -m agent_librarian.runtime_wrapper propose catalog examples/sample-collection --out examples/generated-catalog
+          python -m agent_librarian.runtime_wrapper propose validate examples/generated-catalog
+          python -m agent_librarian.runtime_wrapper propose report examples/generated-catalog
+
+      - name: Check review summary JSON syntax
+        run: |
+          python -m json.tool agent/schemas/review-summary.schema.json
+          python -m json.tool agent/schemas/review-summary.example.json
+
       - name: Check generated catalog is current
         run: git diff --exit-code -- examples/generated-catalog
 
