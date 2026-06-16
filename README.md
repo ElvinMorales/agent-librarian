@@ -88,6 +88,13 @@ runtime wrapper and deterministic CLI evidence. See the
 [Claude Code end-to-end demo](docs/demos/claude-code-end-to-end.md) and
 [cross-platform demo guide](docs/demos/cross-platform-agent-demo.md).
 
+The OpenAI package adds a command-capable
+[Codex adapter](packages/openai/codex/AGENTS.md) and advisory
+[GPT](packages/openai/gpt/instructions.md) and
+[ChatGPT Project](packages/openai/chatgpt-project/project-instructions.md)
+adapters. See the [Codex end-to-end demo](docs/demos/codex-end-to-end.md)
+and [GPT/ChatGPT advisory demo](docs/demos/gpt-chat-end-to-end.md).
+
 ## Quickstart
 
 ```bash
