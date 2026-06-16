@@ -32,6 +32,22 @@ canonical_sources:
       required: true
 
 platform_files:
+  - path: packages/README.md
+    target: shared
+    status: reference
+    maps_from:
+      - docs/portable-agent-packages.md
+      - packages/shared/package-manifest.schema.json
+      - packages/shared/conformance/checklist.md
+    notes: Package adapter index and shared source-of-truth rules.
+  - path: packages/claude/README.md
+    target: claude-code
+    status: reference
+    maps_from:
+      - docs/portable-agent-packages.md
+      - agent/identity.md
+      - agent/policies/public-safety.md
+    notes: Claude package overview for Claude Code, Enterprise adaptation, and cowork materials.
   - path: packages/claude/CLAUDE.md
     target: claude-code
     status: active
@@ -132,6 +148,14 @@ platform_files:
       - docs/demos/claude-enterprise-adaptation.md
       - docs/portable-agent-packages.md
     notes: Cross-platform demo guide for Claude Code, Codex, and GPT/ChatGPT advisory paths.
+  - path: packages/openai/README.md
+    target: shared
+    status: reference
+    maps_from:
+      - docs/portable-agent-packages.md
+      - agent/identity.md
+      - agent/policies/public-safety.md
+    notes: OpenAI package overview for Codex, GPT, and ChatGPT Project adapters.
   - path: packages/openai/codex/AGENTS.md
     target: codex
     status: active
@@ -346,5 +370,7 @@ validation:
     - packages/shared/conformance/approval-cases.md
     - packages/shared/conformance/review-summary-cases.md
     - packages/shared/conformance/checklist.md
+    - scripts/check_packages.py
+    - tests/test_packages.py
   source_of_truth_notes_required: true
   public_safe_examples_only: true

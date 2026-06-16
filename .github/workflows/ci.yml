@@ -52,6 +52,9 @@ jobs:
           python -m json.tool agent/schemas/review-summary.schema.json
           python -m json.tool agent/schemas/review-summary.example.json
 
+      - name: Check package conformance
+        run: python scripts/check_packages.py
+
       - name: Check generated catalog is current
         run: git diff --exit-code -- examples/generated-catalog
 

@@ -4,15 +4,32 @@ All notable changes to this project are documented here.
 
 ## Unreleased
 
+No changes yet.
+
+## 0.5.0 - 2026-06-16
+
+v0.5.0 — Portable LLM Agent Packages
+
 ### Added
 
-- Started the v0.5 portable agent package workstream with shared package
-  architecture, manifest, and conformance scenarios.
-- Added a Claude package with Claude Code project instructions, a demo skill,
-  enterprise adaptation notes, cowork-facing guardrails, and an end-to-end
-  demo guide.
+- Added portable LLM agent package architecture.
+- Added canonical framework-neutral Agent Librarian identity artifact.
+- Added shared package manifest schema/example and conformance docs.
+- Added Claude package for Claude Code, Claude Enterprise adaptation, and
+  cowork demos.
 - Added OpenAI package adapters for Codex, GPT, and ChatGPT Projects.
-- Added cross-platform demo docs and package conformance checks.
+- Added cross-platform demo guides.
+- Added package conformance checker and pytest coverage.
+
+### Notes
+
+- The deterministic CLI remains the source of truth.
+- Claude Code and Codex packages are local-command-capable only through
+  documented approval-gated workflows.
+- GPT and ChatGPT Project packages are advisory-only unless a future
+  Action/API wrapper is implemented.
+- No provider integration, network behavior, MCP server, or autonomous
+  execution is included.
 
 ## [0.4.0] - 2026-06-15
 
