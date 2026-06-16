@@ -12,6 +12,11 @@ They are not currently loaded as live runtime instructions. A future runtime
 wrapper must explicitly implement these contracts and is tracked separately
 from this documentation-only design.
 
+The v0.5 portable package workstream treats the files in this directory as the
+canonical agent contract. Platform-specific files under `packages/` are
+adapters for LLM-native workspaces; they must preserve these source-of-truth
+artifacts rather than redefining the agent separately.
+
 ## Layer responsibilities
 
 The planned LLM interaction layer is responsible for:
@@ -36,6 +41,8 @@ autonomous approval system, publication system, or safety certification layer.
 
 ## Directory map
 
+- `identity.md`: canonical framework-neutral identity for all future package
+  adapters
 - `agent.yaml`: layer identity, status, scope, and action surface
 - `persona.md`: user-facing identity and communication stance
 - `principles.md`: operating rules and source-of-truth boundaries
@@ -53,6 +60,9 @@ autonomous approval system, publication system, or safety certification layer.
 
 The bounded CLI tool surface is defined in
 [agent-librarian-cli.md](tools/agent-librarian-cli.md).
+
+The canonical agent identity is defined in
+[identity.md](identity.md).
 
 The catalog-review workflow is defined in
 [catalog-review.md](workflows/catalog-review.md).
@@ -72,6 +82,10 @@ The review summary output contract is defined in
 The optional local runtime wrapper that prototypes these approval and safety
 contracts is documented in
 [runtime-wrapper-prototype.md](../docs/runtime-wrapper-prototype.md).
+
+The shared package-adapter foundation is documented in
+[portable-agent-packages.md](../docs/portable-agent-packages.md) and
+[packages/README.md](../packages/README.md).
 
 ## Related design documents
 

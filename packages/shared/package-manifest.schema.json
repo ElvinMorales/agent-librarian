@@ -1,0 +1,363 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/agent-librarian/packages/shared/package-manifest.schema.json",
+  "title": "Agent Librarian Package Manifest",
+  "description": "Lightweight manifest contract for portable agent package adapters. Canonical artifacts under agent/ remain the source of truth; package adapters translate that contract for LLM-native workspaces without creating separate agents.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "package_name",
+    "package_target",
+    "package_status",
+    "canonical_sources",
+    "platform_files",
+    "supported_modes",
+    "allowed_commands",
+    "approval_model",
+    "safety_boundaries",
+    "evidence_outputs",
+    "not_supported",
+    "validation"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Version of the package manifest schema used by this manifest."
+    },
+    "package_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "package_target": {
+      "enum": [
+        "claude-code",
+        "claude-enterprise",
+        "claude-cowork",
+        "codex",
+        "gpt",
+        "chatgpt-project",
+        "shared"
+      ]
+    },
+    "package_status": {
+      "enum": [
+        "planned",
+        "draft",
+        "active",
+        "experimental",
+        "deprecated"
+      ]
+    },
+    "canonical_sources": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_of_truth_note",
+        "artifacts"
+      ],
+      "properties": {
+        "source_of_truth_note": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Required note stating that canonical artifacts under agent/ remain the source of truth."
+        },
+        "artifacts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/canonicalArtifact"
+          }
+        }
+      }
+    },
+    "platform_files": {
+      "type": "array",
+      "description": "Target package files generated from or aligned to canonical sources. Planned files may be listed before they exist.",
+      "items": {
+        "$ref": "#/$defs/platformFile"
+      }
+    },
+    "supported_modes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "local-command-execution",
+          "advisory-review",
+          "enterprise-adaptation",
+          "demo-only",
+          "future-api"
+        ]
+      }
+    },
+    "allowed_commands": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "execution_surface",
+        "commands",
+        "local_execution_claim"
+      ],
+      "properties": {
+        "execution_surface": {
+          "enum": [
+            "none",
+            "documented-cli-only",
+            "advisory-only"
+          ]
+        },
+        "commands": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "agent-librarian catalog SOURCE_DIR --out OUTPUT_DIR",
+              "agent-librarian validate CATALOG_DIR",
+              "agent-librarian report CATALOG_DIR"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "local_execution_claim": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Plain-language statement of whether this package may claim local command execution."
+        }
+      }
+    },
+    "approval_model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "exact_approval_required",
+        "approval_scope",
+        "reapproval_required_for",
+        "approval_not_inferred_from"
+      ],
+      "properties": {
+        "exact_approval_required": {
+          "type": "boolean"
+        },
+        "approval_scope": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reapproval_required_for": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "approval_not_inferred_from": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "safety_boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_of_truth_note",
+        "source_sensitivity_rule",
+        "private_handling",
+        "refusal_boundaries",
+        "prohibited_claims",
+        "publication_rule"
+      ],
+      "properties": {
+        "source_of_truth_note": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Required note tying package safety behavior back to canonical agent policies."
+        },
+        "source_sensitivity_rule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "private_handling": {
+          "type": "string",
+          "minLength": 1
+        },
+        "refusal_boundaries": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "prohibited_claims": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "publication_rule": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "evidence_outputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_of_truth_outputs",
+        "secondary_review_outputs",
+        "summary_rules"
+      ],
+      "properties": {
+        "source_of_truth_outputs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "secondary_review_outputs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "summary_rules": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "not_supported": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "manifest_schema",
+        "conformance_docs",
+        "source_of_truth_notes_required",
+        "public_safe_examples_only"
+      ],
+      "properties": {
+        "manifest_schema": {
+          "type": "string",
+          "minLength": 1
+        },
+        "conformance_docs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "source_of_truth_notes_required": {
+          "type": "boolean"
+        },
+        "public_safe_examples_only": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "canonicalArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "role"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "required": {
+          "type": "boolean"
+        }
+      }
+    },
+    "platformFile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "target",
+        "status",
+        "maps_from"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target": {
+          "enum": [
+            "claude-code",
+            "claude-enterprise",
+            "claude-cowork",
+            "codex",
+            "gpt",
+            "chatgpt-project",
+            "shared"
+          ]
+        },
+        "status": {
+          "enum": [
+            "planned",
+            "draft",
+            "active",
+            "reference"
+          ]
+        },
+        "maps_from": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,191 @@
+schema_version: "0.1.0"
+package_name: agent-librarian-shared-package-foundation
+package_target: shared
+package_status: planned
+
+canonical_sources:
+  source_of_truth_note: Canonical artifacts under agent/ remain the source of truth for every package adapter.
+  artifacts:
+    - path: agent/identity.md
+      role: Framework-neutral Agent Librarian identity shared by all future platform packages.
+      required: true
+    - path: agent/tools/agent-librarian-cli.md
+      role: Bounded CLI command contract and approval requirements.
+      required: true
+    - path: agent/workflows/catalog-review.md
+      role: Approval-gated catalog, validate, report, and summary workflow.
+      required: true
+    - path: agent/policies/public-safety.md
+      role: Public-safety policy, sensitivity handling, refusal cases, and claims boundaries.
+      required: true
+    - path: agent/evals/safe-scan-cases.md
+      role: Static safe-scan expectations for future interaction layers.
+      required: true
+    - path: agent/runtime/state-and-approval-log.md
+      role: Runtime state, approval log, execution record, and summary handoff expectations.
+      required: true
+    - path: agent/schemas/review-summary.schema.json
+      role: Model-authored review summary contract for saved summaries.
+      required: true
+    - path: docs/runtime-wrapper-prototype.md
+      role: Optional local approval-gated wrapper behavior and limits.
+      required: true
+
+platform_files:
+  - path: packages/claude/CLAUDE.md
+    target: claude-code
+    status: planned
+    maps_from:
+      - agent/identity.md
+      - agent/README.md
+      - agent/principles.md
+      - agent/tools/agent-librarian-cli.md
+      - agent/workflows/catalog-review.md
+      - agent/policies/public-safety.md
+    notes: Planned workspace-level Claude instructions; not implemented in v0.5.
+  - path: packages/claude/claude-code/.claude/skills/artifact-librarian-demo/SKILL.md
+    target: claude-code
+    status: planned
+    maps_from:
+      - agent/identity.md
+      - agent/capabilities/catalog-collection/SKILL.md
+      - agent/tools/agent-librarian-cli.md
+      - agent/evals/safe-scan-cases.md
+    notes: Planned Claude Code skill adapter for command-capable local workspaces.
+  - path: packages/openai/codex/AGENTS.md
+    target: codex
+    status: planned
+    maps_from:
+      - agent/identity.md
+      - agent/README.md
+      - agent/principles.md
+      - agent/tools/agent-librarian-cli.md
+      - agent/workflows/catalog-review.md
+      - agent/policies/public-safety.md
+    notes: Planned Codex workspace instructions; not implemented in v0.5.
+  - path: packages/openai/codex/.agents/skills/artifact-librarian/SKILL.md
+    target: codex
+    status: planned
+    maps_from:
+      - agent/identity.md
+      - agent/capabilities/catalog-collection/SKILL.md
+      - agent/tools/agent-librarian-cli.md
+      - agent/runtime/state-and-approval-log.md
+    notes: Planned Codex skill adapter for local approval-gated command workflows.
+  - path: packages/openai/gpt/instructions.md
+    target: gpt
+    status: planned
+    maps_from:
+      - agent/identity.md
+      - agent/README.md
+      - agent/workflows/catalog-review.md
+      - agent/policies/public-safety.md
+      - agent/schemas/review-summary.schema.json
+    notes: Planned advisory package; must not claim local command execution.
+  - path: packages/openai/chatgpt-project/project-instructions.md
+    target: chatgpt-project
+    status: planned
+    maps_from:
+      - agent/identity.md
+      - agent/README.md
+      - agent/workflows/catalog-review.md
+      - agent/policies/public-safety.md
+      - agent/evals/safe-scan-cases.md
+    notes: Planned advisory project package; must not claim local command execution.
+
+supported_modes:
+  - local-command-execution
+  - advisory-review
+  - enterprise-adaptation
+  - demo-only
+  - future-api
+
+allowed_commands:
+  execution_surface: documented-cli-only
+  commands:
+    - agent-librarian catalog SOURCE_DIR --out OUTPUT_DIR
+    - agent-librarian validate CATALOG_DIR
+    - agent-librarian report CATALOG_DIR
+  local_execution_claim: The shared package foundation does not execute commands; future command-capable adapters may claim local execution only when the host provides local tools and the adapter preserves exact approval.
+
+approval_model:
+  exact_approval_required: true
+  approval_scope: Approval applies only to the exact command, paths, optional arguments, read scope, write scope, and sensitivity warning shown to the user.
+  reapproval_required_for:
+    - changed command
+    - changed source path
+    - changed catalog path
+    - changed output path
+    - changed include, exclude, or strict arguments
+    - changed sensitivity classification
+    - retry with changed scope
+    - publication or sharing request
+  approval_not_inferred_from:
+    - prior conversation
+    - remembered paths
+    - hidden state
+    - hidden memory
+    - broad user intent
+    - "continue"
+    - "sounds good"
+    - "do whatever is best"
+
+safety_boundaries:
+  source_of_truth_note: Package safety behavior is governed by agent/policies/public-safety.md and agent/tools/agent-librarian-cli.md.
+  source_sensitivity_rule: Generated outputs inherit the sensitivity of the source collection.
+  private_handling: Private, work, client, customer, regulated, trace, log, memory, and state material stays private unless separately reviewed by an authorized human.
+  refusal_boundaries:
+    - arbitrary shell execution
+    - source execution, editing, deletion, or merging
+    - unsafe publication of private-derived outputs
+    - work-internal public catalogs
+    - certification, approval, or publication-readiness claims
+    - local execution claims from advisory-only packages
+  prohibited_claims:
+    - safe
+    - private
+    - complete
+    - correct
+    - approved
+    - ready to publish
+    - compliance reviewed
+  publication_rule: Publication requires separate human review of source, generated outputs, ownership, consent, and disclosure risk.
+
+evidence_outputs:
+  source_of_truth_outputs:
+    - examples/generated-catalog/index.json
+    - examples/generated-catalog/catalog.md
+    - examples/generated-catalog/diagnostics.json
+    - examples/generated-catalog/overlap-report.json
+    - agent-librarian validate command output
+    - agent-librarian report command output
+  secondary_review_outputs:
+    - model-authored review summaries that validate against agent/schemas/review-summary.schema.json
+    - runtime state, approval log, and execution records when explicitly saved
+  summary_rules:
+    - CLI-generated files and command outputs are authoritative.
+    - Model summaries are secondary review aids.
+    - Summaries must not invent missing outputs or suppress warnings.
+    - Summaries must not certify safety, completeness, correctness, approval, or publication readiness.
+
+not_supported:
+  - provider integration
+  - MCP server code
+  - network behavior
+  - arbitrary shell execution
+  - source artifact modification
+  - deterministic output schema changes
+  - generated output changes
+  - package version bump
+  - release tagging or publication
+
+validation:
+  manifest_schema: packages/shared/package-manifest.schema.json
+  conformance_docs:
+    - packages/shared/conformance/scenarios.md
+    - packages/shared/conformance/expected-behaviors.md
+    - packages/shared/conformance/refusal-cases.md
+    - packages/shared/conformance/approval-cases.md
+    - packages/shared/conformance/review-summary-cases.md
+  source_of_truth_notes_required: true
+  public_safe_examples_only: true

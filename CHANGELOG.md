@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented here.
 
+## Unreleased
+
+### Added
+
+- Started the v0.5 portable agent package workstream with shared package
+  architecture, manifest, and conformance scenarios.
+
 ## [0.4.0] - 2026-06-15
 
 ### Added
