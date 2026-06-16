@@ -8,6 +8,9 @@ All notable changes to this project are documented here.
 
 - Started the v0.5 portable agent package workstream with shared package
   architecture, manifest, and conformance scenarios.
+- Added a Claude package with Claude Code project instructions, a demo skill,
+  enterprise adaptation notes, cowork-facing guardrails, and an end-to-end
+  demo guide.
 
 ## [0.4.0] - 2026-06-15
 

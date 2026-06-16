@@ -14,14 +14,28 @@ agent/
 
 ## Current Status
 
-v0.5 adds only the shared package foundation:
+v0.5 adds the shared package foundation:
 
 - `shared/package-manifest.schema.json`
 - `shared/package-manifest.example.yaml`
 - `shared/conformance/`
 
-Platform-specific Claude, Codex, GPT, and ChatGPT Project package files are
-planned but not implemented here.
+It also adds the first platform adapter:
+
+- `claude/README.md`
+- `claude/CLAUDE.md`
+- `claude/claude-code/.claude/skills/artifact-librarian-demo/SKILL.md`
+- `claude/claude-code/demo-prompt.md`
+- `claude/claude-code/install.md`
+- `claude/claude-enterprise/`
+- `claude/cowork/`
+
+The Claude Code package demonstrates a functional local workflow using the
+approval-gated runtime wrapper and deterministic CLI evidence. Claude
+Enterprise and Cowork materials are public-safe adaptation notes and do not
+claim local execution from this repository.
+
+Codex, GPT, and ChatGPT Project package files are still planned.
 
 ## Package Rules
 
@@ -38,4 +52,7 @@ Package adapters must preserve the canonical contract:
 
 See [Portable Agent Packages](../docs/portable-agent-packages.md) for the
 architecture.
+
+See [Claude Code End-to-End Demo](../docs/demos/claude-code-end-to-end.md) for
+the runnable Claude package demo.
 

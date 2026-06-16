@@ -82,6 +82,12 @@ See [Portable Agent Packages](docs/portable-agent-packages.md) and
 [Agent Package Adapters](packages/README.md) for the shared package manifest
 and conformance foundation.
 
+The first platform adapter is the [Claude package](packages/claude/README.md),
+which demonstrates a functional Claude Code workflow using the approval-gated
+runtime wrapper and deterministic CLI evidence. See the
+[Claude Code end-to-end demo](docs/demos/claude-code-end-to-end.md) and
+[cross-platform demo guide](docs/demos/cross-platform-agent-demo.md).
+
 ## Quickstart
 
 ```bash
