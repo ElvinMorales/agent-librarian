@@ -20,8 +20,8 @@ cataloging logic or invent catalog results. CLI-generated files remain the
 source of truth for review.
 
 This catalog makes the v0.4 direction inspectable. The v0.5 portable package
-foundation adds shared package manifests and conformance expectations for
-future LLM-native adapters without changing the stable CLI or optional local
+workstream adds shared package manifests, conformance expectations, and a
+Claude package adapter without changing the stable CLI or optional local
 runtime wrapper prototype.
 
 ## Architecture summary
@@ -83,7 +83,7 @@ model-authored summaries.
 | 10. Guardrails/governance | Safety policies, refusals, and review constraints | `docs/public-safety.md`, `docs/adoption-guide.md`, README non-goals, and warning guidance | `agent/governance/policy.md` defines governance boundaries, and `agent/policies/public-safety.md` defines detailed sensitivity, approval, refusal, redirect, publication, and claims rules | Prevents unsafe scanning, disclosure, unsupported execution, certification claims, and boundary violations | The LLM layer must not weaken existing scan, publication, privacy, or human-review boundaries |
 | 11. Outputs/schemas | Output contracts and review artifacts | `schemas/`, packaged schemas, `index.json`, `diagnostics.json`, `overlap-report.json`, `catalog.md`, and CLI report text | `agent/schemas/review-summary.schema.json` defines the model-authored review summary contract with references back to CLI-generated evidence | Makes deterministic findings and model-authored interpretation inspectable and reviewable | LLM summaries are secondary artifacts; CLI outputs remain the source of truth and must be reviewed before sharing |
 | 12. Evaluation/observability | Tests, diagnostics, validation, reports, and evals | `tests/`, GitHub Actions CI, `diagnostics.json`, `validate`, `report`, and the warning-reference synchronization test | `agent/evals/safe-scan-cases.md` defines public-safe cases for scoping, refusal, approval, tool boundaries, and summary behavior; `packages/shared/conformance/` defines shared package-adapter conformance scenarios | Checks deterministic behavior, warning contracts, safety expectations, future orchestration behavior, and package adapter behavior | Evals and package conformance examples must use synthetic, public-safe inputs and must not include real traces, prompts, logs, or user data |
-| 13. Runtime/deployment | Execution environment, packaging, and adapters | `pyproject.toml`, local CLI entry point, supported Python versions, GitHub Actions CI, and release tags | `src/agent_librarian/runtime_wrapper.py`, [runtime wrapper prototype documentation](runtime-wrapper-prototype.md), [portable package architecture](portable-agent-packages.md), `packages/README.md`, and `packages/shared/package-manifest.example.yaml` define the adapter foundation from canonical `agent/` artifacts to future platform packages | Defines how the backend runs today and how optional interaction and package layers may invoke or explain it without changing the stable CLI surface | The wrapper remains optional, calls only the deterministic CLI actions, requires exact approval, and must not expose private collections; advisory packages must not claim local execution |
+| 13. Runtime/deployment | Execution environment, packaging, and adapters | `pyproject.toml`, local CLI entry point, supported Python versions, GitHub Actions CI, and release tags | `src/agent_librarian/runtime_wrapper.py`, [runtime wrapper prototype documentation](runtime-wrapper-prototype.md), [portable package architecture](portable-agent-packages.md), `packages/README.md`, `packages/shared/package-manifest.example.yaml`, and `packages/claude/` define the adapter foundation from canonical `agent/` artifacts to platform packages | Defines how the backend runs today and how optional interaction and package layers may invoke or explain it without changing the stable CLI surface | The wrapper remains optional, calls only the deterministic CLI actions, requires exact approval, and must not expose private collections; advisory packages must not claim local execution |
 | 14. Learning/iteration | Feedback, decisions, backlog, and release iteration | `CHANGELOG.md`, GitHub issues and pull requests, `docs/release-checklist.md`, `docs/forum-feedback-log.md`, and `docs/roadmap-v0.4.md` | Public-safe decision records and follow-up issues informed by evals and feedback | Converts reviewed observations into explicitly scoped, versioned work | Feedback must be generic and public-safe before entering the repo; the runtime must not learn from users automatically |
 
 ## Boundary notes
@@ -100,6 +100,13 @@ provider integrations:
 | `packages/shared/package-manifest.schema.json` | Tools / runtime-deployment | Defines required manifest fields, target values, safety boundaries, source-of-truth notes, approval model, and validation references. |
 | `packages/shared/package-manifest.example.yaml` | Knowledge/resources / runtime-deployment | Maps canonical `agent/` artifacts, including `agent/identity.md`, to planned platform package files using synthetic public-safe examples. |
 | `packages/shared/conformance/` | Evaluation/observability | Captures package behavior expectations for approval, refusals, advisory-only limits, evidence grounding, and review summaries. |
+| `packages/claude/CLAUDE.md` | Prompts/interfaces / runtime-deployment | Provides reusable Claude Code project instructions that keep Claude as the interface layer and CLI outputs as the source of truth. |
+| `packages/claude/claude-code/.claude/skills/artifact-librarian-demo/SKILL.md` | Capability modules / planning-orchestration | Packages the synthetic Claude Code demo workflow with exact approval, wrapper commands, and evidence summary boundaries. |
+| `packages/claude/claude-enterprise/` | Guardrails/governance / runtime-deployment | Provides public-safe managed-instruction and private-adaptation notes for separately reviewed enterprise environments. |
+| `packages/claude/cowork/` | Prompts/interfaces / guardrails-governance | Provides cowork-facing demo script and guardrails for explaining exact approval and bounded autonomy. |
+| `docs/demos/claude-code-end-to-end.md` | Planning/orchestration | Documents the runnable Claude Code demo from package instructions through human review of generated outputs. |
+| `docs/demos/claude-enterprise-adaptation.md` | Runtime/deployment / guardrails-governance | Documents public-safe Enterprise adaptation expectations and future MCP/API review boundaries. |
+| `docs/demos/cross-platform-agent-demo.md` | Runtime/deployment | Indexes the Claude demo and leaves Codex/GPT package sections as planned placeholders. |
 
 These package artifacts are adapters around the existing contract. They do not
 change CLI behavior, generated output schemas, runtime wrapper behavior,
@@ -173,6 +180,9 @@ inspectable.
 - [Taxonomy-aligned architecture map](taxonomy-architecture-map.md)
 - [Showcase brief](showcase-brief.md)
 - [Demo walkthrough](demo-walkthrough.md)
+- [Claude Code end-to-end demo](demos/claude-code-end-to-end.md)
+- [Claude Enterprise adaptation](demos/claude-enterprise-adaptation.md)
+- [Cross-platform agent demo](demos/cross-platform-agent-demo.md)
 - [Forum demo runbook](forum-demo-runbook.md)
 - [Public-safe adoption guide](adoption-guide.md)
 - [Public safety](public-safety.md)

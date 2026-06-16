@@ -1,7 +1,7 @@
 schema_version: "0.1.0"
 package_name: agent-librarian-shared-package-foundation
 package_target: shared
-package_status: planned
+package_status: active
 
 canonical_sources:
   source_of_truth_note: Canonical artifacts under agent/ remain the source of truth for every package adapter.
@@ -34,7 +34,7 @@ canonical_sources:
 platform_files:
   - path: packages/claude/CLAUDE.md
     target: claude-code
-    status: planned
+    status: active
     maps_from:
       - agent/identity.md
       - agent/README.md
@@ -42,16 +42,96 @@ platform_files:
       - agent/tools/agent-librarian-cli.md
       - agent/workflows/catalog-review.md
       - agent/policies/public-safety.md
-    notes: Planned workspace-level Claude instructions; not implemented in v0.5.
+    notes: Workspace-level Claude Code instructions for the public-safe demo adapter.
   - path: packages/claude/claude-code/.claude/skills/artifact-librarian-demo/SKILL.md
     target: claude-code
-    status: planned
+    status: active
     maps_from:
       - agent/identity.md
       - agent/capabilities/catalog-collection/SKILL.md
       - agent/tools/agent-librarian-cli.md
       - agent/evals/safe-scan-cases.md
-    notes: Planned Claude Code skill adapter for command-capable local workspaces.
+    notes: Claude Code skill adapter for the synthetic approval-gated demo workflow.
+  - path: packages/claude/claude-code/demo-prompt.md
+    target: claude-code
+    status: active
+    maps_from:
+      - packages/claude/CLAUDE.md
+      - packages/claude/claude-code/.claude/skills/artifact-librarian-demo/SKILL.md
+      - docs/runtime-wrapper-prototype.md
+    notes: Public-safe prompt for invoking the Claude Code demo.
+  - path: packages/claude/claude-code/install.md
+    target: claude-code
+    status: active
+    maps_from:
+      - packages/claude/CLAUDE.md
+      - docs/demos/claude-code-end-to-end.md
+    notes: Claude Code setup notes for tagged releases or current checkouts.
+  - path: packages/claude/claude-enterprise/managed-instructions.md
+    target: claude-enterprise
+    status: reference
+    maps_from:
+      - agent/README.md
+      - agent/tools/agent-librarian-cli.md
+      - agent/workflows/catalog-review.md
+      - agent/policies/public-safety.md
+    notes: Public-safe managed-instruction adaptation notes; advisory-only in this repository.
+  - path: packages/claude/claude-enterprise/admin-review-checklist.md
+    target: claude-enterprise
+    status: reference
+    maps_from:
+      - agent/policies/public-safety.md
+      - agent/runtime/state-and-approval-log.md
+      - docs/demos/claude-enterprise-adaptation.md
+    notes: Public-safe checklist for separately reviewed private deployments.
+  - path: packages/claude/claude-enterprise/private-deployment-notes.md
+    target: claude-enterprise
+    status: reference
+    maps_from:
+      - agent/policies/public-safety.md
+      - agent/runtime/state-and-approval-log.md
+      - docs/portable-agent-packages.md
+    notes: Placeholder-based private adaptation notes; no employer-specific examples.
+  - path: packages/claude/cowork/plain-language-demo-script.md
+    target: claude-cowork
+    status: reference
+    maps_from:
+      - packages/claude/CLAUDE.md
+      - docs/demos/claude-code-end-to-end.md
+      - agent/policies/public-safety.md
+    notes: Cowork-facing public demo talk track.
+  - path: packages/claude/cowork/user-facing-guardrails.md
+    target: claude-cowork
+    status: reference
+    maps_from:
+      - agent/tools/agent-librarian-cli.md
+      - agent/workflows/catalog-review.md
+      - agent/policies/public-safety.md
+    notes: Cowork-facing safety, exact approval, and bounded-autonomy guidance.
+  - path: docs/demos/claude-code-end-to-end.md
+    target: claude-code
+    status: reference
+    maps_from:
+      - packages/claude/CLAUDE.md
+      - packages/claude/claude-code/.claude/skills/artifact-librarian-demo/SKILL.md
+      - docs/runtime-wrapper-prototype.md
+    notes: End-to-end Claude Code demo guide for the synthetic sample workflow.
+  - path: docs/demos/claude-enterprise-adaptation.md
+    target: claude-enterprise
+    status: reference
+    maps_from:
+      - packages/claude/claude-enterprise/managed-instructions.md
+      - packages/claude/claude-enterprise/admin-review-checklist.md
+      - packages/claude/claude-enterprise/private-deployment-notes.md
+    notes: Public-safe Enterprise adaptation guide.
+  - path: docs/demos/cross-platform-agent-demo.md
+    target: shared
+    status: reference
+    maps_from:
+      - docs/demos/claude-code-end-to-end.md
+      - docs/demos/claude-enterprise-adaptation.md
+      - docs/portable-agent-packages.md
+    notes: Cross-platform demo index with Claude implemented and other package sections as placeholders.
   - path: packages/openai/codex/AGENTS.md
     target: codex
     status: planned

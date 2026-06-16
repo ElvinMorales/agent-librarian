@@ -2,7 +2,8 @@
 
 ## Purpose
 
-v0.5 starts the portable package foundation for `agent-librarian`.
+v0.5 starts the portable package foundation for `agent-librarian` and adds the
+first Claude package adapter.
 
 ```text
 One agent contract, multiple LLM-native package adapters.
@@ -13,9 +14,10 @@ The canonical agent artifacts stay under `agent/`. Package adapters under
 specific LLM workspaces. This avoids maintaining separate agent definitions
 for Claude, Codex, GPT, ChatGPT Projects, or future hosts.
 
-This workstream is architecture and shared package scaffolding only. It does
-not add provider integration, an MCP server, network behavior, new CLI
-behavior, or platform package implementations.
+This workstream does not add provider integration, an MCP server, network
+behavior, new CLI behavior, or deterministic schema changes. The Claude
+package added in v0.5 is an adapter around existing instructions, the
+approval-gated runtime wrapper, and deterministic CLI evidence.
 
 ## Why v0.5 Exists
 
@@ -92,31 +94,64 @@ The targets differ by how much local action they can safely expose.
 
 | Target | Expected package shape | Local command execution today | Current package status |
 | --- | --- | --- | --- |
-| Claude Code | Workspace instructions and a Claude Code skill | Command-capable when the host workspace grants local tools and the adapter enforces exact approval | Planned only |
-| Claude Enterprise | Enterprise-managed instructions, policy notes, or knowledge content | Advisory-only in this repo; enterprise tool access must be separately reviewed | Planned only |
-| Claude Cowork | Cowork-oriented shared instructions or collaboration guidance | Advisory-only in this repo unless a separately governed host provides tools | Planned only |
+| Claude Code | Workspace instructions and a Claude Code skill | Command-capable when the host workspace grants local tools and the adapter enforces exact approval | Added in v0.5 |
+| Claude Enterprise | Enterprise-managed instructions, policy notes, or knowledge content | Advisory-only in this repo; enterprise tool access must be separately reviewed | Added in v0.5 as adaptation notes |
+| Claude Cowork | Cowork-oriented shared instructions or collaboration guidance | Advisory-only in this repo unless a separately governed host provides tools | Added in v0.5 as cowork guidance |
 | Codex | `AGENTS.md` and Codex skill packaging | Command-capable when running in a local workspace with sandbox and approval controls | Planned only |
 | GPT | Builder/custom GPT instructions and reference files | Advisory-only; no local filesystem or CLI execution is claimed by this repo | Planned only |
 | ChatGPT Project | Project instructions and reference docs | Advisory-only; no local filesystem or CLI execution is claimed by this repo | Planned only |
 | Shared | Manifest schema, examples, and conformance expectations | Does not execute commands | Added in v0.5 |
 
 No v0.5 platform adapter file is treated as a live provider integration. The
-only current executable surfaces remain the deterministic CLI and the optional
-local runtime wrapper prototype documented in
+Claude Code adapter demonstrates a functional agent-shaped workflow by asking
+Claude to propose wrapper commands and summarize deterministic evidence, but
+the only current executable surfaces remain the deterministic CLI and the
+optional local runtime wrapper prototype documented in
 [`docs/runtime-wrapper-prototype.md`](runtime-wrapper-prototype.md).
 
 ## Command-Capable vs Advisory Packages
 
 Command-capable packages may describe local execution only when the host
 workspace actually supports local command tools and the adapter preserves the
-canonical approval contract. Today, that category is limited to future Claude
-Code and Codex adapters.
+canonical approval contract. Today, that category includes the Claude Code
+demo adapter and future Codex adapters.
 
 Advisory packages must not claim they can run `agent-librarian`, inspect local
-files, validate a local catalog, or generate local outputs. Today, future GPT,
-ChatGPT Project, Claude Enterprise, and Claude Cowork packages are
-advisory-only from this repository's perspective unless a separate governed
-runtime is introduced.
+files, validate a local catalog, or generate local outputs. Today, GPT and
+ChatGPT Project packages remain future advisory packages, while the Claude
+Enterprise and Claude Cowork notes are advisory-only from this repository's
+perspective unless a separate governed runtime is introduced.
+
+## Claude Package
+
+The Claude package lives under `packages/claude/` and leads with this
+functional story:
+
+```text
+Claude Code reads package instructions
+-> Claude explains safe scope
+-> Claude proposes runtime-wrapper commands
+-> user approves exact command
+-> wrapper runs deterministic CLI backend
+-> Claude summarizes CLI evidence
+-> human reviews generated outputs
+```
+
+The package includes:
+
+- `packages/claude/CLAUDE.md`
+- `packages/claude/claude-code/.claude/skills/artifact-librarian-demo/SKILL.md`
+- `packages/claude/claude-code/demo-prompt.md`
+- `packages/claude/claude-code/install.md`
+- `packages/claude/claude-enterprise/`
+- `packages/claude/cowork/`
+
+The runnable guide is
+[`docs/demos/claude-code-end-to-end.md`](demos/claude-code-end-to-end.md).
+Claude Enterprise adaptation is documented in
+[`docs/demos/claude-enterprise-adaptation.md`](demos/claude-enterprise-adaptation.md).
+The cross-platform demo index is
+[`docs/demos/cross-platform-agent-demo.md`](demos/cross-platform-agent-demo.md).
 
 All packages, including command-capable ones, must preserve this rule:
 
@@ -167,8 +202,9 @@ The shared package foundation lives under `packages/shared/`:
 - `conformance/` records scenario expectations that every adapter must
   preserve.
 
-These files establish conformance expectations only. They do not create
-Claude, Codex, GPT, or ChatGPT package implementations.
+These files establish conformance expectations. The Claude package now adapts
+those expectations for Claude Code, Claude Enterprise, and cowork-facing demo
+materials. Codex, GPT, and ChatGPT package implementations remain planned.
 
 ## Public-Safe Examples
 
