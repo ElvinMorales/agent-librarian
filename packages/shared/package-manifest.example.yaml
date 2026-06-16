@@ -131,10 +131,10 @@ platform_files:
       - docs/demos/claude-code-end-to-end.md
       - docs/demos/claude-enterprise-adaptation.md
       - docs/portable-agent-packages.md
-    notes: Cross-platform demo index with Claude implemented and other package sections as placeholders.
+    notes: Cross-platform demo guide for Claude Code, Codex, and GPT/ChatGPT advisory paths.
   - path: packages/openai/codex/AGENTS.md
     target: codex
-    status: planned
+    status: active
     maps_from:
       - agent/identity.md
       - agent/README.md
@@ -142,36 +142,114 @@ platform_files:
       - agent/tools/agent-librarian-cli.md
       - agent/workflows/catalog-review.md
       - agent/policies/public-safety.md
-    notes: Planned Codex workspace instructions; not implemented in v0.5.
+    notes: Codex workspace instructions for the public-safe approval-gated demo adapter.
   - path: packages/openai/codex/.agents/skills/artifact-librarian/SKILL.md
     target: codex
-    status: planned
+    status: active
     maps_from:
       - agent/identity.md
       - agent/capabilities/catalog-collection/SKILL.md
       - agent/tools/agent-librarian-cli.md
       - agent/runtime/state-and-approval-log.md
-    notes: Planned Codex skill adapter for local approval-gated command workflows.
+    notes: Codex skill adapter for local approval-gated command workflows.
+  - path: packages/openai/codex/codex-demo-prompt.md
+    target: codex
+    status: active
+    maps_from:
+      - packages/openai/codex/AGENTS.md
+      - packages/openai/codex/.agents/skills/artifact-librarian/SKILL.md
+      - docs/runtime-wrapper-prototype.md
+    notes: Public-safe prompt for invoking the Codex demo.
+  - path: packages/openai/codex/codex-validation-checklist.md
+    target: codex
+    status: reference
+    maps_from:
+      - packages/shared/conformance/checklist.md
+      - packages/openai/codex/AGENTS.md
+    notes: Codex package checklist for exact approval, source-of-truth, and safety boundaries.
   - path: packages/openai/gpt/instructions.md
     target: gpt
-    status: planned
+    status: active
     maps_from:
       - agent/identity.md
       - agent/README.md
       - agent/workflows/catalog-review.md
       - agent/policies/public-safety.md
       - agent/schemas/review-summary.schema.json
-    notes: Planned advisory package; must not claim local command execution.
+    notes: Advisory GPT instructions; must not claim local command execution.
+  - path: packages/openai/gpt/knowledge-manifest.md
+    target: gpt
+    status: active
+    maps_from:
+      - agent/identity.md
+      - agent/tools/agent-librarian-cli.md
+      - agent/policies/public-safety.md
+      - packages/shared/conformance/scenarios.md
+      - examples/generated-catalog/catalog.md
+      - examples/generated-catalog/diagnostics.json
+      - examples/generated-catalog/overlap-report.json
+    notes: Public-safe knowledge-file guidance for advisory GPT review.
+  - path: packages/openai/gpt/conversation-starters.md
+    target: gpt
+    status: active
+    maps_from:
+      - packages/openai/gpt/instructions.md
+      - packages/openai/gpt/knowledge-manifest.md
+    notes: Advisory-only GPT starter prompts.
+  - path: packages/openai/gpt/actions-future.md
+    target: gpt
+    status: reference
+    maps_from:
+      - agent/tools/agent-librarian-cli.md
+      - agent/workflows/catalog-review.md
+      - agent/policies/public-safety.md
+    notes: Future Action/API wrapper boundaries; no current provider integration.
   - path: packages/openai/chatgpt-project/project-instructions.md
     target: chatgpt-project
-    status: planned
+    status: active
     maps_from:
       - agent/identity.md
       - agent/README.md
       - agent/workflows/catalog-review.md
       - agent/policies/public-safety.md
       - agent/evals/safe-scan-cases.md
-    notes: Planned advisory project package; must not claim local command execution.
+    notes: Advisory ChatGPT Project instructions; must not claim local command execution.
+  - path: packages/openai/chatgpt-project/source-files-to-upload.md
+    target: chatgpt-project
+    status: active
+    maps_from:
+      - agent/identity.md
+      - agent/tools/agent-librarian-cli.md
+      - agent/policies/public-safety.md
+      - packages/shared/conformance/scenarios.md
+      - examples/generated-catalog/catalog.md
+      - examples/generated-catalog/diagnostics.json
+      - examples/generated-catalog/overlap-report.json
+    notes: Public-safe source-file upload guidance for advisory Projects.
+  - path: packages/openai/chatgpt-project/demo-thread-prompt.md
+    target: chatgpt-project
+    status: active
+    maps_from:
+      - packages/openai/chatgpt-project/project-instructions.md
+      - packages/openai/chatgpt-project/source-files-to-upload.md
+    notes: Advisory demo thread prompt for uploaded deterministic evidence.
+  - path: docs/demos/codex-end-to-end.md
+    target: codex
+    status: reference
+    maps_from:
+      - packages/openai/codex/AGENTS.md
+      - packages/openai/codex/.agents/skills/artifact-librarian/SKILL.md
+      - docs/runtime-wrapper-prototype.md
+    notes: End-to-end Codex demo guide for the synthetic sample workflow.
+  - path: docs/demos/gpt-chat-end-to-end.md
+    target: gpt
+    status: reference
+    maps_from:
+      - packages/openai/gpt/instructions.md
+      - packages/openai/gpt/knowledge-manifest.md
+      - packages/openai/chatgpt-project/project-instructions.md
+      - packages/openai/chatgpt-project/source-files-to-upload.md
+    notes: Advisory GPT and ChatGPT Project demo guide.
 
 supported_modes:
   - local-command-execution
@@ -267,5 +345,6 @@ validation:
     - packages/shared/conformance/refusal-cases.md
     - packages/shared/conformance/approval-cases.md
     - packages/shared/conformance/review-summary-cases.md
+    - packages/shared/conformance/checklist.md
   source_of_truth_notes_required: true
   public_safe_examples_only: true

@@ -20,7 +20,7 @@ v0.5 adds the shared package foundation:
 - `shared/package-manifest.example.yaml`
 - `shared/conformance/`
 
-It also adds the first platform adapter:
+It also adds platform adapters:
 
 - `claude/README.md`
 - `claude/CLAUDE.md`
@@ -29,13 +29,21 @@ It also adds the first platform adapter:
 - `claude/claude-code/install.md`
 - `claude/claude-enterprise/`
 - `claude/cowork/`
+- `openai/README.md`
+- `openai/codex/AGENTS.md`
+- `openai/codex/.agents/skills/artifact-librarian/SKILL.md`
+- `openai/gpt/`
+- `openai/chatgpt-project/`
 
 The Claude Code package demonstrates a functional local workflow using the
 approval-gated runtime wrapper and deterministic CLI evidence. Claude
 Enterprise and Cowork materials are public-safe adaptation notes and do not
 claim local execution from this repository.
 
-Codex, GPT, and ChatGPT Project package files are still planned.
+The Codex package demonstrates the same functional local workflow for Codex.
+The GPT and ChatGPT Project packages are advisory-only: they can explain,
+review uploaded or pasted deterministic evidence, and guide next steps, but
+they must not claim local CLI execution.
 
 ## Package Rules
 
@@ -55,4 +63,9 @@ architecture.
 
 See [Claude Code End-to-End Demo](../docs/demos/claude-code-end-to-end.md) for
 the runnable Claude package demo.
+
+See [Codex End-to-End Demo](../docs/demos/codex-end-to-end.md) for the
+runnable Codex package demo, and
+[GPT and ChatGPT Project End-to-End Advisory Demo](../docs/demos/gpt-chat-end-to-end.md)
+for the advisory package path.
 

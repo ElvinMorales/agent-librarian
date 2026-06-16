@@ -2,8 +2,8 @@
 
 ## Purpose
 
-v0.5 starts the portable package foundation for `agent-librarian` and adds the
-first Claude package adapter.
+v0.5 starts the portable package foundation for `agent-librarian` and adds
+Claude and OpenAI package adapters.
 
 ```text
 One agent contract, multiple LLM-native package adapters.
@@ -15,9 +15,11 @@ specific LLM workspaces. This avoids maintaining separate agent definitions
 for Claude, Codex, GPT, ChatGPT Projects, or future hosts.
 
 This workstream does not add provider integration, an MCP server, network
-behavior, new CLI behavior, or deterministic schema changes. The Claude
-package added in v0.5 is an adapter around existing instructions, the
-approval-gated runtime wrapper, and deterministic CLI evidence.
+behavior, new CLI behavior, or deterministic schema changes. The Claude and
+Codex packages added in v0.5 are adapters around existing instructions, the
+approval-gated runtime wrapper, and deterministic CLI evidence. The GPT and
+ChatGPT Project packages are advisory adapters for uploaded or pasted
+evidence.
 
 ## Why v0.5 Exists
 
@@ -97,16 +99,16 @@ The targets differ by how much local action they can safely expose.
 | Claude Code | Workspace instructions and a Claude Code skill | Command-capable when the host workspace grants local tools and the adapter enforces exact approval | Added in v0.5 |
 | Claude Enterprise | Enterprise-managed instructions, policy notes, or knowledge content | Advisory-only in this repo; enterprise tool access must be separately reviewed | Added in v0.5 as adaptation notes |
 | Claude Cowork | Cowork-oriented shared instructions or collaboration guidance | Advisory-only in this repo unless a separately governed host provides tools | Added in v0.5 as cowork guidance |
-| Codex | `AGENTS.md` and Codex skill packaging | Command-capable when running in a local workspace with sandbox and approval controls | Planned only |
-| GPT | Builder/custom GPT instructions and reference files | Advisory-only; no local filesystem or CLI execution is claimed by this repo | Planned only |
-| ChatGPT Project | Project instructions and reference docs | Advisory-only; no local filesystem or CLI execution is claimed by this repo | Planned only |
+| Codex | `AGENTS.md` and Codex skill packaging | Command-capable when running in a local workspace with sandbox and approval controls | Added in v0.5 |
+| GPT | Builder/custom GPT instructions and reference files | Advisory-only; no local filesystem or CLI execution is claimed by this repo | Added in v0.5 |
+| ChatGPT Project | Project instructions and reference docs | Advisory-only; no local filesystem or CLI execution is claimed by this repo | Added in v0.5 |
 | Shared | Manifest schema, examples, and conformance expectations | Does not execute commands | Added in v0.5 |
 
 No v0.5 platform adapter file is treated as a live provider integration. The
-Claude Code adapter demonstrates a functional agent-shaped workflow by asking
-Claude to propose wrapper commands and summarize deterministic evidence, but
-the only current executable surfaces remain the deterministic CLI and the
-optional local runtime wrapper prototype documented in
+Claude Code and Codex adapters demonstrate a functional agent-shaped workflow
+by asking the workspace assistant to propose wrapper commands and summarize
+deterministic evidence, but the only current executable surfaces remain the
+deterministic CLI and the optional local runtime wrapper prototype documented in
 [`docs/runtime-wrapper-prototype.md`](runtime-wrapper-prototype.md).
 
 ## Command-Capable vs Advisory Packages
@@ -114,11 +116,11 @@ optional local runtime wrapper prototype documented in
 Command-capable packages may describe local execution only when the host
 workspace actually supports local command tools and the adapter preserves the
 canonical approval contract. Today, that category includes the Claude Code
-demo adapter and future Codex adapters.
+demo adapter and the Codex adapter.
 
 Advisory packages must not claim they can run `agent-librarian`, inspect local
 files, validate a local catalog, or generate local outputs. Today, GPT and
-ChatGPT Project packages remain future advisory packages, while the Claude
+ChatGPT Project packages are advisory packages, while the Claude
 Enterprise and Claude Cowork notes are advisory-only from this repository's
 perspective unless a separate governed runtime is introduced.
 
@@ -158,6 +160,49 @@ All packages, including command-capable ones, must preserve this rule:
 ```text
 No execution without exact command approval.
 ```
+
+## OpenAI Package
+
+The OpenAI package lives under `packages/openai/` and adapts the same
+canonical agent contract for Codex, GPT, and ChatGPT Projects.
+
+The Codex package leads with this functional story:
+
+```text
+Codex reads AGENTS.md
+-> Codex explains safe scope
+-> Codex proposes runtime-wrapper commands
+-> user approves exact command
+-> wrapper runs deterministic CLI backend
+-> Codex summarizes CLI evidence
+-> human reviews generated outputs
+```
+
+The Codex package includes:
+
+- `packages/openai/codex/AGENTS.md`
+- `packages/openai/codex/.agents/skills/artifact-librarian/SKILL.md`
+- `packages/openai/codex/codex-demo-prompt.md`
+- `packages/openai/codex/codex-validation-checklist.md`
+
+The GPT and ChatGPT Project packages are advisory. They explain, review, and
+guide next steps using uploaded or pasted deterministic evidence, but they do
+not claim local CLI execution.
+
+The advisory package includes:
+
+- `packages/openai/gpt/instructions.md`
+- `packages/openai/gpt/knowledge-manifest.md`
+- `packages/openai/gpt/conversation-starters.md`
+- `packages/openai/gpt/actions-future.md`
+- `packages/openai/chatgpt-project/project-instructions.md`
+- `packages/openai/chatgpt-project/source-files-to-upload.md`
+- `packages/openai/chatgpt-project/demo-thread-prompt.md`
+
+The runnable Codex guide is
+[`docs/demos/codex-end-to-end.md`](demos/codex-end-to-end.md). The advisory
+GPT/ChatGPT guide is
+[`docs/demos/gpt-chat-end-to-end.md`](demos/gpt-chat-end-to-end.md).
 
 ## Future MCP, API, and Tool Exposure
 
@@ -202,9 +247,12 @@ The shared package foundation lives under `packages/shared/`:
 - `conformance/` records scenario expectations that every adapter must
   preserve.
 
-These files establish conformance expectations. The Claude package now adapts
+These files establish conformance expectations. The Claude package adapts
 those expectations for Claude Code, Claude Enterprise, and cowork-facing demo
-materials. Codex, GPT, and ChatGPT package implementations remain planned.
+materials. The OpenAI package adapts those expectations for Codex, GPT, and
+ChatGPT Projects. Static local checks live in
+[`scripts/check_packages.py`](../scripts/check_packages.py) and are covered by
+[`tests/test_packages.py`](../tests/test_packages.py).
 
 ## Public-Safe Examples
 

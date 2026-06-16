@@ -11,6 +11,8 @@ All notable changes to this project are documented here.
 - Added a Claude package with Claude Code project instructions, a demo skill,
   enterprise adaptation notes, cowork-facing guardrails, and an end-to-end
   demo guide.
+- Added OpenAI package adapters for Codex, GPT, and ChatGPT Projects.
+- Added cross-platform demo docs and package conformance checks.
 
 ## [0.4.0] - 2026-06-15
 

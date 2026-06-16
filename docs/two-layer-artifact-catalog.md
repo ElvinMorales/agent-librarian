@@ -20,9 +20,9 @@ cataloging logic or invent catalog results. CLI-generated files remain the
 source of truth for review.
 
 This catalog makes the v0.4 direction inspectable. The v0.5 portable package
-workstream adds shared package manifests, conformance expectations, and a
-Claude package adapter without changing the stable CLI or optional local
-runtime wrapper prototype.
+workstream adds shared package manifests, conformance expectations, Claude
+and OpenAI package adapters, and static package conformance checks without
+changing the stable CLI or optional local runtime wrapper prototype.
 
 ## Architecture summary
 
@@ -106,7 +106,15 @@ provider integrations:
 | `packages/claude/cowork/` | Prompts/interfaces / guardrails-governance | Provides cowork-facing demo script and guardrails for explaining exact approval and bounded autonomy. |
 | `docs/demos/claude-code-end-to-end.md` | Planning/orchestration | Documents the runnable Claude Code demo from package instructions through human review of generated outputs. |
 | `docs/demos/claude-enterprise-adaptation.md` | Runtime/deployment / guardrails-governance | Documents public-safe Enterprise adaptation expectations and future MCP/API review boundaries. |
-| `docs/demos/cross-platform-agent-demo.md` | Runtime/deployment | Indexes the Claude demo and leaves Codex/GPT package sections as planned placeholders. |
+| `packages/openai/README.md` | Runtime/deployment | Introduces the OpenAI package adapters while keeping `agent/` as source of truth. |
+| `packages/openai/codex/AGENTS.md` | Prompts/interfaces / runtime-deployment | Provides Codex project instructions that keep Codex as the interface layer and CLI outputs as the source of truth. |
+| `packages/openai/codex/.agents/skills/artifact-librarian/SKILL.md` | Capability modules / planning-orchestration | Packages the synthetic Codex demo workflow with exact approval, wrapper commands, and evidence summary boundaries. |
+| `packages/openai/gpt/` | Prompts/interfaces / knowledge-resources | Provides advisory GPT instructions, knowledge manifest, conversation starters, and future Actions boundaries. |
+| `packages/openai/chatgpt-project/` | Prompts/interfaces / knowledge-resources | Provides advisory ChatGPT Project instructions and public-safe upload guidance. |
+| `docs/demos/codex-end-to-end.md` | Planning/orchestration | Documents the runnable Codex demo from `AGENTS.md` through human review of generated outputs. |
+| `docs/demos/gpt-chat-end-to-end.md` | Planning/orchestration | Documents the advisory GPT/ChatGPT path for uploaded or pasted deterministic evidence. |
+| `scripts/check_packages.py` | Evaluation/observability | Statically checks package file presence, manifest parsing, source-of-truth language, approval boundaries, advisory limits, command examples, and generated-output cleanliness. |
+| `docs/demos/cross-platform-agent-demo.md` | Runtime/deployment | Shows the Claude Code, Codex, and GPT/ChatGPT advisory demo paths for one shared Agent Librarian contract. |
 
 These package artifacts are adapters around the existing contract. They do not
 change CLI behavior, generated output schemas, runtime wrapper behavior,
@@ -182,6 +190,8 @@ inspectable.
 - [Demo walkthrough](demo-walkthrough.md)
 - [Claude Code end-to-end demo](demos/claude-code-end-to-end.md)
 - [Claude Enterprise adaptation](demos/claude-enterprise-adaptation.md)
+- [Codex end-to-end demo](demos/codex-end-to-end.md)
+- [GPT and ChatGPT advisory demo](demos/gpt-chat-end-to-end.md)
 - [Cross-platform agent demo](demos/cross-platform-agent-demo.md)
 - [Forum demo runbook](forum-demo-runbook.md)
 - [Public-safe adoption guide](adoption-guide.md)
