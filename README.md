@@ -72,11 +72,12 @@ truth and explicit review artifacts. The stable CLI remains deterministic and
 does not call an LLM. The optional runtime wrapper prototype also does not call
 an LLM provider or network service.
 
-## Portable agent packages
+## Portable LLM agent packages
 
-The v0.5 workstream packages the same canonical `agent-librarian` artifact
-contract for multiple LLM workspaces. The canonical agent artifacts remain
-under `agent/`; platform-specific adapters live under `packages/`.
+v0.5.0 adds portable package adapters for Claude Code, Codex, GPT, and
+ChatGPT Projects. The canonical agent contract remains framework-neutral under
+`agent/`; package adapters under `packages/` adapt that contract for specific
+LLM workspaces.
 
 See [Portable Agent Packages](docs/portable-agent-packages.md) and
 [Agent Package Adapters](packages/README.md) for the shared package manifest
