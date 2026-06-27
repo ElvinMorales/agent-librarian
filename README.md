@@ -53,6 +53,9 @@ The optional local runtime wrapper prototype is documented in
 For guidance on safely adapting the tool to your own collection, see the
 [Public-Safe Adoption Guide](docs/adoption-guide.md).
 
+For the v0.6 presentation outputs, see the
+[Presentation Demo Walkthrough](docs/presentation-demo-walkthrough.md).
+
 For post-forum planning and the next LLM-layer direction, see the
 [v0.4 roadmap](docs/roadmap-v0.4.md) and
 [forum feedback log](docs/forum-feedback-log.md).
@@ -190,7 +193,7 @@ The command reads only `index.json`, `diagnostics.json`, and
 `overlap-report.json` from the catalog directory and writes
 `.tmp/present-demo/overview.html`. The result has no external CSS, JavaScript,
 network, provider, or LLM dependency and is deterministic for unchanged input
-JSON.
+JSON. It requires no API key.
 
 Optionally add a grounded, model-authored summary for human review:
 
@@ -200,14 +203,23 @@ $env:ANTHROPIC_API_KEY = "..."  # PowerShell; do not commit or print this value
 agent-librarian present examples/generated-catalog --out .tmp/present-narrated --narrate
 ```
 
-Use `--model MODEL_ID` to override the centralized default model. Narrated
-runs send only the three generated JSON documents named above to the Anthropic
-Messages API and write `overview.html`, `narrative.md`, and
+`--narrate` is an explicit opt-in. It requires `ANTHROPIC_API_KEY`; the
+Anthropic SDK is optional and installed through the `narrate` extra shown
+above. Use `--model MODEL_ID` to override the centralized default model.
+Narrated runs send only the three generated JSON documents named above to the
+Anthropic Messages API and write `overview.html`, `narrative.md`, and
 `narrative-provenance.json`. The model-authored section is a secondary review
 aid; deterministic facts remain visible and remain the source of truth. It is
 not a safety, privacy, correctness, completeness, approval, compliance, or
 publication-readiness certification. Without `--narrate`, no API key, provider
-dependency, or network access is required.
+dependency, or network access is required. All presentation outputs inherit
+the source catalog's sensitivity; public demos must use synthetic catalog data.
+Warnings and overlap candidates are prompts for human review, not decisions.
+
+Committed synthetic examples are available under
+`examples/generated-presentation` and
+`examples/generated-presentation-narrated`. The narrated example is a static,
+stubbed demonstration and was created without a model or network call.
 
 ## What It Catalogs
 
@@ -241,17 +253,19 @@ See [Warnings and overlap](docs/warnings-and-overlap.md) for warning code
 meanings, suggested review actions, diagnostics interpretation, and the exact
 overlap scoring thresholds.
 
-## Non-Goals
+## v0.6 Non-Goals
 
-Version `0.1.0` is not:
+The v0.6 presentation layer does not provide:
 
-- a marketplace or hosted registry
-- a web application
-- an agent runtime or framework
-- an LLM-powered reviewer
-- a protocol validator
-- an automatic merge or deduplication tool
-- a scanner for live memory, runtime state, logs, or traces
+- source crawling
+- SharePoint or Microsoft 365 connectors
+- MCP server behavior
+- multi-provider abstraction
+- safety or compliance certification
+- publication approval
+- automatic deduplication decisions
+- automatic artifact edits
+- a private-to-public sanitization guarantee
 
 ## Public Safety
 

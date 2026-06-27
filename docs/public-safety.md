@@ -32,12 +32,30 @@ generated outputs for contextual disclosure.
 See the [public-safe adoption guide](adoption-guide.md) for a step-by-step
 workflow using synthetic examples and private placeholder paths.
 
-## Future LLM Interaction Layer
+## Presentation Output Boundaries
 
-A future LLM interaction layer must preserve these public/private boundaries.
-It may scope intent, explain constraints, propose bounded and documented
-`catalog`, `validate`, and `report` commands, request human approval before
-execution, and summarize generated outputs.
+The default `present` command is deterministic, offline, provider-free, and
+requires no API key. Its `overview.html` still inherits the source catalog's
+sensitivity because it can expose artifact names, paths, diagnostics, warnings,
+and overlap information.
+
+The explicit `present --narrate` path is online and Anthropic-backed. It sends
+only generated `index.json`, `diagnostics.json`, and `overlap-report.json`
+facts, but those facts can still be sensitive. Use narration only when sending
+that metadata to the configured provider is acceptable. The generated
+`narrative.md` may repeat sensitive names, paths, warnings, and overlap
+information.
+
+Do not commit or publicly share `overview.html`, `narrative.md`, or
+`narrative-provenance.json` created from private catalogs. Public demos must use
+synthetic catalog data. Model narrative is a secondary review aid; it does not
+certify safety, privacy, correctness, completeness, compliance, approval, or
+publication readiness. Deterministic catalog facts remain the source of truth.
+
+## LLM Interaction Boundary
+
+Any LLM interaction layer, including optional presentation narration, must
+preserve these public/private boundaries.
 
 It must not:
 

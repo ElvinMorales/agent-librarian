@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Artifact Catalog Overview</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f3f5f2;
+      --surface: #ffffff;
+      --ink: #182625;
+      --muted: #5b6b68;
+      --line: #cbd6d2;
+      --accent: #087f78;
+      --accent-soft: #dcefeb;
+      --warn: #855d12;
+      --danger: #9b3d32;
+      --shadow: 0 10px 28px rgba(24, 38, 37, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+    .page { width: min(1180px, calc(100% - 2rem)); margin: 0 auto; }
+    header {
+      padding: 4.5rem 0 2.5rem;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(135deg, #e7f1ee 0%, var(--paper) 60%);
+    }
+    .eyebrow { color: var(--accent); font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
+    h1, h2, h3 { line-height: 1.15; }
+    h1 { max-width: 760px; margin: .45rem 0 .8rem; font-size: clamp(2.3rem, 6vw, 4.7rem); letter-spacing: -.045em; }
+    h2 { margin: 0 0 1rem; font-size: clamp(1.55rem, 3vw, 2.2rem); }
+    h3 { margin: 0; font-size: 1.15rem; }
+    .subtitle { max-width: 720px; margin: 0; color: var(--muted); font-size: 1.05rem; }
+    .meta { display: flex; flex-wrap: wrap; gap: .65rem 1.5rem; margin-top: 1.5rem; color: var(--muted); }
+    .mono, code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: .9em; }
+    main { padding: 2.5rem 0 4rem; }
+    section { margin-top: 3.5rem; scroll-margin-top: 1rem; }
+    .summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 0; }
+    .stat, .card, .table-shell { background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); }
+    .stat { padding: 1.25rem; border-radius: 14px; }
+    .stat strong { display: block; color: var(--accent); font-size: 2rem; line-height: 1; }
+    .stat span { display: block; margin-top: .55rem; color: var(--muted); }
+    .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+    .section-head p { margin: 0; color: var(--muted); }
+    .cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .card { padding: 1.35rem; border-radius: 14px; }
+    .card-top { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; }
+    .path { margin: .45rem 0 1rem; color: var(--muted); overflow-wrap: anywhere; }
+    .description { margin: 0 0 1rem; }
+    .chips { display: flex; flex-wrap: wrap; gap: .45rem; }
+    .chip { padding: .2rem .55rem; border-radius: 999px; background: var(--accent-soft); color: #075e59; font-size: .78rem; font-weight: 700; }
+    .chip.warning { background: #f6ead0; color: var(--warn); }
+    .details { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem 1rem; margin-top: 1rem; }
+    .details dt { color: var(--muted); font-size: .76rem; font-weight: 750; letter-spacing: .06em; text-transform: uppercase; }
+    .details dd { margin: .15rem 0 0; overflow-wrap: anywhere; }
+    .table-shell { overflow-x: auto; border-radius: 14px; }
+    table { width: 100%; border-collapse: collapse; min-width: 720px; }
+    th, td { padding: .85rem 1rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+    th { background: #edf3f1; color: #334744; font-size: .78rem; letter-spacing: .05em; text-transform: uppercase; }
+    tbody tr:last-child td { border-bottom: 0; }
+    .status { font-weight: 750; }
+    .status-partial, .status-skipped { color: var(--warn); }
+    .status-failed { color: var(--danger); }
+    .candidate-name { font-weight: 700; }
+    .empty { color: var(--muted); font-style: italic; }
+    footer { padding: 2rem 0 3rem; border-top: 1px solid var(--line); color: var(--muted); }
+    footer p { margin: .25rem 0; }
+    @media (max-width: 760px) {
+      header { padding-top: 3rem; }
+      .summary, .cards { grid-template-columns: 1fr; }
+      .details { grid-template-columns: 1fr; }
+      .section-head { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="page">
+      <div class="eyebrow">agent-librarian</div>
+      <h1>Artifact Catalog Overview</h1>
+      <p class="subtitle">A deterministic, offline review of generated catalog facts.</p>
+      <div class="meta mono">
+        <span>Source: sample-collection</span>
+        <span>Generated: 2026-06-15T00:00:00Z</span>
+        <span>Schema: 0.1.0</span>
+      </div>
+    </div>
+  </header>
+  <main class="page">
+    <section class="summary" aria-label="Catalog summary">
+      <div class="stat"><strong>6</strong><span>Artifacts</span></div>
+      <div class="stat"><strong>6</strong><span>Diagnostic outcomes</span></div>
+      <div class="stat"><strong>1</strong><span>Overlap candidates</span></div>
+    </section>
+
+    <section aria-labelledby="artifacts-title">
+      <div class="section-head">
+        <h2 id="artifacts-title">Artifacts</h2>
+        <p>6 catalog entries</p>
+      </div>
+      <div class="cards"><article class="card">
+  <div class="card-top"><h3>Synthetic Research Assistant</h3><span class="mono">#1</span></div>
+  <p class="path mono">agents/research-assistant/AGENTS.md</p>
+  <p class="description">Organize public reference material into a cited research brief.</p>
+  <div class="chips"><span class="chip">agent_definition</span><span class="chip">Identity</span></div>
+  <dl class="details">
+    <div><dt>Version</dt><dd>1.0.0</dd></div>
+    <div><dt>Framework</dt><dd>Codex</dd></div>
+    <div><dt>Owner</dt><dd>example-maintainers</dd></div>
+    <div><dt>Extraction confidence</dt><dd>1.0</dd></div>
+    <div><dt>Warnings</dt><dd>0</dd></div>
+  </dl>
+</article>
+<article class="card">
+  <div class="card-top"><h3>synthetic-reference-server</h3><span class="mono">#2</span></div>
+  <p class="path mono">mcp/sample-server.json</p>
+  <p class="description">Synthetic MCP-style discovery manifest for public reference resources.</p>
+  <div class="chips"><span class="chip">protocol_manifest</span><span class="chip">Runtime and deployment</span></div>
+  <dl class="details">
+    <div><dt>Version</dt><dd>0.1.0</dd></div>
+    <div><dt>Framework</dt><dd>MCP</dd></div>
+    <div><dt>Owner</dt><dd>Not provided</dd></div>
+    <div><dt>Extraction confidence</dt><dd>0.6</dd></div>
+    <div><dt>Warnings</dt><dd>0</dd></div>
+  </dl>
+</article>
+<article class="card">
+  <div class="card-top"><h3>Weekly Review</h3><span class="mono">#3</span></div>
+  <p class="path mono">prompts/weekly-review.md</p>
+  <p class="description">Helpful review prompt.</p>
+  <div class="chips"><span class="chip">prompt_template</span><span class="chip">Prompts and interfaces</span><span class="chip warning">weak_description</span><span class="chip warning">missing_outputs</span><span class="chip warning">missing_output_contract</span><span class="chip warning">missing_examples</span></div>
+  <dl class="details">
+    <div><dt>Version</dt><dd>Not provided</dd></div>
+    <div><dt>Framework</dt><dd>Not provided</dd></div>
+    <div><dt>Owner</dt><dd>Not provided</dd></div>
+    <div><dt>Extraction confidence</dt><dd>0.8</dd></div>
+    <div><dt>Warnings</dt><dd>4</dd></div>
+  </dl>
+</article>
+<article class="card">
+  <div class="card-top"><h3>Summarize Documents</h3><span class="mono">#4</span></div>
+  <p class="path mono">skills/summarize-docs/SKILL.md</p>
+  <p class="description">Condense a collection of plain-text documents into a concise structured summary.</p>
+  <div class="chips"><span class="chip">capability_module</span><span class="chip">Capability modules</span><span class="chip warning">duplicate_candidate</span></div>
+  <dl class="details">
+    <div><dt>Version</dt><dd>1.0.0</dd></div>
+    <div><dt>Framework</dt><dd>Not provided</dd></div>
+    <div><dt>Owner</dt><dd>example-maintainers</dd></div>
+    <div><dt>Extraction confidence</dt><dd>1.0</dd></div>
+    <div><dt>Warnings</dt><dd>1</dd></div>
+  </dl>
+</article>
+<article class="card">
+  <div class="card-top"><h3>Summarize Notes</h3><span class="mono">#5</span></div>
+  <p class="path mono">skills/summarize-notes/SKILL.md</p>
+  <p class="description">Condense a collection of plain-text notes into a concise structured summary.</p>
+  <div class="chips"><span class="chip">capability_module</span><span class="chip">Capability modules</span><span class="chip warning">duplicate_candidate</span></div>
+  <dl class="details">
+    <div><dt>Version</dt><dd>1.0.0</dd></div>
+    <div><dt>Framework</dt><dd>Not provided</dd></div>
+    <div><dt>Owner</dt><dd>example-maintainers</dd></div>
+    <div><dt>Extraction confidence</dt><dd>1.0</dd></div>
+    <div><dt>Warnings</dt><dd>1</dd></div>
+  </dl>
+</article>
+<article class="card">
+  <div class="card-top"><h3>synthetic-document-tools</h3><span class="mono">#6</span></div>
+  <p class="path mono">tools/tools.yaml</p>
+  <p class="description">Read-only local tools for inspecting fabricated text documents.</p>
+  <div class="chips"><span class="chip">tool_manifest</span><span class="chip">Tools</span></div>
+  <dl class="details">
+    <div><dt>Version</dt><dd>1.0.0</dd></div>
+    <div><dt>Framework</dt><dd>Not provided</dd></div>
+    <div><dt>Owner</dt><dd>Not provided</dd></div>
+    <div><dt>Extraction confidence</dt><dd>0.6</dd></div>
+    <div><dt>Warnings</dt><dd>0</dd></div>
+  </dl>
+</article></div>
+    </section>
+
+    <section aria-labelledby="diagnostics-title">
+      <div class="section-head">
+        <h2 id="diagnostics-title">Diagnostics</h2>
+        <p>Parsed 5 · Partial 1 · Failed 0 · Skipped 0</p>
+      </div>
+      <div class="table-shell">
+        <table>
+          <thead><tr><th scope="col">Source path</th><th scope="col">Status</th><th scope="col">Parser</th><th scope="col">Classification</th><th scope="col">Warnings / error</th></tr></thead>
+          <tbody><tr>
+  <td class="mono">agents/research-assistant/AGENTS.md</td>
+  <td><span class="status status-parsed">parsed</span></td>
+  <td>markdown</td>
+  <td>agent_definition / Identity</td>
+  <td>—</td>
+</tr>
+<tr>
+  <td class="mono">mcp/sample-server.json</td>
+  <td><span class="status status-parsed">parsed</span></td>
+  <td>json</td>
+  <td>protocol_manifest / Runtime and deployment</td>
+  <td>—</td>
+</tr>
+<tr>
+  <td class="mono">prompts/weekly-review.md</td>
+  <td><span class="status status-partial">partial</span></td>
+  <td>markdown</td>
+  <td>prompt_template / Prompts and interfaces</td>
+  <td>weak_description<br>missing_outputs<br>missing_output_contract<br>missing_examples</td>
+</tr>
+<tr>
+  <td class="mono">skills/summarize-docs/SKILL.md</td>
+  <td><span class="status status-parsed">parsed</span></td>
+  <td>markdown</td>
+  <td>capability_module / Capability modules</td>
+  <td>—</td>
+</tr>
+<tr>
+  <td class="mono">skills/summarize-notes/SKILL.md</td>
+  <td><span class="status status-parsed">parsed</span></td>
+  <td>markdown</td>
+  <td>capability_module / Capability modules</td>
+  <td>—</td>
+</tr>
+<tr>
+  <td class="mono">tools/tools.yaml</td>
+  <td><span class="status status-parsed">parsed</span></td>
+  <td>yaml</td>
+  <td>tool_manifest / Tools</td>
+  <td>—</td>
+</tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section aria-labelledby="overlap-title">
+      <div class="section-head">
+        <h2 id="overlap-title">Overlap candidates</h2>
+        <p>1 prompts for human review</p>
+      </div>
+      <div class="table-shell">
+        <table>
+          <thead><tr><th scope="col">Artifacts</th><th scope="col">Type</th><th scope="col">Confidence</th><th scope="col">Evidence and recommendation</th></tr></thead>
+          <tbody><tr>
+  <td><span class="candidate-name">Summarize Documents</span><br><span class="mono">skills/summarize-docs/SKILL.md</span><hr><span class="candidate-name">Summarize Notes</span><br><span class="mono">skills/summarize-notes/SKILL.md</span></td>
+  <td>duplicate</td>
+  <td class="mono">0.81</td>
+  <td>Shared terms: action, collection, concise, condense, decision, document, item, length, markdown, maximum, more, need, one, open, optional, output, overview, plain, preserv, produce, question, reader, reviewable, separat, several, structur, summarization, summarize, summary, synthetic, text<br>Compare scope and contracts; consolidate or cross-reference only after human review.</td>
+</tr></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="page">
+      <p>Generated by agent-librarian from existing catalog outputs.</p>
+      <p>Warnings and overlaps are review prompts, not decisions.</p>
+    </div>
+  </footer>
+</body>
+</html>

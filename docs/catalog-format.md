@@ -1,6 +1,6 @@
 # Catalog Format
 
-The CLI produces four files under the selected output directory.
+The `catalog` command produces four files under the selected output directory.
 
 ## `index.json`
 
@@ -116,9 +116,13 @@ agent-librarian present CATALOG_DIR --out OUT_DIR
 ```
 
 The command reads `index.json`, `diagnostics.json`, and
-`overlap-report.json` and writes `OUT_DIR/overview.html`. It does not read or
-rescan the source collection. The HTML is self-contained, uses the catalog's
-existing `generated_at` value, and is deterministic for unchanged input JSON.
+`overlap-report.json` and writes only:
+
+- `overview.html`: a self-contained rendering of deterministic catalog facts.
+
+It does not read or rescan the source collection. The HTML uses the catalog's
+existing `generated_at` value and is deterministic for unchanged input JSON.
+It has no provider, API-key, network, external CSS, or JavaScript dependency.
 Warnings and overlap candidates remain review prompts, not decisions.
 
 Absence of validation errors or warning codes does not make an artifact
@@ -138,7 +142,7 @@ agent-librarian present CATALOG_DIR --out OUT_DIR --narrate --model MODEL_ID
 This path requires `ANTHROPIC_API_KEY` and contacts the Anthropic Messages API.
 It sends only deterministic serializations of `index.json`,
 `diagnostics.json`, and `overlap-report.json`; it does not rescan sources or
-read other repository files. A narrated run writes:
+read other repository files. A `present --narrate` run writes:
 
 - `overview.html`: model-authored narrative near the top, followed by the
   deterministic catalog facts.
@@ -149,4 +153,13 @@ read other repository files. A narrated run writes:
 The digest is calculated over the exact canonical JSON string sent as the
 single user-message payload. The provenance file does not contain source file
 contents. All three outputs are staged only after a successful model response.
-The narrative is a secondary review aid, not a decision or certification.
+The narrative is a secondary review aid, not a decision or certification of
+safety, privacy, correctness, completeness, compliance, approval, or
+publication readiness. Deterministic catalog facts remain the source of truth.
+
+All presentation files inherit the sensitivity of the source catalog.
+`overview.html`, `narrative.md`, and `narrative-provenance.json` produced from
+a private catalog must not be committed or shared publicly. Narrative text can
+repeat sensitive artifact names, paths, warnings, and overlap information.
+Use `--narrate` only when sending the generated catalog metadata to Anthropic
+is acceptable. Public examples must use synthetic catalog data.

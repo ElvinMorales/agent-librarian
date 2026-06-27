@@ -7,16 +7,15 @@ collection while keeping private work separate from public repository
 examples. Treat personal, employer, client, customer, and other non-public
 collections as private by default.
 
-The CLI runs locally and does not execute scanned artifacts or call an LLM or
-network service. Those boundaries reduce exposure, but they do not make source
-files or generated catalogs safe to publish. Human review remains required.
+The deterministic `catalog`, `validate`, `report`, and default `present` paths
+run locally and do not execute scanned artifacts or call an LLM or network
+service. The explicit optional `present --narrate` path contacts Anthropic.
+These boundaries do not make source files or generated outputs safe to
+publish. Human review remains required.
 
-The current CLI is the deterministic backend and can be adapted directly for
-private local use. Any future LLM interaction layer should preserve the same
-local and private boundaries, propose only documented `catalog`, `validate`,
-and `report` commands, show the selected input and output scope, and obtain
-human approval before execution. It may summarize generated outputs, but the
-CLI-generated files remain the source of truth.
+The CLI-generated files remain the source of truth. Optional model narrative
+is a secondary review aid and cannot certify safety, privacy, correctness,
+completeness, compliance, approval, or publication readiness.
 
 ## Start with the synthetic example
 
@@ -28,6 +27,7 @@ python -m pip install -e ".[dev]"
 agent-librarian catalog examples/sample-collection --out examples/generated-catalog
 agent-librarian validate examples/generated-catalog
 agent-librarian report examples/generated-catalog
+agent-librarian present examples/generated-catalog --out .tmp/present-demo
 ```
 
 Inspect the source collection and the four files under
@@ -94,6 +94,36 @@ Choose an output directory that is not synchronized, published, or tracked by
 a public repository. Confirm the directory's access and backup behavior if the
 collection contains sensitive material.
 
+## Present catalogs with the same sensitivity boundary
+
+The default presentation path is offline, deterministic, provider-free, and
+requires no API key:
+
+```bash
+agent-librarian present path/to/private-generated-catalog --out path/to/private-presentation
+```
+
+Its `overview.html` can contain artifact names, relative paths, diagnostics,
+warnings, and overlap findings. It inherits the catalog's sensitivity and must
+remain private when the catalog is private.
+
+Narration is a separate, explicit opt-in path:
+
+```bash
+python -m pip install -e ".[narrate]"
+agent-librarian present path/to/private-generated-catalog --out path/to/private-narrated-presentation --narrate
+```
+
+It requires `ANTHROPIC_API_KEY` and sends deterministic serializations of
+`index.json`, `diagnostics.json`, and `overlap-report.json` to Anthropic. Use it
+only when sending that generated metadata to the configured provider is
+acceptable. The resulting narrative may repeat sensitive artifact names,
+paths, warnings, and overlap information.
+
+Do not commit or publicly share `overview.html`, `narrative.md`, or
+`narrative-provenance.json` generated from a private catalog. Public demos must
+use intentionally synthetic catalog data.
+
 ## Validate and report before reviewing
 
 After each catalog run, validate the generated JSON and summarize the review
@@ -125,9 +155,10 @@ findings from the scanned collection.
 Absence of validation errors or public-safety warnings does not prove that the
 source or generated files are safe to publish.
 
-The same rule applies to any future LLM summary. A model must not certify that
-artifacts are safe, complete, approved, or ready to publish, and its summary
-does not replace review of the private source collection and generated files.
+The same rule applies to the optional narrated presentation. A model narrative
+does not certify safety, privacy, correctness, completeness, compliance,
+approval, or publication readiness, and it does not replace review of the
+private source collection and generated files.
 
 ## What is safe to commit
 
@@ -176,9 +207,10 @@ publication rights are unclear, keep the material private.
 - [ ] Exclude private folders, traces, scratch areas, temporary files, state,
       and generated outputs.
 - [ ] Run `validate` and `report` after generating the catalog.
+- [ ] Keep presentation outputs private whenever the source catalog is private.
+- [ ] Use `--narrate` only when provider disclosure of generated metadata is
+      acceptable.
 - [ ] Review both source artifacts and all generated outputs.
-- [ ] In any future LLM workflow, review and approve the scoped CLI command
-      before execution.
 - [ ] Keep public examples synthetic and intentionally public.
 - [ ] Do not commit generated catalogs from private collections.
 - [ ] Confirm no credentials, secrets, private paths, internal URLs, or
@@ -189,6 +221,7 @@ publication rights are unclear, keep the material private.
 - [Project overview](../README.md)
 - [Synthetic example collection](../examples/README.md)
 - [Demo walkthrough](demo-walkthrough.md)
+- [Presentation demo walkthrough](presentation-demo-walkthrough.md)
 - [Public safety](public-safety.md)
 - [Catalog format](catalog-format.md)
 - [Warnings and overlap](warnings-and-overlap.md)
