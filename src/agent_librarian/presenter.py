@@ -1,9 +1,25 @@
 from __future__ import annotations
 
 import json
+import os
+import tempfile
+from dataclasses import dataclass
+from datetime import datetime, timezone
 from html import escape
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
+
+from .narration import (
+    DEFAULT_NARRATION_MODEL,
+    GROUNDING_INSTRUCTION,
+    MAX_NARRATION_TOKENS,
+    NARRATION_INPUT_FILES,
+    AnthropicNarrationClient,
+    NarrationClient,
+    NarrationError,
+    narration_input_digest,
+    serialize_narration_input,
+)
 
 
 REQUIRED_PRESENTATION_FILES = (
@@ -16,6 +32,15 @@ DIAGNOSTIC_STATUSES = ("parsed", "partial", "failed", "skipped")
 
 class PresentationError(Exception):
     pass
+
+
+@dataclass(frozen=True)
+class NarratedPresentationResult:
+    overview_path: Path
+    narrative_path: Path
+    provenance_path: Path
+    input_tokens: int
+    output_tokens: int
 
 
 def present_catalog(catalog_dir: Path, output_dir: Path) -> Path:
@@ -38,10 +63,94 @@ def present_catalog(catalog_dir: Path, output_dir: Path) -> Path:
     return output_path
 
 
+def present_catalog_with_narration(
+    catalog_dir: Path,
+    output_dir: Path,
+    *,
+    api_key: str | None,
+    model: str = DEFAULT_NARRATION_MODEL,
+    client: NarrationClient | None = None,
+    created_at_factory: Callable[[], str] | None = None,
+) -> NarratedPresentationResult:
+    """Render deterministic facts plus an optional, grounded model summary."""
+    documents = {
+        file_name: _load_document(catalog_dir / file_name)
+        for file_name in REQUIRED_PRESENTATION_FILES
+    }
+    # Render once before contacting the provider so malformed input cannot be sent.
+    render_overview(
+        documents["index.json"],
+        documents["diagnostics.json"],
+        documents["overlap-report.json"],
+    )
+    if not api_key:
+        raise PresentationError(
+            "Narration requires ANTHROPIC_API_KEY because --narrate contacts "
+            "the Anthropic Messages API. Re-run without --narrate for the "
+            "offline deterministic HTML view."
+        )
+
+    try:
+        narration_client = client or AnthropicNarrationClient(api_key)
+        input_payload = serialize_narration_input(documents)
+        response = narration_client.narrate(
+            model=model,
+            system_instruction=GROUNDING_INSTRUCTION,
+            input_payload=input_payload,
+            max_tokens=MAX_NARRATION_TOKENS,
+        )
+    except NarrationError as exc:
+        raise PresentationError(str(exc)) from exc
+
+    html = render_overview(
+        documents["index.json"],
+        documents["diagnostics.json"],
+        documents["overlap-report.json"],
+        narrative=response.text,
+    )
+    narrative_markdown = (
+        "# Model-generated narrative\n\n"
+        "Secondary review aid; deterministic catalog facts remain the source "
+        "of truth.\n\n"
+        f"{response.text.strip()}\n"
+    )
+    created_at = (
+        created_at_factory() if created_at_factory else _utc_timestamp()
+    )
+    provenance = {
+        "model": model,
+        "created_at": created_at,
+        "input_digest": narration_input_digest(input_payload),
+        "input_files": list(NARRATION_INPUT_FILES),
+        "token_usage": {
+            "input_tokens": response.input_tokens,
+            "output_tokens": response.output_tokens,
+        },
+    }
+    output_text = {
+        "overview.html": html,
+        "narrative.md": narrative_markdown,
+        "narrative-provenance.json": json.dumps(
+            provenance, indent=2, ensure_ascii=False
+        )
+        + "\n",
+    }
+    _write_narrated_outputs(output_dir, output_text)
+    return NarratedPresentationResult(
+        overview_path=output_dir / "overview.html",
+        narrative_path=output_dir / "narrative.md",
+        provenance_path=output_dir / "narrative-provenance.json",
+        input_tokens=response.input_tokens,
+        output_tokens=response.output_tokens,
+    )
+
+
 def render_overview(
     index: dict[str, Any],
     diagnostics: dict[str, Any],
     overlap_report: dict[str, Any],
+    *,
+    narrative: str | None = None,
 ) -> str:
     entries = _list_field(index, "entries", "index.json")
     diagnostic_files = _list_field(diagnostics, "files", "diagnostics.json")
@@ -80,6 +189,19 @@ def render_overview(
         _overlap_row(candidate, entry_by_id, position)
         for position, candidate in enumerate(candidates, start=1)
     ) or _empty_table_row(4, "No overlap candidates were recorded.")
+    narrative_section = _narrative_section(narrative) if narrative is not None else ""
+    narrative_css = (
+        "    .narrative { margin-top: 0; padding: 1.4rem; border-left: 5px solid var(--accent); border-radius: 14px; background: var(--surface); box-shadow: var(--shadow); }\n"
+        "    .narrative p { margin: .7rem 0 0; }\n"
+        "    .narrative-note { color: var(--muted); font-size: .92rem; }\n"
+        if narrative is not None
+        else ""
+    )
+    subtitle = (
+        "Generated catalog facts with an optional model-authored review aid."
+        if narrative is not None
+        else "A deterministic, offline review of generated catalog facts."
+    )
 
     return f"""<!doctype html>
 <html lang="en">
@@ -126,7 +248,7 @@ def render_overview(
     main {{ padding: 2.5rem 0 4rem; }}
     section {{ margin-top: 3.5rem; scroll-margin-top: 1rem; }}
     .summary {{ display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 0; }}
-    .stat, .card, .table-shell {{ background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); }}
+{narrative_css}    .stat, .card, .table-shell {{ background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); }}
     .stat {{ padding: 1.25rem; border-radius: 14px; }}
     .stat strong {{ display: block; color: var(--accent); font-size: 2rem; line-height: 1; }}
     .stat span {{ display: block; margin-top: .55rem; color: var(--muted); }}
@@ -168,7 +290,7 @@ def render_overview(
     <div class="page">
       <div class="eyebrow">agent-librarian</div>
       <h1>Artifact Catalog Overview</h1>
-      <p class="subtitle">A deterministic, offline review of generated catalog facts.</p>
+      <p class="subtitle">{subtitle}</p>
       <div class="meta mono">
         <span>Source: {escape(source_root)}</span>
         <span>Generated: {escape(generated_at)}</span>
@@ -177,7 +299,7 @@ def render_overview(
     </div>
   </header>
   <main class="page">
-    <section class="summary" aria-label="Catalog summary">
+{narrative_section}    <section class="summary" aria-label="Catalog summary">
       <div class="stat"><strong>{entry_count}</strong><span>Artifacts</span></div>
       <div class="stat"><strong>{sum(status_counts.values())}</strong><span>Diagnostic outcomes</span></div>
       <div class="stat"><strong>{candidate_count}</strong><span>Overlap candidates</span></div>
@@ -413,3 +535,54 @@ def _empty_state(message: str) -> str:
 
 def _empty_table_row(columns: int, message: str) -> str:
     return f'<tr><td colspan="{columns}" class="empty">{escape(message)}</td></tr>'
+
+
+def _narrative_section(narrative: str) -> str:
+    paragraphs = [part.strip() for part in narrative.split("\n\n") if part.strip()]
+    rendered = "\n".join(
+        f"      <p>{escape(paragraph).replace(chr(10), '<br>')}</p>"
+        for paragraph in paragraphs
+    ) or "      <p class=\"empty\">No narrative text was returned.</p>"
+    return f"""    <section class="narrative" aria-labelledby="narrative-title">
+      <div class="eyebrow">Model-generated</div>
+      <h2 id="narrative-title">Catalog narrative</h2>
+      <p class="narrative-note">This model-authored narrative is a secondary review aid. Deterministic catalog facts below remain the source of truth; this is not a certification of safety, correctness, completeness, approval, compliance, or publication readiness.</p>
+{rendered}
+    </section>
+
+"""
+
+
+def _utc_timestamp() -> str:
+    return datetime.now(timezone.utc).isoformat(timespec="seconds").replace(
+        "+00:00", "Z"
+    )
+
+
+def _write_narrated_outputs(
+    output_dir: Path, output_text: dict[str, str]
+) -> None:
+    """Stage every narrated artifact before making any destination visible."""
+    parent = output_dir.parent
+    staging_dir: Path | None = None
+    try:
+        parent.mkdir(parents=True, exist_ok=True)
+        staging_dir = Path(tempfile.mkdtemp(prefix=".narration-", dir=parent))
+        for file_name, content in output_text.items():
+            (staging_dir / file_name).write_text(content, encoding="utf-8")
+
+        if not output_dir.exists():
+            os.replace(staging_dir, output_dir)
+            staging_dir = None
+        else:
+            if not output_dir.is_dir():
+                raise OSError(f"output path is not a directory: {output_dir}")
+            for file_name in output_text:
+                os.replace(staging_dir / file_name, output_dir / file_name)
+    except (OSError, UnicodeError) as exc:
+        raise PresentationError(f"could not write narrated presentation: {exc}") from exc
+    finally:
+        if staging_dir is not None and staging_dir.exists():
+            for child in staging_dir.iterdir():
+                child.unlink()
+            staging_dir.rmdir()

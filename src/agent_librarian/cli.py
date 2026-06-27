@@ -1,13 +1,19 @@
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from pathlib import Path
 
 from . import __version__
 from .overlap import find_overlaps
 from .parsers import parse_artifact_with_diagnostic
-from .presenter import PresentationError, present_catalog
+from .narration import DEFAULT_NARRATION_MODEL, NarrationClient
+from .presenter import (
+    PresentationError,
+    present_catalog,
+    present_catalog_with_narration,
+)
 from .report import ReportError, render_review_report
 from .renderers import (
     build_diagnostics,
@@ -91,6 +97,20 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         help="Directory for overview.html.",
     )
+    present.add_argument(
+        "--narrate",
+        action="store_true",
+        help="Add an optional grounded Anthropic narrative and provenance.",
+    )
+    present.add_argument(
+        "--model",
+        default=DEFAULT_NARRATION_MODEL,
+        metavar="MODEL_ID",
+        help=(
+            "Anthropic model for --narrate "
+            f"(default: {DEFAULT_NARRATION_MODEL})."
+        ),
+    )
     return parser
 
 
@@ -148,7 +168,11 @@ def run_catalog(
     return paths
 
 
-def main(argv: list[str] | None = None) -> int:
+def main(
+    argv: list[str] | None = None,
+    *,
+    narration_client: NarrationClient | None = None,
+) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     if args.command == "catalog":
@@ -197,11 +221,30 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.command == "present":
         try:
-            output_path = present_catalog(args.catalog_dir, args.out)
+            if args.narrate:
+                result = present_catalog_with_narration(
+                    args.catalog_dir,
+                    args.out,
+                    api_key=os.environ.get("ANTHROPIC_API_KEY"),
+                    model=args.model,
+                    client=narration_client,
+                )
+            else:
+                output_path = present_catalog(args.catalog_dir, args.out)
         except PresentationError as exc:
             print(f"Presentation error: {exc}", file=sys.stderr)
             return 1
-        print(f"Rendered catalog overview to {output_path}")
+        if args.narrate:
+            print(f"Rendered catalog overview to {result.overview_path}")
+            print(f"Wrote model-generated narrative to {result.narrative_path}")
+            print(f"Wrote narrative provenance to {result.provenance_path}")
+            print(
+                "Token usage: "
+                f"{result.input_tokens} input, {result.output_tokens} output"
+            )
+            print("Estimated cost: not calculated; pricing is not bundled.")
+        else:
+            print(f"Rendered catalog overview to {output_path}")
         return 0
     return 1
 
