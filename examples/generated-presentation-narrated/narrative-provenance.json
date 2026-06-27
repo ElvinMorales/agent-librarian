@@ -1,0 +1,14 @@
+{
+  "model": "synthetic-static-stub",
+  "created_at": "2026-06-27T00:00:00Z",
+  "input_digest": "9fba8d20d7731125f0c68abefa81f9a98c40a4fb6453f521becbd6b5a4ccb8f5",
+  "input_files": [
+    "index.json",
+    "diagnostics.json",
+    "overlap-report.json"
+  ],
+  "token_usage": {
+    "input_tokens": 0,
+    "output_tokens": 0
+  }
+}
