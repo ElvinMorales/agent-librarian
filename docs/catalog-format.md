@@ -107,6 +107,20 @@ Validation confirms generated JSON matches expected structure. It does not
 certify that the catalog is complete, safe, semantically correct, or free of
 private data.
 
+## Offline HTML presentation
+
+Render an existing generated catalog as a human-readable offline page:
+
+```bash
+agent-librarian present CATALOG_DIR --out OUT_DIR
+```
+
+The command reads `index.json`, `diagnostics.json`, and
+`overlap-report.json` and writes `OUT_DIR/overview.html`. It does not read or
+rescan the source collection. The HTML is self-contained, uses the catalog's
+existing `generated_at` value, and is deterministic for unchanged input JSON.
+Warnings and overlap candidates remain review prompts, not decisions.
+
 Absence of validation errors or warning codes does not make an artifact
 publication-ready. Public-safety review remains a human responsibility, and
 generated catalogs from private collections must not be committed.
