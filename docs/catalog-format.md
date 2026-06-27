@@ -124,3 +124,29 @@ Warnings and overlap candidates remain review prompts, not decisions.
 Absence of validation errors or warning codes does not make an artifact
 publication-ready. Public-safety review remains a human responsibility, and
 generated catalogs from private collections must not be committed.
+
+## Optional grounded narration
+
+Install the optional provider dependency and explicitly opt in:
+
+```bash
+python -m pip install -e ".[narrate]"
+agent-librarian present CATALOG_DIR --out OUT_DIR --narrate
+agent-librarian present CATALOG_DIR --out OUT_DIR --narrate --model MODEL_ID
+```
+
+This path requires `ANTHROPIC_API_KEY` and contacts the Anthropic Messages API.
+It sends only deterministic serializations of `index.json`,
+`diagnostics.json`, and `overlap-report.json`; it does not rescan sources or
+read other repository files. A narrated run writes:
+
+- `overview.html`: model-authored narrative near the top, followed by the
+  deterministic catalog facts.
+- `narrative.md`: the labeled model-authored narrative.
+- `narrative-provenance.json`: model ID, UTC creation time, allowed input file
+  names, token usage, and a SHA-256 digest.
+
+The digest is calculated over the exact canonical JSON string sent as the
+single user-message payload. The provenance file does not contain source file
+contents. All three outputs are staged only after a successful model response.
+The narrative is a secondary review aid, not a decision or certification.

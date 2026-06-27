@@ -68,9 +68,10 @@ generated outputs.
 
 The LLM layer should orchestrate the workflow, not replace deterministic
 cataloging logic or invent results. CLI-generated files remain the source of
-truth and explicit review artifacts. The stable CLI remains deterministic and
+truth and explicit review artifacts. The default CLI remains deterministic and
 does not call an LLM. The optional runtime wrapper prototype also does not call
-an LLM provider or network service.
+an LLM provider or network service. Only the explicit `present --narrate` path
+contacts a model provider.
 
 ## Portable LLM agent packages
 
@@ -191,6 +192,23 @@ The command reads only `index.json`, `diagnostics.json`, and
 network, provider, or LLM dependency and is deterministic for unchanged input
 JSON.
 
+Optionally add a grounded, model-authored summary for human review:
+
+```bash
+python -m pip install -e ".[narrate]"
+$env:ANTHROPIC_API_KEY = "..."  # PowerShell; do not commit or print this value
+agent-librarian present examples/generated-catalog --out .tmp/present-narrated --narrate
+```
+
+Use `--model MODEL_ID` to override the centralized default model. Narrated
+runs send only the three generated JSON documents named above to the Anthropic
+Messages API and write `overview.html`, `narrative.md`, and
+`narrative-provenance.json`. The model-authored section is a secondary review
+aid; deterministic facts remain visible and remain the source of truth. It is
+not a safety, privacy, correctness, completeness, approval, compliance, or
+publication-readiness certification. Without `--narrate`, no API key, provider
+dependency, or network access is required.
+
 ## What It Catalogs
 
 The classifier recognizes common artifact surfaces such as:
@@ -257,4 +275,6 @@ See [Developer workflow](docs/developer-workflow.md) for local setup,
 validation commands, branch hygiene, Codex handoff expectations, and
 public-safety reminders.
 
-The project does not call external services and requires no API keys.
+The deterministic commands and default `present` path do not call external
+services and require no API keys. The explicit optional `present --narrate`
+path requires the `narrate` extra and `ANTHROPIC_API_KEY`.

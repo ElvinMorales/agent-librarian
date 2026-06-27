@@ -26,6 +26,9 @@ classifiers = [
 ]
 
 [project.optional-dependencies]
+narrate = [
+  "anthropic>=0.40",
+]
 dev = [
   "pytest>=8.2",
 ]
