@@ -6,6 +6,47 @@ All notable changes to this project are documented here.
 
 No changes yet.
 
+## 0.6.0 - 2026-06-27
+
+v0.6.0 — Presentation Layer
+
+This release adds a human-readable presentation layer for generated artifact
+catalogs while keeping the default CLI offline and deterministic.
+
+### Added
+
+- Added the offline `present` command, which renders a self-contained,
+  deterministic `overview.html` from existing generated catalog facts.
+- Added explicit optional `present --narrate` support, with the Anthropic SDK
+  available only through the `narrate` extra.
+- Added `narrative.md` and `narrative-provenance.json` for narrated runs.
+- Added provenance containing a digest over the exact generated JSON payload
+  sent to the model.
+- Added a synthetic offline presentation demo, a static synthetic narrated
+  presentation demo, and a presentation demo walkthrough.
+- Added safety documentation clarifying sensitivity inheritance and requiring
+  synthetic data for public presentation demos.
+
+### Changed
+
+- Documented the presentation workflow and review surfaces while preserving
+  deterministic generated facts as the source of truth.
+
+### Safety / Boundaries
+
+- The default `present` path is offline, deterministic, provider-free, and
+  requires no API key; narration is an explicit online opt-in.
+- Presentation outputs inherit source sensitivity, and public demos must use
+  synthetic data.
+- Model narrative is a secondary review aid, not certification of safety,
+  privacy, correctness, completeness, compliance, approval, or publication
+  readiness.
+
+### Validation
+
+- Added presenter and narration coverage, committed synthetic demo checks,
+  package conformance validation, and full CLI and pytest release validation.
+
 ## 0.5.0 - 2026-06-16
 
 v0.5.0 — Portable LLM Agent Packages
