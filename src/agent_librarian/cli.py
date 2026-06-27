@@ -7,6 +7,7 @@ from pathlib import Path
 from . import __version__
 from .overlap import find_overlaps
 from .parsers import parse_artifact_with_diagnostic
+from .presenter import PresentationError, present_catalog
 from .report import ReportError, render_review_report
 from .renderers import (
     build_diagnostics,
@@ -74,6 +75,21 @@ def build_parser() -> argparse.ArgumentParser:
         "catalog_dir",
         type=Path,
         help="Directory containing generated catalog files.",
+    )
+    present = subparsers.add_parser(
+        "present",
+        help="Render an offline HTML overview from generated catalog outputs.",
+    )
+    present.add_argument(
+        "catalog_dir",
+        type=Path,
+        help="Directory containing generated catalog files.",
+    )
+    present.add_argument(
+        "--out",
+        required=True,
+        type=Path,
+        help="Directory for overview.html.",
     )
     return parser
 
@@ -178,6 +194,14 @@ def main(argv: list[str] | None = None) -> int:
             print(f"Report error: {exc}", file=sys.stderr)
             return 1
         print(report, end="")
+        return 0
+    if args.command == "present":
+        try:
+            output_path = present_catalog(args.catalog_dir, args.out)
+        except PresentationError as exc:
+            print(f"Presentation error: {exc}", file=sys.stderr)
+            return 1
+        print(f"Rendered catalog overview to {output_path}")
         return 0
     return 1
 

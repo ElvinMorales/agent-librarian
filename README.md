@@ -179,6 +179,18 @@ The report reads existing generated outputs and summarizes diagnostics,
 warnings, and overlap candidates for human review. It does not rescan source
 files, modify generated outputs, or make artifact-management decisions.
 
+Render the same generated facts as a self-contained offline HTML overview:
+
+```bash
+agent-librarian present examples/generated-catalog --out .tmp/present-demo
+```
+
+The command reads only `index.json`, `diagnostics.json`, and
+`overlap-report.json` from the catalog directory and writes
+`.tmp/present-demo/overview.html`. The result has no external CSS, JavaScript,
+network, provider, or LLM dependency and is deterministic for unchanged input
+JSON.
+
 ## What It Catalogs
 
 The classifier recognizes common artifact surfaces such as:
