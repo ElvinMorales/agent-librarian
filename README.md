@@ -56,6 +56,9 @@ For guidance on safely adapting the tool to your own collection, see the
 For the v0.6 presentation outputs, see the
 [Presentation Demo Walkthrough](docs/presentation-demo-walkthrough.md).
 
+The public stability boundary is defined in the
+[v1.0 readiness and compatibility contract](docs/releases/v1-readiness-and-compatibility.md).
+
 For future external-source workflows, see the
 [source snapshot contract](docs/adapters/README.md). External sources must be
 exported to a local, reviewable snapshot before `agent-librarian` catalogs them.
