@@ -1,0 +1,2 @@
+examples/source-snapshots/synthetic-team-space/files/*.md text eol=lf
+examples/source-snapshots/synthetic-team-space/files/**/*.md text eol=lf

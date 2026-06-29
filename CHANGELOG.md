@@ -4,7 +4,18 @@ All notable changes to this project are documented here.
 
 ## Unreleased
 
-No changes yet.
+### Added
+
+- Added the v0.7 external-source snapshot contract, source manifest schema,
+  synthetic snapshot fixture, and documentation-only SharePoint pattern.
+
+### Safety / Boundaries
+
+- External sources must become local, reviewable snapshots before cataloging;
+  no connector, authentication, provider configuration, or network behavior is
+  included.
+- Generated outputs inherit source sensitivity, and validation, reporting, and
+  presentation remain review aids rather than safety or publication approval.
 
 ## 0.6.0 - 2026-06-27
 

@@ -1,0 +1,104 @@
+{
+  "schema_version": "0.1.0",
+  "source_snapshot_id": "synthetic-team-space-2026-06-29",
+  "source_system": {
+    "type": "collaboration-space",
+    "name": "Synthetic Team Space",
+    "provider_hint": "microsoft-365-like",
+    "source_locator": "PLACEHOLDER_SOURCE_SYSTEM/synthetic-team-space"
+  },
+  "approved_scope": {
+    "description": "Synthetic docs and prompts approved for a public demo of the snapshot-first workflow.",
+    "approved_by": "synthetic-review-owner",
+    "approved_at": "2026-06-29T00:00:00Z",
+    "included_roots": [
+      "Policies/",
+      "Prompts/"
+    ],
+    "excluded_roots": [
+      "Private/",
+      "People/",
+      "Raw Exports/"
+    ],
+    "allowed_extensions": [
+      ".md",
+      ".json"
+    ],
+    "max_depth": 4,
+    "notes": [
+      "This is an example approval record, not a connection to a real external system.",
+      "Approved scope is intentionally narrow and synthetic."
+    ]
+  },
+  "local_snapshot": {
+    "root_path": "examples/source-snapshots/synthetic-team-space/files",
+    "created_by": "synthetic-fixture",
+    "catalog_ready": true
+  },
+  "export": {
+    "exported_at": "2026-06-29T00:00:00Z",
+    "method": "hand-authored synthetic fixture",
+    "tool_name": null,
+    "tool_version": null,
+    "source_access_read_only": true
+  },
+  "exported_files": [
+    {
+      "snapshot_path": "Policies/public-safety-notes.md",
+      "source_path": "PLACEHOLDER_SOURCE_SYSTEM/synthetic-team-space/Policies/public-safety-notes.md",
+      "media_type": "text/markdown",
+      "size_bytes": 133,
+      "sha256": "3dfcc709a3756f6783f5ce30838ae1ef17b6c224722a3aeac5abf3a42b38b09b",
+      "last_modified_at": "2026-06-29T00:00:00Z",
+      "classification": "public-synthetic",
+      "notes": [
+        "Synthetic policy-style note for demo cataloging."
+      ]
+    },
+    {
+      "snapshot_path": "Prompts/catalog-review-prompt.md",
+      "source_path": "PLACEHOLDER_SOURCE_SYSTEM/synthetic-team-space/Prompts/catalog-review-prompt.md",
+      "media_type": "text/markdown",
+      "size_bytes": 138,
+      "sha256": "5fa7ad3e006c1ffdd72d05a22922af07dfac875a293c700088d7f52178f87ef4",
+      "last_modified_at": "2026-06-29T00:00:00Z",
+      "classification": "public-synthetic",
+      "notes": [
+        "Synthetic prompt-style note for demo cataloging."
+      ]
+    }
+  ],
+  "excluded_paths": [
+    {
+      "path": "Private/",
+      "reason": "Out of approved public demo scope."
+    },
+    {
+      "path": "People/",
+      "reason": "Would likely contain personal or access-specific data in a real system."
+    },
+    {
+      "path": "Raw Exports/",
+      "reason": "Raw source exports are not committed to the public repo."
+    }
+  ],
+  "sensitivity": {
+    "level": "public-synthetic",
+    "generated_outputs_inherit_sensitivity": true,
+    "may_commit_snapshot": true,
+    "may_commit_generated_outputs": true,
+    "notes": [
+      "Public examples must stay synthetic.",
+      "Real private snapshots and generated catalogs should remain private unless reviewed and sanitized."
+    ]
+  },
+  "review": {
+    "review_required": true,
+    "review_owner": "synthetic-review-owner",
+    "review_status": "example-only",
+    "review_notes": [
+      "This manifest demonstrates structure only.",
+      "It is not proof that a real source export is safe to publish."
+    ]
+  }
+}

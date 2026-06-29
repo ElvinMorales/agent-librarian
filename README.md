@@ -56,6 +56,10 @@ For guidance on safely adapting the tool to your own collection, see the
 For the v0.6 presentation outputs, see the
 [Presentation Demo Walkthrough](docs/presentation-demo-walkthrough.md).
 
+For future external-source workflows, see the
+[source snapshot contract](docs/adapters/README.md). External sources must be
+exported to a local, reviewable snapshot before `agent-librarian` catalogs them.
+
 For post-forum planning and the next LLM-layer direction, see the
 [v0.4 roadmap](docs/roadmap-v0.4.md) and
 [forum feedback log](docs/forum-feedback-log.md).
