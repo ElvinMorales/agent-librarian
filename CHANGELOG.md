@@ -4,12 +4,22 @@ All notable changes to this project are documented here.
 
 ## Unreleased
 
+_No unreleased changes._
+
+## 1.0.0 - 2026-06-29
+
+v1.0.0 — Stable Source Snapshot and Local Artifact Cataloging Reference
+
+v1.0.0 establishes the documented compatibility boundary for the local CLI,
+generated outputs, package adapters, presentation layer, and governed source
+snapshot inputs.
+
 ### Added
 
-- Added a draft v1.0 readiness and compatibility contract covering CLI
+- Added the v1.0 readiness and compatibility contract covering CLI
   stability, generated outputs, package adapters, presentation, source
   snapshots, conformance checks, and public/private safety boundaries.
-- Added the v0.7 external-source snapshot contract, source manifest schema,
+- Added the external-source snapshot contract, source manifest schema,
   synthetic snapshot fixture, and documentation-only SharePoint pattern.
 - Added an offline source snapshot conformance checker with schema, path,
   file-metadata, digest, and targeted public-example leakage checks.
@@ -22,6 +32,21 @@ All notable changes to this project are documented here.
 - Added a public-safe synthetic SharePoint-style end-to-end demo covering local
   snapshot conformance, cataloging, validation, reporting, presentation, and
   optional Claude Code review of deterministic outputs.
+
+### Changed
+
+- Stabilized the documented purposes of the deterministic local `catalog`,
+  `validate`, `report`, and default offline `present` commands.
+- Stabilized the generated catalog and presentation output meanings and their
+  bundled schema-validation surface.
+- Stabilized the canonical agent contract, shared package manifest, and Claude
+  Code, Codex, GPT, and ChatGPT Project adapter organization, backed by package
+  conformance checks.
+- Documented the Microsoft 365 adapter boundary: provider-specific export work
+  remains in the companion `agent-librarian-m365-snapshot-adapter` repository,
+  while the core accepts compatible local snapshots.
+- Updated the README front door and release guidance for the v1.0 compatibility
+  boundary and maintainer-controlled release handoff.
 
 ### Safety / Boundaries
 
@@ -36,6 +61,9 @@ All notable changes to this project are documented here.
   configuration, or network behavior are included.
 - Future Microsoft 365 adapter work remains outside the core repository and is
   limited to read-only, explicitly approved scope with local snapshot output.
+- v1.0 does not certify safety, correctness, completeness, compliance,
+  approval, publication readiness, private-data safety, or production
+  readiness.
 
 ## 0.6.0 - 2026-06-27
 
