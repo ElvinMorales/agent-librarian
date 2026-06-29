@@ -1,12 +1,21 @@
 # agent-librarian
 
-`agent-librarian` is a deterministic, local-only CLI for cataloging collections
-of agentic AI artifacts. It scans Markdown, YAML, and JSON files; classifies
-them with a framework-neutral taxonomy; extracts discoverability metadata; and
-reports likely overlap without modifying or executing the source collection.
+`agent-librarian` v1.0 is a deterministic, local-first, provider-neutral CLI
+for cataloging local collections of agentic AI artifacts. It scans Markdown,
+YAML, and JSON files; classifies them with a framework-neutral taxonomy;
+extracts discoverability metadata; and reports likely overlap without
+modifying or executing the source collection.
 
-The MVP is intended for public-safe collections of skills, agents, prompts,
-tool specifications, schemas, and protocol-facing manifests.
+v1.0 stabilizes deterministic local cataloging, generated outputs and schema
+validation, package adapter surfaces, offline presentation, and the source
+snapshot contract and conformance path. Governed external-source exports are
+supported only after they are local, reviewable snapshots. The synthetic
+SharePoint-style demo proves that bounded workflow without adding a live
+connector, authentication, provider SDK, or network behavior.
+
+The repository's public examples are synthetic. Generated outputs inherit the
+sensitivity of their inputs and remain review aids, not certification or
+approval.
 
 For a short project framing and demo-safe overview, see the
 [Showcase Brief](docs/showcase-brief.md).
@@ -58,6 +67,8 @@ For the v0.6 presentation outputs, see the
 
 The public stability boundary is defined in the
 [v1.0 readiness and compatibility contract](docs/releases/v1-readiness-and-compatibility.md).
+The maintainer handoff is defined in the
+[v1.0.0 release checklist](docs/releases/v1.0.0-release-checklist.md).
 
 For future external-source workflows, see the
 [source snapshot contract](docs/adapters/README.md). External sources must be

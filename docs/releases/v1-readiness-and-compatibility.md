@@ -1,6 +1,7 @@
 # v1.0 Readiness and Compatibility Contract
 
-Status: Draft until v1.0.0 release prep is completed.
+Status: Reviewed for v1.0.0 release preparation. The actual tag and GitHub
+release remain maintainer actions.
 
 Applies to: core `agent-librarian` repository.
 
@@ -9,10 +10,11 @@ source snapshot output boundary.
 
 This document defines the readiness and compatibility boundary for
 [`agent-librarian`](../../README.md) v1.0. It is a governance artifact, not a
-release: it does not change the package version, create a tag, publish an
-artifact, or approve release preparation. Issue
-[#100](https://github.com/ElvinMorales/agent-librarian/issues/100) owns those
-steps after this contract is reviewed.
+release: it does not create a tag, publish an artifact, certify readiness, or
+approve the release. Issue
+[#100](https://github.com/ElvinMorales/agent-librarian/issues/100) prepares the
+release files; a maintainer reviews and performs tag and release actions
+separately.
 
 ## What v1.0 Means
 
@@ -165,8 +167,8 @@ snapshot/
 `-- files/
 ```
 
-`source-manifest.json` identifies its contract through `schema_version`. At the
-time this draft was written, the bundled schema accepts `0.1.0`. A v1.0 release
+`source-manifest.json` identifies its contract through `schema_version`. The
+v1.0 release-prep candidate's bundled schema accepts `0.1.0`. A v1.0 release
 must document the source manifest versions it accepts. A provider adapter must
 emit one of those supported versions and pass the corresponding core
 conformance check.
