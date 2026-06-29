@@ -8,6 +8,7 @@ Start here:
 - [External Source Snapshot Contract](source-snapshot-contract.md)
 - [SharePoint Snapshot Pattern](sharepoint-snapshot-pattern.md)
 - [Microsoft 365 Snapshot Adapter Boundary](../decisions/0001-microsoft-365-snapshot-adapter-boundary.md)
+- [Synthetic SharePoint-Style End-to-End Demo](../demos/synthetic-sharepoint-end-to-end.md)
 - [Claude Code Private-Source Snapshot Runbook](../demos/claude-code-private-source-snapshot.md)
 
 ## Local conformance check
