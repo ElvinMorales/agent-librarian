@@ -35,6 +35,46 @@ Inspect the source collection and the four files under
 created for public use and demonstrate diagnostics, warnings, and overlap
 review without exposing a real collection.
 
+The separate
+[`examples/source-snapshots/synthetic-team-space`](../examples/source-snapshots/synthetic-team-space)
+fixture demonstrates the public source snapshot contract. It is fabricated
+and must remain separate from private/local adaptations.
+
+## Adopt an already-created source snapshot
+
+Read the [source snapshot contract](adapters/source-snapshot-contract.md) and
+the [SharePoint snapshot pattern](adapters/sharepoint-snapshot-pattern.md)
+before adapting an external export. These documents define a local handoff;
+they do not authorize or implement live source access.
+
+Choose a private snapshot folder that:
+
+- is outside this repository and every other public or shared source tree
+- contains only the approved export under its `files/` folder
+- has access controls, synchronization, backup, and retention appropriate for
+  the source sensitivity
+- has a reviewed `source-manifest.json` beside `files/`
+
+Choose private catalog and presentation output folders outside the snapshot
+and outside public repository paths. Do not place output beneath the snapshot
+files folder, because generated files could be selected by a later scan. Do
+not commit the snapshot, manifest, catalog, presentation, or copied excerpts.
+
+Generated catalogs and presentations inherit the source snapshot's
+sensitivity. A private source remains private-local throughout cataloging,
+validation, reporting, presentation, and model-assisted review.
+
+Run the [local source snapshot conformance check](adapters/README.md#local-conformance-check)
+before cataloging. It checks schema, paths, file metadata, and targeted
+public-example leakage markers without network access. It can catch structural
+or obvious leakage mistakes, but it does not certify that a snapshot or output
+is safe, complete, compliant, approved, or publication-ready.
+
+For an approval-gated model-assisted workflow using an already-created local
+snapshot, follow the
+[Claude Code private-source snapshot runbook](demos/claude-code-private-source-snapshot.md).
+That workflow does not access the original external source.
+
 ## Before scanning your own collection
 
 Inventory the intended source area before running the CLI. Remove or exclude
@@ -55,27 +95,27 @@ documentation and examples rather than real workspace locations.
 For private local use:
 
 ```bash
-agent-librarian catalog path/to/private-artifact-collection --out path/to/private-generated-catalog
-agent-librarian validate path/to/private-generated-catalog
-agent-librarian report path/to/private-generated-catalog
+agent-librarian catalog <LOCAL_SNAPSHOT_FILES_PATH> --out <PRIVATE_OUTPUT_DIR> --strict
+agent-librarian validate <PRIVATE_OUTPUT_DIR>
+agent-librarian report <PRIVATE_OUTPUT_DIR>
 ```
 
-Do not commit `path/to/private-generated-catalog` or copy its files into the
-public example directory.
+Do not commit `<PRIVATE_OUTPUT_DIR>` or copy its files into a public example
+directory.
 
 ## Use include and exclude patterns deliberately
 
 Use `--include` to narrow the scan to intended file patterns:
 
 ```bash
-agent-librarian catalog path/to/private-artifact-collection --out path/to/private-generated-catalog --include "**/*.md"
+agent-librarian catalog <LOCAL_SNAPSHOT_FILES_PATH> --out <PRIVATE_OUTPUT_DIR> --include "**/*.md" --strict
 ```
 
 Use `--exclude` to add private or irrelevant names and paths to the built-in
 safe defaults:
 
 ```bash
-agent-librarian catalog path/to/private-artifact-collection --out path/to/private-generated-catalog --exclude "private,scratch,tmp,traces"
+agent-librarian catalog <LOCAL_SNAPSHOT_FILES_PATH> --out <PRIVATE_OUTPUT_DIR> --exclude "scratch,tmp,traces" --strict
 ```
 
 Include patterns are combined with OR when repeated. Exclude values may be
@@ -100,7 +140,7 @@ The default presentation path is offline, deterministic, provider-free, and
 requires no API key:
 
 ```bash
-agent-librarian present path/to/private-generated-catalog --out path/to/private-presentation
+agent-librarian present <PRIVATE_OUTPUT_DIR> --out <PRIVATE_PRESENTATION_DIR>
 ```
 
 Its `overview.html` can contain artifact names, relative paths, diagnostics,
@@ -111,7 +151,7 @@ Narration is a separate, explicit opt-in path:
 
 ```bash
 python -m pip install -e ".[narrate]"
-agent-librarian present path/to/private-generated-catalog --out path/to/private-narrated-presentation --narrate
+agent-librarian present <PRIVATE_OUTPUT_DIR> --out <PRIVATE_PRESENTATION_DIR> --narrate
 ```
 
 It requires `ANTHROPIC_API_KEY` and sends deterministic serializations of
@@ -130,8 +170,8 @@ After each catalog run, validate the generated JSON and summarize the review
 surfaces:
 
 ```bash
-agent-librarian validate path/to/private-generated-catalog
-agent-librarian report path/to/private-generated-catalog
+agent-librarian validate <PRIVATE_OUTPUT_DIR>
+agent-librarian report <PRIVATE_OUTPUT_DIR>
 ```
 
 Validation checks generated JSON structure. The report summarizes diagnostics,
@@ -226,3 +266,7 @@ publication rights are unclear, keep the material private.
 - [Catalog format](catalog-format.md)
 - [Warnings and overlap](warnings-and-overlap.md)
 - [Architecture](architecture.md)
+- [Source snapshot contract](adapters/source-snapshot-contract.md)
+- [SharePoint snapshot pattern](adapters/sharepoint-snapshot-pattern.md)
+- [Source snapshot conformance check](adapters/README.md#local-conformance-check)
+- [Claude Code private-source snapshot runbook](demos/claude-code-private-source-snapshot.md)

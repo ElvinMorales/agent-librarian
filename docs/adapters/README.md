@@ -7,6 +7,27 @@ Start here:
 
 - [External Source Snapshot Contract](source-snapshot-contract.md)
 - [SharePoint Snapshot Pattern](sharepoint-snapshot-pattern.md)
+- [Claude Code Private-Source Snapshot Runbook](../demos/claude-code-private-source-snapshot.md)
+
+## Local conformance check
+
+From the repository root, check a snapshot directory containing
+`source-manifest.json` and `files/`:
+
+```bash
+python scripts/check_source_snapshot.py examples/source-snapshots/synthetic-team-space
+```
+
+The check is local and makes no network calls. It validates the manifest
+against the bundled source manifest schema, verifies that manifest file paths
+stay under `files/`, checks listed file existence, size, and SHA-256 digests,
+reports unlisted files, and scans public/public-synthetic snapshots for
+targeted obvious leakage markers. Private-local snapshots receive structural
+and digest checks without applying the public-example marker policy.
+
+A passing check means only that these bounded checks succeeded. It does not
+certify safety, privacy, completeness, compliance, approval, or publication
+readiness. Human review of both source and generated outputs remains required.
 
 The source snapshot contract belongs to the design-time artifact layer. It helps
 future adapters represent external systems as local, reviewable snapshots before
