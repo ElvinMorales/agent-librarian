@@ -6,6 +6,9 @@ All notable changes to this project are documented here.
 
 ### Added
 
+- Added a draft v1.0 readiness and compatibility contract covering CLI
+  stability, generated outputs, package adapters, presentation, source
+  snapshots, conformance checks, and public/private safety boundaries.
 - Added the v0.7 external-source snapshot contract, source manifest schema,
   synthetic snapshot fixture, and documentation-only SharePoint pattern.
 - Added an offline source snapshot conformance checker with schema, path,
