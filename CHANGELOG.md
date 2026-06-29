@@ -8,6 +8,11 @@ All notable changes to this project are documented here.
 
 - Added the v0.7 external-source snapshot contract, source manifest schema,
   synthetic snapshot fixture, and documentation-only SharePoint pattern.
+- Added an offline source snapshot conformance checker with schema, path,
+  file-metadata, digest, and targeted public-example leakage checks.
+- Added a Claude Code runbook for approval-gated review of already-created
+  private snapshots and expanded adoption guidance for snapshot/output
+  placement, sensitivity inheritance, and review responsibilities.
 
 ### Safety / Boundaries
 
@@ -16,6 +21,10 @@ All notable changes to this project are documented here.
   included.
 - Generated outputs inherit source sensitivity, and validation, reporting, and
   presentation remain review aids rather than safety or publication approval.
+- Snapshot conformance checks are bounded review aids and do not certify
+  safety, privacy, completeness, compliance, approval, or publication readiness.
+- No live connectors, source crawling, provider SDKs, authentication, tenant
+  configuration, or network behavior are included.
 
 ## 0.6.0 - 2026-06-27
 
