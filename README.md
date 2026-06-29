@@ -59,8 +59,10 @@ For the v0.6 presentation outputs, see the
 For future external-source workflows, see the
 [source snapshot contract](docs/adapters/README.md). External sources must be
 exported to a local, reviewable snapshot before `agent-librarian` catalogs them.
-The same guide documents the local snapshot conformance check. For an
-approval-gated private workflow with an already-created snapshot, see the
+The same guide documents the local snapshot conformance check. The
+[synthetic SharePoint-style end-to-end demo](docs/demos/synthetic-sharepoint-end-to-end.md)
+runs the complete public-safe workflow without credentials or network access.
+For an approval-gated private workflow with an already-created snapshot, see the
 [Claude Code private-source snapshot runbook](docs/demos/claude-code-private-source-snapshot.md).
 
 For post-forum planning and the next LLM-layer direction, see the

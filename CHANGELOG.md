@@ -16,6 +16,9 @@ All notable changes to this project are documented here.
 - Added an accepted decision record assigning any future live Microsoft 365 /
   SharePoint snapshot adapter to a separate companion repository and defining
   its permission, approved-scope, security-review, and synthetic-demo gates.
+- Added a public-safe synthetic SharePoint-style end-to-end demo covering local
+  snapshot conformance, cataloging, validation, reporting, presentation, and
+  optional Claude Code review of deterministic outputs.
 
 ### Safety / Boundaries
 
