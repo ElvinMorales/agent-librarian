@@ -13,6 +13,9 @@ All notable changes to this project are documented here.
 - Added a Claude Code runbook for approval-gated review of already-created
   private snapshots and expanded adoption guidance for snapshot/output
   placement, sensitivity inheritance, and review responsibilities.
+- Added an accepted decision record assigning any future live Microsoft 365 /
+  SharePoint snapshot adapter to a separate companion repository and defining
+  its permission, approved-scope, security-review, and synthetic-demo gates.
 
 ### Safety / Boundaries
 
@@ -25,6 +28,8 @@ All notable changes to this project are documented here.
   safety, privacy, completeness, compliance, approval, or publication readiness.
 - No live connectors, source crawling, provider SDKs, authentication, tenant
   configuration, or network behavior are included.
+- Future Microsoft 365 adapter work remains outside the core repository and is
+  limited to read-only, explicitly approved scope with local snapshot output.
 
 ## 0.6.0 - 2026-06-27
 
