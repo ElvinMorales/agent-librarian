@@ -114,7 +114,6 @@
       "required": [
         "root_path",
         "created_by",
-        "read_only",
         "catalog_ready"
       ],
       "properties": {
@@ -125,9 +124,6 @@
         "created_by": {
           "type": "string",
           "minLength": 1
-        },
-        "read_only": {
-          "type": "boolean"
         },
         "catalog_ready": {
           "type": "boolean"
@@ -141,7 +137,8 @@
         "exported_at",
         "method",
         "tool_name",
-        "tool_version"
+        "tool_version",
+        "source_access_read_only"
       ],
       "properties": {
         "exported_at": {
@@ -163,6 +160,9 @@
             "string",
             "null"
           ]
+        },
+        "source_access_read_only": {
+          "const": true
         }
       }
     },
@@ -259,7 +259,7 @@
           ]
         },
         "generated_outputs_inherit_sensitivity": {
-          "type": "boolean"
+          "const": true
         },
         "may_commit_snapshot": {
           "type": "boolean"
@@ -283,7 +283,7 @@
       ],
       "properties": {
         "review_required": {
-          "type": "boolean"
+          "const": true
         },
         "review_owner": {
           "type": "string",

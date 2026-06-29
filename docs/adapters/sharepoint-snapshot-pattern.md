@@ -11,8 +11,7 @@ tenant configuration, live connector behavior, or network access.
 ```text
 SharePoint / Microsoft 365 source
   -> approved read-only export or sync
-  -> local source snapshot
-  -> source-manifest.json
+  -> local source snapshot + source-manifest.json
   -> agent-librarian catalog
   -> validate / report / present
   -> human review
@@ -51,6 +50,8 @@ source-snapshot/
 ```
 
 The `files/` folder is the catalog input. The manifest is the provenance record.
+The manifest is not a remote connection configuration and is not cataloged as
+part of `files/`.
 Generated outputs should go somewhere separate, such as `.tmp/source-catalog/` or
 another private output folder.
 

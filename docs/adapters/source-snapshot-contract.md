@@ -26,15 +26,16 @@ deterministic CLI backend.
 ```text
 external source
   -> approved read-only export or sync
-  -> local source snapshot
-  -> source manifest
+  -> local source snapshot + source manifest
   -> agent-librarian catalog / validate / report / present
   -> human review
 ```
 
-The CLI should only see the local source snapshot. It should not authenticate to
-the external system, crawl remote locations, or decide whether the source is safe
-to publish.
+The CLI should only catalog the files inside the local source snapshot. The
+manifest travels alongside those files as provenance; it is not an instruction
+for the CLI to connect to the source. The CLI should not authenticate to the
+external system, crawl remote locations, or decide whether the source is safe to
+publish.
 
 ## Roles
 
@@ -57,8 +58,9 @@ A source manifest should include:
 - source system type, name, provider hint, and placeholder/source locator
 - approved scope description, approver, timestamp, included roots, excluded roots,
   allowed extensions, and depth limit
-- local snapshot root, creator, read-only flag, and catalog-ready flag
-- export timestamp, method, tool name, and tool version
+- local snapshot root, creator, and catalog-ready flag
+- export timestamp, method, tool name, tool version, and confirmation that the
+  source was accessed read-only
 - exported file list with snapshot path, source path, media type, size, digest,
   last modified timestamp, classification, and notes
 - excluded paths with reasons
@@ -86,6 +88,10 @@ A source adapter may:
 - record file digests and timestamps
 - preserve enough provenance for human review
 
+The adapter must access the approved source scope read-only. The local snapshot
+may be stored in a writable workspace, but modifying it after the manifest is
+created invalidates recorded sizes and digests and requires a new manifest.
+
 A source adapter must not require changes to the deterministic scanner. It should
 not cause `catalog`, `validate`, `report`, or default `present` to call external
 services.
@@ -102,6 +108,22 @@ services.
 The generated outputs inherit the source snapshot sensitivity. A private source
 snapshot produces private generated outputs unless a human review explicitly
 sanitizes and approves a public version.
+
+`validate`, `report`, and `present` expose deterministic checks and review
+surfaces. Passing validation or producing a report or presentation does not
+certify privacy, safety, completeness, compliance, approval, or publication
+readiness.
+
+## File integrity metadata
+
+`size_bytes` is the exact byte length of the exported file, and `sha256` is the
+lowercase SHA-256 digest of those same bytes. An adapter must not normalize text
+or otherwise transform the file between measuring it and placing it in the
+snapshot.
+
+The committed synthetic text fixtures use LF line endings, enforced by the
+repository's `.gitattributes`, so their recorded sizes and digests are stable on
+every supported platform.
 
 ## Public-safety rules
 

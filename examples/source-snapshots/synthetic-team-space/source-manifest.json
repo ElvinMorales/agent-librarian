@@ -33,14 +33,14 @@
   "local_snapshot": {
     "root_path": "examples/source-snapshots/synthetic-team-space/files",
     "created_by": "synthetic-fixture",
-    "read_only": true,
     "catalog_ready": true
   },
   "export": {
     "exported_at": "2026-06-29T00:00:00Z",
     "method": "hand-authored synthetic fixture",
     "tool_name": null,
-    "tool_version": null
+    "tool_version": null,
+    "source_access_read_only": true
   },
   "exported_files": [
     {
