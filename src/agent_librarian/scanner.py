@@ -42,9 +42,16 @@ def scan_file_inventory(
         else None
     )
     includes = _clean_patterns(include_patterns)
+    
+    # Optimizamos a Set para búsquedas O(1) veloces
     excludes = DEFAULT_EXCLUDE_PATTERNS | set(
         _clean_patterns(exclude_patterns, split_commas=True)
     )
+    
+    # Separamos patrones planos de nombres fijos para evitar fnmatchcase innecesarios
+    flat_excludes = {p for p in excludes if "/" not in p}
+    complex_excludes = {p for p in excludes if "/" in p}
+
     if excluded_output == root:
         return []
 
@@ -53,28 +60,44 @@ def scan_file_inventory(
     for current, dirnames, filenames in os.walk(root, followlinks=False):
         current_path = Path(current)
         kept_dirs: list[str] = []
+        
+        # Eliminamos llamadas físicas a .resolve() y filtramos en memoria RAM
         for dirname in dirnames:
+            if dirname in flat_excludes:
+                continue
+                
+            # Construcción lógica de ruta en memoria, evitando tocar el disco duro
             candidate_path = current_path / dirname
             if candidate_path.is_symlink():
                 continue
-            candidate = candidate_path.resolve()
-            relative = candidate.relative_to(root)
-            if _matches_any(relative, excludes):
+                
+            relative = candidate_path.relative_to(root)
+            if complex_excludes and _matches_any(relative, complex_excludes):
                 continue
+                
             if excluded_output and (
-                candidate == excluded_output or excluded_output in candidate.parents
+                candidate_path == excluded_output or excluded_output in candidate_path.parents
             ):
                 continue
             kept_dirs.append(dirname)
+            
         dirnames[:] = sorted(kept_dirs)
 
         for filename in sorted(filenames):
-            path = current_path / filename
-            relative = path.relative_to(root)
-            if path.is_symlink() or _matches_any(relative, excludes):
+            if filename in flat_excludes:
                 continue
+                
+            path = current_path / filename
+            if path.is_symlink():
+                continue
+                
+            relative = path.relative_to(root)
+            if complex_excludes and _matches_any(relative, complex_excludes):
+                continue
+                
             if includes and not _matches_any(relative, includes):
                 continue
+                
             files.append(path)
 
     return sorted(files, key=lambda path: path.relative_to(root).as_posix())
